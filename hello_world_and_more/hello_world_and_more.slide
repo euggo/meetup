@@ -1,0 +1,285 @@
+###
+Hello World And More
+Basic examples of Go code.
+4 Feb 2016
+Tags: introduction, code examples
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+https://github.com/codemodus
+
+
+
+###
+* Hello Eugene
+
+#--
+* Hello World (stdout)
+
+.play hw_stdout/main.go
+
+#--
+* Hello World (http)
+
+.play hw_http/main.go
+
+- Functions are first class citizens
+
+
+
+###
+* Just a note...
+
+#--
+* Notice
+
+Please keep in mind that the following slides will not include package or import declarations unless there is an interesting reason to do so.
+
+
+
+###
+* Structs
+
+#--
+* Structs
+
+.play structs/main.go /START OMIT/,/END OMIT/
+
+#--
+* Structs/Pointers (Will it blend?)
+
+.play structs_pointers_a/main.go /START OMIT/,/END OMIT/
+
+#--
+* Structs/Pointers (Fix the error)
+
+.play structs_pointers_a/main.go /START OMIT/,/END OMIT/
+
+- Dereferencing the pointer will fix the error, as will changing the function definition
+
+#--
+* Structs/Pointers (Gotcha)
+
+.play structs_pointers_b/main.go /START OMIT/,/END OMIT/
+
+- Those coming from dynamic languages may wrestle with pointers for a while
+
+#--
+* Structs/Pointers (Gotcha test)
+
+.code structs_pointers_b_alt/main.go /START1 OMIT/,/END1 OMIT/
+
+.play structs_pointers_b_alt/main.go /START2 OMIT/,/END2 OMIT/
+
+#--
+* Structs/Pointers (Fix the output)
+
+.play structs_pointers_b/main.go /START OMIT/,/END OMIT/
+
+- Those coming from dynamic languages may wrestle with pointers for a while
+- Methods on instances are limited in scope
+
+#--
+* Structs/Pointers (init)
+
+.play structs_pointers_init/main.go /START OMIT/,/END OMIT/
+
+#--
+* Structs Embedding (has/is)
+
+.play structs_embedding/main.go /START OMIT/,/END OMIT/
+
+#--
+* Anonymous Structs
+
+.code structs_anon/main.go /START OMIT/,/END OMIT/
+
+
+
+###
+* Just another note...
+
+#--
+* Note on readability
+
+Favor vertical code over horizontal code.
+
+.code structs_anon_bad/main.go /START OMIT/,/END OMIT/
+
+Code in these slides may favor width due to the limited space.
+
+
+
+###
+* Interfaces
+
+#--
+* Interfaces 1/2
+
+.code interfaces/main.go /START1 OMIT/,/END1 OMIT/
+
+- Types implement interfaces implicitly
+
+#--
+* Interfaces 2/2
+
+.play interfaces/main.go /START2 OMIT/,/END2 OMIT/
+
+
+
+###
+* Return Values And Errors
+
+#--
+* Return Values
+
+.play return_values/main.go /START OMIT/,/END OMIT/
+
+- Discarding return values is perfectly valid
+- Don't be in the habit of discarding errors
+
+#--
+* Errors
+
+.code errors/murphy
+
+.play errors/main.go /START OMIT/,/END OMIT/
+
+- Ignoring errors will ruin maintainability and readability
+- Ensuring that errors are handled encourages better design
+- Don't panic
+
+*** Conditional/assignments can be combined
+
+- Be aware of scope limitation
+
+#--
+* Defined Errors
+.play errors_defined/main.go /START OMIT/,/END OMIT/
+
+
+
+###
+* defer, panic, recover
+
+#--
+* defer
+
+.play defer/main.go /START OMIT/,/END OMIT/
+
+- defer stores functions LIFO
+- Deferred functions are ran at the termination of the surrounding function
+
+#--
+* defer and loops
+
+.play defer_loops_a/main.go /START OMIT/,/END OMIT/
+
+- Parameters are evaluated when defer is called, not when the deferred function is called - Use a closure to change this behavior
+
+.play defer_loops_b/main.go /START OMIT/,/END OMIT/
+
+#--
+* Panic/Recover (It does serve a purpose!)
+
+- Recover from the exceptional
+- Errors are not exceptional, they are typical
+
+#--
+* Panic/Recover (Example)
+
+.play panic_recover/main.go /START OMIT/,/END OMIT/
+
+
+
+###
+* Expected Functions
+
+#--
+* main/init
+
+- Reserve init func usage for libraries which truly need pre-main activity
+- main funcs should not need to be tested, they should be populated with tested code
+- Avoid globals in applications to simplify testing (An exception to this might be within a small lib)
+
+.code main_init/main.go /START OMIT/,/END OMIT/
+
+
+
+###
+* Goroutines and Channels
+
+#--
+* Goroutines vs Blocking Code
+
+.play goroutines_a/main.go /START OMIT/,/END OMIT/
+
+#--
+* Goroutines Sync
+
+- If main exits while goroutines are running, they are killed - sync them
+
+.play goroutines_b/main.go /START OMIT/,/END OMIT/
+
+#--
+* Channels (It won't blend)
+
+.play channels_a/main.go /START OMIT/,/END OMIT/
+
+#--
+* Channels (Release the pressure)
+
+.play channels_b/main.go /START OMIT/,/END OMIT/
+
+#--
+* Channels (A closer look)
+
+.play channels_c/main.go /START OMIT/,/END OMIT/
+
+#--
+* Channels (Basic example completed)
+
+.play channels_d/main.go /START OMIT/,/END OMIT/
+
+
+
+###
+* References
+
+#--
+* Official Docs
+
+.link https://tour.golang.org Tour of Go
+
+.link https://golang.org/doc/code.html How To Write Go Code
+
+.link https://golang.org/doc/effective_go.html Effective Go
+
+.link https://golang.org/ref/spec Go Language Spec
+
+.link https://golang.org/ref/mem Go Memory Model
+
+#--
+* Official Blog
+
+.link https://blog.golang.org/error-handling-and-go Error Handling In Go
+
+.link https://blog.golang.org/errors-are-values Errors Are Values
+
+.link https://blog.golang.org/defer-panic-and-recover Defer, Panic, Recover
+
+.link https://blog.golang.org/pipelines Go Concurrency Patterns: Pipelines
+
+#--
+* Un-official Blog (articles noted during creation of slides)
+
+.link https://gobyexample.com/mutexes Mutexes (Ordering Concurrent Access)
+
+.link http://nathanleclaire.com/blog/2015/10/10/interfaces-and-composition-for-effective-unit-testing-in-golang/ Testing And Interfaces
+
+.link http://www.goinggo.net/2014/05/methods-interfaces-and-embedded-types.html Methods, Interfaces, And Embedded Types In Go
+

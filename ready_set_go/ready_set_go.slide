@@ -1,0 +1,97 @@
+###
+Ready, Set... Go
+What, How, and Why for new Gophers.
+4 Feb 2016
+Tags: introduction, getting started
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+https://github.com/codemodus
+
+
+
+###
+* What
+
+#--
+* What is Go?
+
+"Go is an open source programming language that makes it easy to build simple, reliable, and efficient software."
+
+.link https://golang.org - Golang.org/
+
+- Released November 11th, 2009
+- Supported by Google, created by Rob Pike, Ken Thompson, and Robert Griesemer
+- Influenced by Pascal/Modula/Oberon + CSP (Newsqueak/Limbo)
+
+#--
+* Overview
+
+- Strongly, and statically typed
+- Compiled (with runtime)
+- Garbage collected
+- OO-like
+- Functional-like
+- Concurrent
+
+
+
+###
+* How
+
+#--
+* How did Go come to be?
+
+Not exhaustively...
+
+Ken Thompson is the author of B, the predecessor to C.  He was also a colleague of C author Dennis Ritchie.  Together they developed UNIX.
+
+Alongside them at Bell Labs Rob Pike co-authored UTF-8 with Ken Thompson, developed Limbo, contributed to portions of UNIX, and wrote influential books on UNIX/programming with Brian W. Kernighan.
+
+Robert Griesemer has worked on code generation for the V8 JS engine, the Java Hotspot VM, and a distributed lock manager for the Google File System.
+
+#--
+* How does Go excel?
+
+Go is optimized for developers and modern processing
+
+- Keyword count is low (25 vs [Python 33, Ruby 41, C 44, Java 50, C++ 84])
+- Standard library is often enough
+- Inheritance does not exist
+- Memory management is a non-issue
+- Codebases are often cross-platform without additional work
+- Concurrency is baked-in
+- Concurrency primitives are reasonable
+- Runtime is included with binaries
+- Tooling prevents certain disputes: gofmt, go vet, golint
+- Tooling eases documentation/testing: go doc, go test
+
+
+
+###
+* Why
+
+#--
+* Why did Go come to be?
+
+"No major systems language has emerged in over a decade, but over that time the computing landscape has changed tremendously. ...  We believe it's worth trying again with a new language, a concurrent, garbage-collected language with fast compilation."
+
+.link https://golang.org/doc/faq#What_is_the_purpose_of_the_project - Golang.org/doc/faq#What_is_the_purpose_of_the_project
+
+A much more expansive answer to this question is available in the article, Go at Google:
+
+.link https://talks.golang.org/2012/splash.article Language Design in the Service of Software Engineering.
+
+#--
+* Why use Go?
+
+- Minimize development and maintenance time
+- Make full use of modern processors
+- Encourage testable code
+- Improve documentation
+- Reduce overhead when portability is needed
+

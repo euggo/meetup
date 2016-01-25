@@ -1,0 +1,233 @@
+###
+Common Criticisms
+Are they weaknesses, or are they strengths?
+4 Feb 2016
+Tags: introduction, criticisms
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+https://github.com/codemodus
+
+
+
+###
+* "Go lacks generics."
+
+#--
+* Solving Generics For Now
+
+More often than not it is least costly and most performant to write/duplicate the relevant code.  Nonetheless, Go doesn't technically lack generics.
+
+Using interface{} and the reflect package, generic libraries are feasible.  However, using reflection is not performant.  It is also possible to use code generation to acheive a more perfomant solution, but at the cost of complexity.
+
+#--
+* Is that all there is to generics and Go?
+
+"Generics may well be added at some point. We don't feel an urgency for them, although we understand some programmers do.
+
+Generics are convenient but they come at a cost in complexity in the type system and run-time. We haven't yet found a design that gives value proportionate to the complexity, although we continue to think about it."
+
+.link https://golang.org/doc/faq#generics Golang.org/doc/faq#generics
+
+
+
+###
+* "Why wasn't Go written as a functional language?"
+
+#--
+* Pragmatism
+
+Posted by Ian Lance Taylor (Member of the Go Team at Google):
+
+"A typical Google program is a web server that interacts with a database.  A typical program written in a functional language is a mathematical computation in which the outputs depend only on the inputs.  Those are completely different cases.
+
+You can of course write a web server that uses a database in a functional language.  But I believe that few people starting from scratch, without any bias about functional languages, would decide that a functional language was the best choice for that problem.
+
+Therefore, Go was not designed as a functional language."
+
+.link https://www.quora.com/Why-wasnt-Go-written-as-a-functional-language/answer/Ian-Lance-Taylor?srid=pRa&share=1 Quora.com/Why-wasnt-Go-written-as-a-functional-language
+
+
+
+###
+* "nil is evil.", "The type system is terrible.", etc.
+
+#--
+* Why would you do that?
+
+If code is developed idiomatically and carefully, I have yet to see nil become a burden.  It can happen, but such code leaves one wondering "Why would you do that?"
+
+Similarly, complaints about the type system are normally based upon negligent and/or dubious examples.
+
+#--
+* Example Of Negligent Example
+
+nil isn't the problem, bad code is the problem.
+
+.code bad_nil/main.go /START OMIT/,/END OMIT/
+
+- Check the error.
+- Check for nil if there is any remaining concern.
+
+#--
+* Example Of Ignorant Example
+
+.code bad_type/p1/p1.go
+
+.play bad_type/main.go /START OMIT/,/END OMIT/
+
+- This can happen, but is normally not a problem.
+- Use an intermediate type if needed.
+
+#--
+* Answering The Ignorant Example
+
+.iframe http://play.golang.org/p/5dX_ziUFxi 720 960
+
+
+
+###
+* "Go has poor dependency management."
+
+#--
+* Solutions From The Community
+
+Early on, and even now, libraries are often simple and stable enough to manage dependencies manually or not at all.  Despite that, dependency management is an issue worth addressing.
+
+The first solution to appear was gvm.
+
+.link https://github.com/moovweb/gvm Github.com/moovweb/gvm
+
+gvm primarily simplifies Go version management.  An added bonus is that each Go version can have it's own GOPATH.  This creates a sort of dependency management, but is limited.
+
+Soon after, godep came along focusing solely on dependency management.
+
+.link https://github.com/tools/godep Github.com/tools/godep
+
+#--
+* The Go Team Responded
+
+While manual management of dependencies was the strategy employed and encouraged by Google, the Go Team bowed to community pressure and provided experimental support for "vendor directories" in version 1.5.
+
+.link https://golang.org/cmd/go/#hdr-Vendor_Directories Golang.org/cmd/go/#hdr-Vendor_Directories
+
+If the vendoring experiment is deemed successful, later releases of Go will default to this behavior.
+
+#--
+* Now There Are More Solutions
+
+Throughout the process of public debate, many solutions started appearing that took advantage of the proposed experimental changes.  As the experiment began, still more solutions came to light.
+
+At this time, there is no shortage of vendoring solutions and related tools.
+
+.link https://github.com/golang/go/wiki/PackageManagementTools Github.com/golang/go/wiki/PackageManagementTools
+
+
+
+###
+* "Garbage collection is expensive."
+
+#--
+* Garbage Collection Is Valuable
+
+"One of the biggest sources of bookkeeping in systems programs is memory management. We feel it's critical to eliminate that programmer overhead, and advances in garbage collection technology in the last few years give us confidence that we can implement it with low enough overhead and no significant latency.
+
+Another point is that a large part of the difficulty of concurrent and multi-threaded programming is memory management; as objects get passed among threads it becomes cumbersome to guarantee they become freed safely. Automatic garbage collection makes concurrent code far easier to write."
+
+.link https://golang.org/doc/faq#garbage_collection Golang.org/doc/faq#Garbage_Collection
+
+#--
+* Garbage Collection Can Be Avoided 1/2
+
+Allocations Are Caused By:
+
+- Using the new and make built-in funcs (make has a few unlikely exceptions)
+- Composite literals when the value type is a slice, map, or a struct with the & operator
+- Putting a value larger than a machine word into an interface. (For example, strings, slices, and some structs are larger than a machine word.)
+- Converting between string, []byte, and []rune
+- As of Go 1.3, the compiler special cases this expression to not allocate: m[string(b)], where m is a map and b is a []byte
+- Converting a non-constant integer value to a string
+- defer and go statements
+- Function literals that capture local variables
+
+.link http://stackoverflow.com/questions/12277426/how-to-minimize-the-garbage-collection-in-go/12290168#12290168 Stackoverflow.com/questions/12277426
+
+#--
+* Garbage Collection Can Be Avoided 2/2
+
+Allocations Might Be Caused By:
+
+- Taking the address of a variable. Note that addresses can be taken implicitly. For example a.b() might take the address of a if a isn't a pointer and the b method has a pointer receiver type.
+- Using the append built-in function
+- Calling a variadic function or method
+- Slicing an array
+- Adding an element to a map
+
+.link http://stackoverflow.com/questions/12277426/how-to-minimize-the-garbage-collection-in-go/12290168#12290168 Stackoverflow.com/questions/12277426
+
+#--
+* Garbage Collection Is Improving Dramatically 1/2
+
+.image img/garbage_1p3x-1p5x.png
+
+.link https://talks.golang.org/2015/go-gc.pdf talks.Golang.org/2015/go-gc.pdf
+
+#--
+* Garbage Collection Is Improving Dramatically 2/2
+
+.image img/garbage_1p5x-1p6x.png
+
+.link http://www.infoq.com/presentations/go-gc-performance Infoq.com/presentations/go-gc-performance
+
+#--
+* Garbage Collection Will Continue Improving 1/2
+
+"At a higher level, one approach to solving performance problems is to add GC knobs, one for each performance issue. The programmer can then turn the knobs in search of appropriate settings for their application. The downside is that after a decade with one or two new knobs each year you end up with the GC Knobs Turner Employment Act. Go is not going down that path. Instead we provide a single knob, called GOGC. This value controls the total size of the heap relative to the size of reachable objects. The default value of 100 means that total heap size is now 100% bigger than (i.e., twice) the size of the reachable objects after the last collection. 200 means total heap size is 200% bigger than (i.e., three times) the size of the reachable objects. If you want to lower the total time spent in GC, increase GOGC. If you want to trade more GC time for less memory, lower GOGC."
+
+.link https://blog.golang.org/go15gc blog.Golang.org/go15gc
+
+#--
+* Garbage Collection Will Continue Improving 2/2
+
+More importantly as RAM doubles with the next generation of hardware, simply doubling GOGC will halve the number of GC cycles. On the other hand since GOGC is based on reachable object size, doubling the load by doubling the reachable objects requires no retuning. The application just scales. Furthermore, unencumbered by ongoing support for dozens of knobs, the runtime team can focus on improving the runtime based on feedback from real customer applications."
+
+.link https://blog.golang.org/go15gc blog.Golang.org/go15gc
+
+
+
+###
+* "I don't like Go's error handling"
+
+#--
+* Errors are not exceptional
+
+Errors in Go are simply any type which satisfies the "error" interface.  They are values without any exotic behavior, unless you wish it to be so.
+
+.code errors/interface.txt
+
+This allows them to be handled when and how they are needed most.  Control flow and the code itself is moved strictly by developer intent.
+
+The "front and center" approach to errors is a great strength regarding code stability and readability.  The small cost of not being able to postpone paying the technical debt of handling errors is profitable after only a short time.
+
+#--
+* Minimization And Flexibility Of Error Handling
+
+For a more thorough understanding of errors...
+
+From 2011 (technical and introductory):
+
+.link https://blog.golang.org/error-handling-and-go blog.Golang.org/error-handling-and-go
+
+From 2015 (philosophical and ancillary):
+
+.link https://blog.golang.org/errors-are-values blog.Golang.org/errors-are-values
+
+#--
+* Errors should be checked; Nay, they must be checked.
+
+.play errors/main.go /START OMIT/,/END OMIT/
+
