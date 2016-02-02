@@ -1,10 +1,69 @@
-Tooling
-Preparing to write Go code
+###
+WD-40 And Duct Tape
+The right tools make things go and stop the grief.
 4 Feb 2016
 Tags: introduction, tooling
 
+
+
+###
 Daved
 disjuncter@gmail.com
 https://github.com/daved
 https://github.com/codemodus
+
+
+
+###
+* IDE or Not IDE?
+
+#--
+* IDEs:
+
+- Codebox IDE
+- CodeEnv
+- Eclipse IDE/GoClipse
+- GoWorks
+- JetBrains IntelliJ IDEA + go-lang-idea-plugin
+- Komodo IDE
+- LiteIDE
+- Visual Studio / Visual Studio Code
+- Wide
+- Zeus
+
+
+
+#--
+* Editors 1/2:
+
+- Emacs
+- Vi/Vim
+- Atom
+- Brackets
+- Geany
+- Gedit
+- GNU Nano
+
+#--
+* Editors 1/2:
+
+- jEdit
+- joe
+- Komodo Edit
+- Lime Text
+- Notepad++
+- Sublime Text
+- Textadept
+- TextMate
+
+
+
+###
+* IDE or editor?  Either way.
+
+The tools offered by the Go Team and the community cover so much ground that there is no great distinction between the capabilities of IDEs and text editors (apart from the interfaces).
+
+For example, the following is a list of tools available in Vim using go-vim.
+
+GoBuild, GoDeps, GoFmt, GoInfo, GoPath, GoTestFunc, GoCallees, GoDescribe, GoFreevars, GoInstall, GoPlay, GoUpdateBinaries, GoCallers, GoDoc, GoGenerate, GoInstallBinaries, GoReferrers, GoVet, GoCallstack, GoDocBrowser, GoImplements, GoLint, GoRename, GoChannelPeers, GoDrop, GoImport, GoMetaLinter, GoRun, GoCoverage, GoErrCheck, GoImportAs, GoOracleScope, GoTest, GoDef, GoFiles, GoImports, GoOracleTags, GoTestCompile
 
