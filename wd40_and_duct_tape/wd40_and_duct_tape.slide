@@ -18,23 +18,21 @@ https://github.com/codemodus
 * IDE or Not IDE?
 
 #--
-* IDEs:
+* IDEs
 
 - Codebox IDE
 - CodeEnv
 - Eclipse IDE/GoClipse
 - GoWorks
-- JetBrains IntelliJ IDEA + go-lang-idea-plugin
+- JetBrains IntelliJ IDEA
 - Komodo IDE
 - LiteIDE
 - Visual Studio / Visual Studio Code
 - Wide
 - Zeus
 
-
-
 #--
-* Editors 1/2:
+* Editors 1/2
 
 - Emacs
 - Vi/Vim
@@ -45,7 +43,7 @@ https://github.com/codemodus
 - GNU Nano
 
 #--
-* Editors 1/2:
+* Editors 1/2
 
 - jEdit
 - joe
@@ -56,14 +54,142 @@ https://github.com/codemodus
 - Textadept
 - TextMate
 
-
-
-###
+#--
 * IDE or editor?  Either way.
 
 The tools offered by the Go Team and the community cover so much ground that there is no great distinction between the capabilities of IDEs and text editors (apart from the interfaces).
 
-For example, the following is a list of tools available in Vim using go-vim.
+For example, the following is a list of tools available in Vim using vim-go.
 
 GoBuild, GoDeps, GoFmt, GoInfo, GoPath, GoTestFunc, GoCallees, GoDescribe, GoFreevars, GoInstall, GoPlay, GoUpdateBinaries, GoCallers, GoDoc, GoGenerate, GoInstallBinaries, GoReferrers, GoVet, GoCallstack, GoDocBrowser, GoImplements, GoLint, GoRename, GoChannelPeers, GoDrop, GoImport, GoMetaLinter, GoRun, GoCoverage, GoErrCheck, GoImportAs, GoOracleScope, GoTest, GoDef, GoFiles, GoImports, GoOracleTags, GoTestCompile
+
+
+
+###
+* Let's gear up.
+
+#--
+* First, a quick note.
+
+A VM is running locally for demonstration.  When accessing it's terminal, a tmux session is immediately loaded.  This will allow a continuous session across slides.  However, when moving between slides, it is necessary to login and logout.  Please try to ignore the extra movement involved.
+
+.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 430 980
+
+#--
+* Installing Go
+
+Using Binary Releases:
+
+    mkdir ~/storage && cd $_
+    wget https://storage.googleapis.com/golang/go1.6rc1.linux-amd64.tar.gz
+    sudo tar -C /usr/local -zxf ~/storage/go1.6rc1.linux-amd64.tar.gz
+
+- Building from source is possible, but isn't interesting enough to cover at this time.
+
+Setup PATH/GOPATH:
+
+    echo -e "\n"'export PATH=${PATH}:/usr/local/go/bin:${HOME}/gocode/bin' >> ~/.profile
+    echo 'export GOPATH=${HOME}/gocode' >> ~/.profile && source ~/.profile
+
+.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 230 980
+
+#--
+* Installing Dependencies
+
+Editor and VC:
+
+   sudo apt-get install vim-gtk git mercurial
+
+Command Line Completion:
+
+    cd ~/storage && git clone https://github.com/skelterjohn/go-pkg-complete
+    echo -en "\n"'[[ -s ${HOME}/storage/go-pkg-complete/go-pkg-complete.bash.inc  ]]' >> ~/.profile
+    echo ' && source ${HOME}/storage/go-pkg-complete/go-pkg-complete.bash.inc' >> ~/.profile
+    source ~/.profile
+
+.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 280 980
+
+#--
+* Setting Up Vim
+
+    sh <(curl https://j.mp/spf13-vim3 -L)
+    echo -n "let g:spf13_bundle_groups=['general', 'neocomplete', " >> ~/.vimrc.before.local
+    echo -n "'programming', 'ruby', 'python', 'go', 'javascript', " >> ~/.vimrc.before.local
+    echo "'html', 'misc', 'writing' ]" >> ~/.vimrc.before.local
+    echo "Bundle 'vim-airline/vim-airline-themes'" >> ~/.vimrc.bundles.local
+    vim +BundleInstall +qall
+    rm -rf ~/.vimviews
+    vim +GoInstallBinaries +qall
+
+.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 360 980
+
+#--
+* Environment Variables
+
+GOROOT is only relevant when installing Go to a non-standard location.
+
+    // Example of setting GOROOT
+    export GOROOT=${HOME}/go
+
+GOPATH is used to locate source files and binaries in directories outside of `/usr/local/go` or GOROOT if set.  It is possible to have GOPATH set as a list of directories, but users are encouraged to maintain a single location.  This can become important later depending on one's preferred package vendoring solution.
+
+#--
+* Uninstalling Go
+
+- Remove `/usr/local/go`.
+- Remove GOPATH export.
+- Remove Go-related paths from PATH environment variable.
+
+
+
+###
+* Installing The First App
+
+#--
+* My GOPATH / The `src` Directory
+
+    mkdir -p ~/gocode/src/vcs.example/user/testproj && cd $_
+    vi main.go
+
+.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 490 980
+
+#--
+* go run, go build
+
+"go run" is almost always used for packages consisting of a single file.
+
+    go run {file.go}
+
+"go build" is used for creating a binary from go code existing as a package within a directory.
+
+    go build {vcs.example/user/testproj}
+    go build // implies the package within the current directory
+
+The following aliases may be useful for some:
+
+    alias gobae="go build -o builds/\$(basename \${PWD}) && builds/\$(basename \${PWD})"
+    alias gobagcv="go build -o builds/\$(basename \${PWD}) && gcvis builds/\$(basename \${PWD})"
+    alias gobrae="go build -race -o builds/\$(basename \${PWD}) && builds/\$(basename \${PWD})"
+
+#--
+* go install / The `bin` Directory
+
+"go install" is used for creating a binary from go code existing as a package within a directory, and installing it to `${GOPATH}/bin`.
+
+.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 500 980
+
+
+
+###
+* Modifying The New App
+
+#--
+* go get
+
+"go get" is used for gathering source code that will be imported by other projects, or for installing packages (particularly those with main functions).
+
+    go get github.com/codemodus/kace
+    go get github.com/tobischo/goinvaders
+
+.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 400 980
 
