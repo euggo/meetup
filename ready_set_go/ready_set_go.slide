@@ -25,14 +25,16 @@ https://github.com/codemodus
 .link https://golang.org - Golang.org/
 
 - Released November 11th, 2009
-- Supported by Google, created by Rob Pike, Ken Thompson, and Robert Griesemer
+- Created by Rob Pike, Ken Thompson, and Robert Griesemer
 - Influenced by Pascal/Modula/Oberon + CSP (Newsqueak/Limbo)
+- Supported by Google
 
 #--
 * Overview
 
 - Strongly, and statically typed
 - Compiled (with runtime)
+- Compiled quickly
 - Garbage collected
 - OO-like
 - Functional-like
