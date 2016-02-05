@@ -59,14 +59,8 @@ Please keep in mind that the following slides will not include package or import
 
 .play structs_pointers_a/main.go /START OMIT/,/END OMIT/
 
-- Dereferencing the pointer will fix the error, as will changing the function definition
-
-#--
-* Structs/Pointers (Gotcha)
-
-.play structs_pointers_b/main.go /START OMIT/,/END OMIT/
-
-- Those coming from dynamic languages may wrestle with pointers for a while
+- Dereferencing the pointer will fix the error, as will changing the function definition.
+- However, the output is still not correct.
 
 #--
 * Structs/Pointers (Gotcha test)
@@ -84,7 +78,7 @@ Please keep in mind that the following slides will not include package or import
 - Methods on instances are limited in scope
 
 #--
-* Structs/Pointers (init)
+* Structs/Pointers (declaration/init)
 
 .play structs_pointers_init/main.go /START OMIT/,/END OMIT/
 
@@ -108,9 +102,11 @@ Please keep in mind that the following slides will not include package or import
 
 Favor vertical code over horizontal code.
 
-.code structs_anon_bad/main.go /START OMIT/,/END OMIT/
+.code structs_anon/main.go /START OMIT/,/END OMIT/
 
 Code in these slides may favor width due to the limited space.
+
+.code structs_anon_bad/main.go /START OMIT/,/END OMIT/
 
 
 
@@ -153,12 +149,20 @@ Code in these slides may favor width due to the limited space.
 - Ensuring that errors are handled encourages better design
 - Don't panic
 
+#--
+* Errors (shortened)
+
+.code errors/main.go /START OMIT/,/END OMIT/
+
+.code errors_shortened/main.go /START OMIT/,/END OMIT/
+
 *** Conditional/assignments can be combined
 
 - Be aware of scope limitation
 
 #--
 * Defined Errors
+
 .play errors_defined/main.go /START OMIT/,/END OMIT/
 
 

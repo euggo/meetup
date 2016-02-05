@@ -17,6 +17,7 @@ func (m *murphy) law() (bool, error) {
 	if time.Now().Second()%2 == 0 {
 		return true, errEven
 	}
+
 	return true, errOdd
 }
 
@@ -28,10 +29,10 @@ var (
 // START OMIT
 func main() {
 	m := &murphy{}
-	if b, err := m.law(); err != nil {
+	b, err := m.law()
+	if err != nil {
 		log.Println(b, err)
 	}
-	// fmt.Println(b)
 }
 
 // END OMIT

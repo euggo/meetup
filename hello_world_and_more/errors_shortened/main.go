@@ -2,17 +2,17 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"time"
 )
 
-var (
-	m = &murphy{}
-)
+func incFmt() {
+	fmt.Println("")
+}
 
 type murphy struct{}
 
-// START OMIT
 func (m *murphy) law() (bool, error) {
 	if time.Now().Second()%2 == 0 {
 		return true, errEven
@@ -21,19 +21,15 @@ func (m *murphy) law() (bool, error) {
 }
 
 var (
-	errEven = errors.New("i can even")
-	errOdd  = errors.New("something is odd here")
+	errEven = errors.New("expected failure")
+	errOdd  = errors.New("unexpected failure")
 )
 
+// START OMIT
 func main() {
+	m := &murphy{}
 	if b, err := m.law(); err != nil {
-		if err == errEven {
-			log.Println(b, err)
-		}
-
-		if err == errOdd {
-			log.Println(err, b)
-		}
+		log.Println(b, err)
 	}
 }
 
