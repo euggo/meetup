@@ -27,20 +27,45 @@
     }
 
     h2 {
+        color: #ffffdd;
         text-align: center;
-        margin-bottom: .45em;
+        margin: .45em auto;
         opacity: .666;
+    }
+
+    h2:before {
+        content: "-";
+        margin-right: .25em;
+    }
+
+    h2:after {
+        content: "-";
+        margin-left: .25em;
+    }
+
+    h3 {
+        margin: -.25em auto -.5em;
+        opacity: .8;
     }
 
     hr {
         border: 0;
         height: 1px;
-        background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+    }
+
+    ul, ol {
+        margin: 1em;
+    }
+    
+    .divider {
+        width: 50%;
+        opacity: .5;
     }
 
     .code {
         font-family: monospace;
-        background: rgba(0, 0, 0, .45);
+        background: rgba(0, 0, 0, .5);
         padding: 1em;
         border-radius: .5em;
     }
@@ -59,7 +84,7 @@
 
     .outer {
         width: 100%;
-        margin-bottom: 2em;
+        margin: 2em auto;
     }
 
     .inner {
@@ -106,7 +131,6 @@
       Welcome to the EUG Go Meetup Online.<br>
 
       <span class="small-text">Please excuse the lack of time invested in this site.<br>
-          Eventually it may become a priority to make it look nice.<br>
           If you're so inclined, I'd be grateful for pull requests (consider using Hugo).
       </span><br>
     </div>
@@ -117,23 +141,42 @@
 
     <div class="outer">
       <div class="inner">
+        <h2>Links</h2>
+
+        <section>
+            <h3>EUG Go</h3>
+
+            <ul>
+                <li><a href="https://www.meetup.com/EUG-Go">EUG Go on Meetup</a></li>
+                <li><a href="https://meetup.euggo.org">EUG Go Meetup Resources</a></li>
+                <li><a href="https://github.com/euggo">EUG Go on Github</a></li>
+            <ul>
+        </section>
+
+        <section>
+            <h3>Official Go</h3>
+
+            <ul>
+                <li><a href="https://golang.org/doc">Go Documentation</a></li>
+                <li><a href="https://tour.golang.org">A Tour of Go</a></li>
+                <li><a href="https://play.golang.org">The Go Playground</a></li>
+                <li><a href="https://blog.golang.org/">The Go Blog</a></li>
+            <ul>
+        </section>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="outer">
+      <div class="inner">
         <h2>Organizers</h2>
 
         <a href="https://github.com/daved">Daved</a>
       </div>
     </div>
 
-    <div class="outer">
-      <div class="inner">
-        <h2>Links</h2>
-
-        <ul>
-            <li><a href="https://www.meetup.com/EUG-Go">EUG Go on Meetup</a></li>
-            <li><a href="https://meetup.euggo.org">EUG Go Meetup Resources</a></li>
-            <li><a href="https://github.com/euggo">EUG Go on Github</a></li>
-        <ul>
-      </div>
-    </div>
+    <hr class="divider">
 
     <div class="outer">
       <div class="inner">
@@ -146,6 +189,8 @@
         </div>
       </div>
     </div>
+
+    <hr class="divider">
 
     <div class="outer">
       <div class="inner">
