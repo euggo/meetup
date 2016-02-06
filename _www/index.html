@@ -28,13 +28,21 @@
 
     h2 {
         text-align: center;
-      margin-bottom: .45em;
+        margin-bottom: .45em;
+        opacity: .666;
     }
 
     hr {
         border: 0;
         height: 1px;
         background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+    }
+
+    .code {
+        font-family: monospace;
+        background: rgba(0, 0, 0, .45);
+        padding: 1em;
+        border-radius: .5em;
     }
 
     .small-text {
@@ -130,12 +138,12 @@
     <div class="outer">
       <div class="inner">
         <h2>Run Talks Locally</h2>
-        <span style="font-family:monospace;">
+        <div class="code">
             go get github.com/euggo/meetup<br>
             go get golang.org/x/tools/cmd/present<br>
             cd ${GOPATH}/src/github.com/euggo/meetup<br>
             present
-        </ul>
+        </div>
       </div>
     </div>
 
