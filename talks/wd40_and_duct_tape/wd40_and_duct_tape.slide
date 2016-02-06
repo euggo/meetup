@@ -73,7 +73,7 @@ GoBuild, GoDeps, GoFmt, GoInfo, GoPath, GoTestFunc, GoCallees, GoDescribe, GoFre
 
 A VM is running locally for demonstration.  When accessing it's terminal, a tmux session is immediately loaded.  This will allow a continuous session across slides.  However, when moving between slides, it is necessary to login and logout.  Please try to ignore the extra movement involved.
 
-.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 430 980
+.iframe html/terminal_access.html 430 980
 
 #--
 * Installing Go
@@ -91,7 +91,7 @@ Setup PATH/GOPATH:
     echo -e "\n"'export PATH=${PATH}:/usr/local/go/bin:${HOME}/gocode/bin' >> ~/.profile
     echo 'export GOPATH=${HOME}/gocode' >> ~/.profile && source ~/.profile
 
-.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 230 980
+.iframe html/terminal_access.html 230 980
 
 #--
 * Installing Dependencies
@@ -107,7 +107,7 @@ Command Line Completion:
     echo ' && source ${HOME}/storage/go-pkg-complete/go-pkg-complete.bash.inc' >> ~/.profile
     source ~/.profile
 
-.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 280 980
+.iframe html/terminal_access.html 280 980
 
 #--
 * Setting Up Vim
@@ -121,7 +121,7 @@ Command Line Completion:
     rm -rf ~/.vimviews
     vim +GoInstallBinaries +qall
 
-.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 360 980
+.iframe html/terminal_access.html 360 980
 
 #--
 * Environment Variables
@@ -151,7 +151,7 @@ GOPATH is used to locate source files and binaries in directories outside of `/u
     mkdir -p ~/gocode/src/vcs.example/user/testproj && cd $_
     vi main.go
 
-.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 490 980
+.iframe html/terminal_access.html 490 980
 
 #--
 * go run, go build
@@ -176,7 +176,7 @@ The following aliases may be useful for some:
 
 "go install" is used for creating a binary from go code existing as a package within a directory, and installing it to `${GOPATH}/bin`.
 
-.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 500 980
+.iframe html/terminal_access.html 500 980
 
 
 
@@ -191,5 +191,5 @@ The following aliases may be useful for some:
     go get github.com/codemodus/kace
     go get github.com/tobischo/goinvaders
 
-.iframe http://127.0.0.1:3999/wd40_and_duct_tape/html/terminal_access.html 400 980
+.iframe html/terminal_access.html 400 980
 
