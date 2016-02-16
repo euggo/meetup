@@ -34,18 +34,23 @@
     }
 
     h2:before {
-        content: "-";
+        content: "·";
         margin-right: .25em;
     }
 
     h2:after {
-        content: "-";
+        content: "·";
         margin-left: .25em;
     }
 
     h3 {
         margin: -.25em auto -.5em;
         opacity: .8;
+    }
+
+    h3:after {
+        content: ":";
+        margin-left: .1em;
     }
 
     hr {
@@ -57,7 +62,11 @@
     ul, ol {
         margin: 1em;
     }
-    
+
+    .nobull {
+        list-style-type: none;
+    }
+
     .divider {
         width: 50%;
         opacity: .5;
@@ -127,7 +136,7 @@
   <![endif]-->
 </head>
 <body>
-    <div class="welcome">
+    <!-- <div class="welcome">
       Welcome to the EUG Go Meetup Online.<br>
 
       <span class="small-text">Please excuse the lack of time invested in this site.<br>
@@ -135,45 +144,79 @@
       </span><br>
     </div>
 
-    <hr>
+    <hr> -->
 
     <h1>EUG Go</h1>
 
     <div class="outer">
-      <div class="inner">
-        <h2>Links</h2>
+        <div class="inner">
+            <h2>Links</h2>
 
-        <section>
-            <h3>EUG Go</h3>
+            <section>
+                <h3>EUG Go</h3>
 
-            <ul>
-                <li><a href="https://www.meetup.com/EUG-Go">EUG Go on Meetup</a></li>
-                <li><a href="https://meetup.euggo.org">EUG Go Meetup Resources</a></li>
-                <li><a href="https://github.com/euggo">EUG Go on Github</a></li>
-            <ul>
-        </section>
+                <ul>
+                    <li><a href="https://www.meetup.com/EUG-Go">Meetup.com</a></li>
+                    <li><a href="https://meetup.euggo.org">Meetup.EUGgo.org</a></li>
+                    <li><a href="https://github.com/euggo">Github.com</a></li>
+                <ul>
+            </section>
 
-        <section>
-            <h3>Official Go</h3>
+            <section>
+                <h3>Official Resources</h3>
 
-            <ul>
-                <li><a href="https://golang.org/doc">Go Documentation</a></li>
-                <li><a href="https://tour.golang.org">A Tour of Go</a></li>
-                <li><a href="https://play.golang.org">The Go Playground</a></li>
-                <li><a href="https://blog.golang.org/">The Go Blog</a></li>
-            <ul>
-        </section>
-      </div>
+                <ul>
+                    <li><a href="https://golang.org/doc">Go Documentation</a></li>
+                    <li><a href="https://tour.golang.org">A Tour of Go</a></li>
+                    <li><a href="https://play.golang.org">The Go Playground</a></li>
+                    <li><a href="https://blog.golang.org/">The Go Blog</a></li>
+                <ul>
+            </section>
+
+            <section>
+                <h3>Events</h3>
+
+                <ul>
+                    <li><a href="https://www.gophercon.com">GopherCon 2016</a></li>
+                <ul>
+            </section>
+        </div>
     </div>
 
     <hr class="divider">
 
     <div class="outer">
-      <div class="inner">
-        <h2>Organizers</h2>
+        <div class="inner">
+            <h2>Meetup Details</h2>
 
-        <a href="https://github.com/daved">Daved</a>
-      </div>
+            <section>
+                <h3>Time/Location</h3>
+
+                <ul class="nobull">
+                    <li>First Thursdays @ 6pm</li>
+                    <li>
+                        <a href="https://www.google.com/maps/@44.0499237,-123.0932572,3a,75y,129.86h,87.67t/data=!3m6!1e1!3m4!1sueZVB28oHclEptTBdhJbiQ!2e0!7i13312!8i6656!6m1!1e1">Analytic Spot / Twenty Ideas</a><br>
+                        <a href="https://www.google.com/maps/place/44+W+Broadway,+Eugene,+OR+97401/@44.0497128,-123.0953564,17z/data=!3m1!4b1!4m2!3m1!1s0x54c11e6b4a4c29e3:0x8c59ac49fb12d98b">44 West Broadway Suite 222, Eugene, OR</a>
+                    </li>
+                <ul>
+            </section>
+
+            <section>
+                <h3>Conduct</h3>
+
+                <ul class="nobull">
+                    <li><a href="https://golang.org/conduct">Go Community Code of Conduct</a></li>
+                <ul>
+            </section>
+
+            <section>
+                <h3>Organizer</h3>
+
+                <ul class="nobull">
+                    <li><a href="https://github.com/daved">Daved</a></li>
+                <ul>
+            </section>
+        </div>
     </div>
 
     <hr class="divider">
