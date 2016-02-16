@@ -1,7 +1,7 @@
 ###
-Hello World And More
+Hello World And More (Part 2)
 Basic examples of Go code.
-4 Feb 2016
+3 Mar 2016
 Tags: introduction, code examples
 
 
@@ -11,119 +11,6 @@ Daved
 disjuncter@gmail.com
 https://github.com/daved
 https://github.com/codemodus
-
-
-
-###
-* Hello Eugene
-
-#--
-* Hello World (stdout)
-
-.play hw_stdout/main.go
-
-#--
-* Hello World (http)
-
-.play hw_http/main.go
-
-- Functions are first class citizens
-
-
-
-###
-* Just a note...
-
-#--
-* Notice
-
-Please keep in mind that the following slides will not include package or import declarations unless there is an interesting reason to do so.
-
-
-
-###
-* Structs
-
-#--
-* Structs
-
-.play structs/main.go /START OMIT/,/END OMIT/
-
-#--
-* Structs/Pointers (Will it blend?)
-
-.play structs_pointers_a/main.go /START OMIT/,/END OMIT/
-
-#--
-* Structs/Pointers (Fix the error)
-
-.play structs_pointers_a/main.go /START OMIT/,/END OMIT/
-
-- Dereferencing the pointer will fix the error, as will changing the function definition.
-- However, the output is still not correct.
-
-#--
-* Structs/Pointers (Gotcha test)
-
-.code structs_pointers_b_alt/main.go /START1 OMIT/,/END1 OMIT/
-
-.play structs_pointers_b_alt/main.go /START2 OMIT/,/END2 OMIT/
-
-#--
-* Structs/Pointers (Fix the output)
-
-.play structs_pointers_b/main.go /START OMIT/,/END OMIT/
-
-- Those coming from dynamic languages may wrestle with pointers for a while
-- Methods on instances are limited in scope
-
-#--
-* Structs/Pointers (declaration/init)
-
-.play structs_pointers_init/main.go /START OMIT/,/END OMIT/
-
-#--
-* Structs Embedding (has/is)
-
-.play structs_embedding/main.go /START OMIT/,/END OMIT/
-
-#--
-* Anonymous Structs
-
-.code structs_anon/main.go /START OMIT/,/END OMIT/
-
-
-
-###
-* Just another note...
-
-#--
-* Note on readability
-
-Favor vertical code over horizontal code.
-
-.code structs_anon/main.go /START OMIT/,/END OMIT/
-
-Code in these slides may favor width due to the limited space.
-
-.code structs_anon_bad/main.go /START OMIT/,/END OMIT/
-
-
-
-###
-* Interfaces
-
-#--
-* Interfaces 1/2
-
-.code interfaces/main.go /START1 OMIT/,/END1 OMIT/
-
-- Types implement interfaces implicitly
-
-#--
-* Interfaces 2/2
-
-.play interfaces/main.go /START2 OMIT/,/END2 OMIT/
 
 
 
