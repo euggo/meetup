@@ -8,9 +8,10 @@
 
   <style>
     body {
-      background: url(https://storage.euggo.org/meetup/img/bg/green-background.jpg) repeat fixed center;
-      font-family: sans-serif;
-      font-size: large;
+        background: url(https://storage.euggo.org/meetup/img/bg/green-background.jpg) repeat fixed center;
+        font-family: sans-serif;
+        font-size: large;
+        margin: 0;
     }
 
     a {
@@ -53,6 +54,10 @@
     .inner {
         margin: 0 auto;
         display: table;
+    }
+
+    .inner_sub {
+        margin: 0 .5em;
     }
 
     .tbl {
@@ -102,7 +107,7 @@
     <h1>commit -m"First"</h1>
 
     <div class="outer">
-      <div class="inner">
+      <div class="inner"><div class="inner_sub">
         <h2>Introductions</h2>
 
         <ul>
@@ -113,11 +118,11 @@
             <li>Interests in Go</li>
             <li>Other languages</li>
         </ul>
-      </div>
+      </div></div>
     </div>
 
     <div class="outer">
-      <div class="inner">
+      <div class="inner"><div class="inner_sub">
         <h2>Talks</h2>
 
         <div class="tbl">
@@ -173,11 +178,11 @@
 
         </div>
 
-      </div>
+      </div></div>
     </div>
 
     <div class="outer">
-      <div class="inner">
+      <div class="inner"><div class="inner_sub">
         <h2>Discussion</h2>
 
         <ul>
@@ -187,11 +192,11 @@
             <li>Politics</li>
             <li>Etc.</li>
         </ul>
-      </div>
+      </div></div>
     </div>
 
     <div class="outer">
-      <div class="inner">
+      <div class="inner"><div class="inner_sub">
         <h2>Accessing Talks Online</h2>
 
         <a href="https://www.euggo.org">https://www.euggo.org</a><br>
@@ -203,11 +208,11 @@
             cd ${GOPATH}/src/github.com/euggo/meetup<br>
             present
         </span>
-      </div>
+      </div></div>
     </div>
 
     <div class="outer">
-      <div class="inner">
+      <div class="inner"><div class="inner_sub">
         <h2>Channels</h2>
 
         <ul>
@@ -215,7 +220,7 @@
           <li>#pdxgo on irc.freenode.net</li>
           <li>#euglug on irc.freenode.net</li>
         </ul>
-      </div>
+      </div></div>
     </div>
 
 

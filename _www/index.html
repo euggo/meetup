@@ -8,10 +8,11 @@
 
   <style>
     body {
-      font-family: sans-serif;
-      font-size: large;
-      background: url(https://storage.euggo.org/site/img/bg/devs-dark-background.png) repeat fixed center;
-      color: white;
+        font-family: sans-serif;
+        font-size: large;
+        background: url(https://storage.euggo.org/site/img/bg/devs-dark-background.png) repeat fixed center;
+        color: white;
+        margin: 0;
     }
 
     a {
@@ -102,6 +103,10 @@
         display: table;
     }
 
+    .inner_sub {
+        margin: 0 .5em;
+    }
+
     .tbl {
       display: table;
     }
@@ -150,7 +155,7 @@
     <h1>EUG Go</h1>
 
     <div class="outer">
-        <div class="inner">
+        <div class="inner"><div class="inner_sub">
             <h2>Links</h2>
 
             <section>
@@ -181,13 +186,13 @@
                     <li><a href="https://www.gophercon.com">GopherCon 2016</a></li>
                 <ul>
             </section>
-        </div>
+        </div></div>
     </div>
 
     <hr class="divider">
 
     <div class="outer">
-        <div class="inner">
+        <div class="inner"><div class="inner_sub">
             <h2>Meetup Details</h2>
 
             <section>
@@ -217,27 +222,27 @@
                     <li><a href="https://github.com/daved">Daved</a></li>
                 <ul>
             </section>
-        </div>
+        </div></div>
     </div>
 
     <hr class="divider">
 
     <div class="outer">
-      <div class="inner">
-        <h2>Run Talks Locally</h2>
-        <div class="code">
-            go get github.com/euggo/meetup<br>
-            go get golang.org/x/tools/cmd/present<br>
-            cd ${GOPATH}/src/github.com/euggo/meetup<br>
-            present
-        </div>
-      </div>
+        <div class="inner"><div class="inner_sub">
+            <h2>Run Talks Locally</h2>
+            <div class="code">
+                go get github.com/euggo/meetup<br>
+                go get golang.org/x/tools/cmd/present<br>
+                cd ${GOPATH}/src/github.com/euggo/meetup<br>
+                present
+            </div>
+        </div></div>
     </div>
 
     <hr class="divider">
 
     <div class="outer">
-      <div class="inner">
+      <div class="inner"><div class="inner_sub">
         <h2>Channels</h2>
 
         <ul>
@@ -245,7 +250,7 @@
           <li>#pdxgo on irc.freenode.net</li>
           <li>#euglug on irc.freenode.net</li>
         </ul>
-      </div>
+      </div></div>
     </div>
 
 
