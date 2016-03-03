@@ -7,9 +7,9 @@ import (
 )
 
 // START OMIT
-func toy(mc chan string, wg *sync.WaitGroup) {
+func toy(c chan string, wg *sync.WaitGroup) {
 	fmt.Println("toy is running and waiting for test message")
-	fmt.Println(<-mc)
+	fmt.Println(<-c)
 	wg.Done()
 }
 

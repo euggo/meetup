@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 // START OMIT
-func toy(mc chan string) {
-	fmt.Println(<-mc)
+func toy(c chan string) {
+	fmt.Println(<-c)
 }
 
 func main() {

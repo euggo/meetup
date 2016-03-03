@@ -12,7 +12,7 @@ func f() {
 	defer func() {
 		r := recover()
 		if r != nil {
-			fmt.Println("recovered in f:", r)
+			fmt.Println("recovered in f (defer):", r)
 		}
 	}()
 

@@ -6,9 +6,9 @@ import (
 )
 
 // START OMIT
-func toy(mc chan string) {
+func toy(c chan string) {
 	fmt.Println("toy is running and waiting for test message")
-	fmt.Println(<-mc)
+	fmt.Println(<-c)
 }
 
 func main() {

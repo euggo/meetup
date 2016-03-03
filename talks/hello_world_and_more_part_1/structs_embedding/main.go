@@ -21,6 +21,7 @@ func main() {
 	sn := superNode{n}
 	c := cluster{name: "Servers", node: n}
 
+	fmt.Printf("Node: %+v, %s\n", n, n.name)
 	fmt.Printf("SuperNode: %+v, %s\n", sn, sn.name) // SuperNode IS a node
 	fmt.Printf("Cluster:   %+v, %s\n", c, c.name)   // Cluster HAS a node
 }

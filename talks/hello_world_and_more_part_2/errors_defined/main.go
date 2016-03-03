@@ -27,11 +27,10 @@ var (
 
 func main() {
 	if b, err := m.law(); err != nil {
-		if err == errEven {
+		switch err {
+		case errEven:
 			log.Println(b, err)
-		}
-
-		if err == errOdd {
+		case errOdd:
 			log.Println(err, b)
 		}
 	}

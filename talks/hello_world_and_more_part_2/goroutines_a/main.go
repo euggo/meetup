@@ -18,10 +18,10 @@ func main() {
 	toy()
 	fmt.Println("blocking duration:", time.Now().Sub(t))
 
-	t = time.Now()
+	tt := time.Now()
 	go toy()
 	go toy()
-	fmt.Println("concurrent duration:", time.Now().Sub(t))
+	fmt.Println("concurrent duration:", time.Now().Sub(tt))
 }
 
 // END OMIT

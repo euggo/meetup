@@ -15,6 +15,38 @@ https://github.com/codemodus
 
 
 ###
+* Sequences And Maps
+
+#--
+* Sequences (Array)
+
+.play array_a/main.go /START OMIT/,/END OMIT/
+
+Or:
+
+.play array_b/main.go /START OMIT/,/END OMIT/
+
+#--
+* Sequences (Slice)
+
+.play slice_a/main.go /START OMIT/,/END OMIT/
+
+Also:
+
+.play slice_b/main.go /START OMIT/,/END OMIT/
+
+Arrays are the underlying type of slices.  They are managed by the runtime.
+
+.link https://blog.golang.org/go-slices-usage-and-internals Go Slices: usage and internals
+
+#--
+* Maps
+
+.play map_a/main.go /START OMIT/,/END OMIT/
+
+
+
+###
 * Return Values And Errors
 
 #--
@@ -43,7 +75,7 @@ https://github.com/codemodus
 
 .code errors_shortened/main.go /START OMIT/,/END OMIT/
 
-*** Conditional/assignments can be combined
+*** Assignments can be combined with a conditional.
 
 - Be aware of scope limitation
 
@@ -73,6 +105,17 @@ https://github.com/codemodus
 - Parameters are evaluated when defer is called, not when the deferred function is called - Use a closure to change this behavior
 
 .play defer_loops_b/main.go /START OMIT/,/END OMIT/
+
+#--
+* Oh, yeah, loops.
+
+While:
+
+.play loops_a/main.go /START OMIT/,/END OMIT/
+
+Forever:
+
+.play loops_b/main.go /START OMIT/,/END OMIT/
 
 #--
 * Panic/Recover (It does serve a purpose!)
@@ -136,6 +179,11 @@ https://github.com/codemodus
 
 .play channels_d/main.go /START OMIT/,/END OMIT/
 
+#--
+* Channels And Select
+
+.play chan_select_a/main.go /START OMIT/,/END OMIT/
+
 
 
 ###
@@ -156,6 +204,8 @@ https://github.com/codemodus
 
 #--
 * Official Blog
+
+.link https://blog.golang.org/go-slices-usage-and-internals Go Slices: usage and internals
 
 .link https://blog.golang.org/error-handling-and-go Error Handling In Go
 

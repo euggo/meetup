@@ -42,6 +42,59 @@ Please keep in mind that the following slides will not include package or import
 
 
 ###
+* Types
+
+#--
+* Basic Types And Default Values
+
+    var b bool // false
+    var s string // ""
+
+    var i int // 0
+    var i8 int8 // 0
+    var i16 int16 // 0
+    var i32 int32 // 0
+    var i64 int64 // 0
+
+    var u uint // 0
+    var u8 uint8 // 0
+    var u16 uint16 // 0
+    var u32 uint32 // 0
+    var u64 uint64 // 0
+
+    var up uintptr // 0
+    var b byte // 0 - alias for uint8
+    var r rune // 0 - alias for int32 | represents a Unicode code point
+
+    var f32 float32 // 0
+    var f64 float64 // 0
+    var c64 complex64 // (0+0i) - set of all complex nums with float32 real and imaginary parts
+    var c128 complex128 // (0+0i) - set of all complex nums with float64 real and imaginary parts
+
+#--
+* Var Declaration And Initialization
+
+Long form:
+
+    var n int64 = 99
+    var x, y int = 1, 2
+    var a, z = true, "test"
+
+Short form:
+
+    n := int64(99)
+    x, y := 1, 2
+    a, z := true, "test"
+
+Reassignment:
+
+    n = 8 // the assigned value is expected to be int64
+    x, y = int(n), 60 // n is converted to int from int64
+    a, z = false, "west"
+
+
+
+###
 * Structs
 
 #--
