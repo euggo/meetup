@@ -175,14 +175,11 @@ Forever:
 .play channels_c/main.go /START OMIT/,/END OMIT/
 
 #--
-* Channels (Basic example completed)
-
-.play channels_d/main.go /START OMIT/,/END OMIT/
-
-#--
 * Channels And Select
 
 .play chan_select_a/main.go /START OMIT/,/END OMIT/
+
+*** tick and boom are both instances of "chan time.Time"
 
 
 
