@@ -25,7 +25,7 @@ func (n *node) localHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte(b))
+	w.Write(b)
 }
 
 // START1 OMIT

@@ -19,7 +19,7 @@ func localHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte(b))
+	w.Write(b)
 }
 
 func remoteHandler(w http.ResponseWriter, r *http.Request) {

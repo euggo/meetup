@@ -20,7 +20,7 @@ func localHandler(w http.ResponseWriter, r *http.Request) { // a valid http.Hand
 		return
 	}
 
-	w.Write([]byte(b))
+	w.Write(b)
 }
 
 // END1 OMIT
