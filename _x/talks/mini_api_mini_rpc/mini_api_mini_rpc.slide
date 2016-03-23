@@ -1,0 +1,184 @@
+###
+Mini API, Mini RPC
+Starting small, and growing up.
+7 Apr 2016
+Tags: api, rpc, app
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+https://github.com/codemodus
+
+
+
+###
+* Disclaimer
+
+The following projects deal with time, but are not meant for synchronization or 
+any other critical purpose.
+
+
+
+###
+* Interacting with the projects.
+
+*** Review
+
+.link https://github.com/daved/rpctimehttp
+
+.link https://github.com/daved/rpctime
+
+*** Get
+
+    go get github.com/daved/rpctime...
+
+*** Run
+
+    rpctime & rpctimehttp & # run both apps in the background
+
+*** Kill
+
+    pkill rpctime # send SIGTERM to both apps
+
+
+
+###
+* API Server (Setup)
+
+#--
+* 
+
+.code a_setup_http-server/main.go /START1 OMIT/,/END1 OMIT/
+
+.caption Setup HTTP Server (1/2) - "rpctimehttp/main.go"
+
+#--
+* 
+
+.play a_setup_http-server/main.go /START2 OMIT/,/END2 OMIT/
+
+.caption Setup HTTP Server (2/2) - "rpctimehttp/main.go"
+
+#--
+* 
+
+.code b_add_routes_http-server/main.go /START1 OMIT/,/END1 OMIT/
+
+.play b_add_routes_http-server/main.go /START2 OMIT/,/END2 OMIT/
+
+.caption Add Routes To HTTP Server - "rpctimehttp/main.go"
+
+
+
+###
+* RPC Type/Client (Setup)
+
+#--
+* 
+
+.code c_setup_rpc-client/rpctime/rpc.go /START1 OMIT/,/END1 OMIT/
+
+.caption Setup RPC Type (1/2) - "rpctime/rpc.go"
+
+#--
+* 
+
+.code c_setup_rpc-client/rpctime/rpc.go /START2 OMIT/,/END2 OMIT/
+
+.caption Setup RPC Type (2/2) - "rpctime/rpc.go"
+
+#--
+* 
+
+.code c_setup_rpc-client/rpctime/client.go /START1 OMIT/,/END1 OMIT/
+
+.caption Setup RPC Client (1/2) - "rpctime/client.go"
+
+#--
+* 
+
+.code c_setup_rpc-client/rpctime/client.go /START2 OMIT/,/END2 OMIT/
+
+.caption Setup RPC Client (2/2) - "rpctime/client.go"
+
+
+
+###
+* RPC Server (Setup)
+
+#--
+* 
+
+.code d_setup_rpc-server/rpctime/main.go /START1 OMIT/,/END1 OMIT/
+
+.caption Setup RPC Server (1/1) - "rpctime/cmd/main.go"
+
+
+
+###
+* API Server (Implement RPC)
+
+#--
+* First, A Look At The Existing Code
+
+.code e_add_node_http-server/old/main.go /START1 OMIT/,/END1 OMIT/
+
+.caption The Existing HTTP Server main() - "rpctimehttp/main.go"
+
+What is needed is an http.Handler which carries a connection to the RPC Client.
+
+
+This is possible by creating a new type which has the method 
+"ServeHTTP(http.ResponseWriter, *http.Request)" and a field that stores the 
+RPC Client connection.
+
+#--
+* 
+
+.code e_add_node_http-server/node.go /START1 OMIT/,/END1 OMIT/
+
+.caption Add "node" Type To HTTP Server (1/4) - "rpctimehttp/node.go"
+
+#--
+* 
+
+.code e_add_node_http-server/node.go /START2 OMIT/,/END2 OMIT/
+
+.caption Add "node" Type To HTTP Server (2/4) - "rpctimehttp/node.go"
+
+#--
+* 
+
+.code e_add_node_http-server/node_h.go /START1 OMIT/,/END1 OMIT/
+
+.caption Add "node" Type To HTTP Server (3/4) - "rpctimehttp/node.go"
+
+#--
+* 
+
+.code e_add_node_http-server/main.go /START1 OMIT/,/END1 OMIT/
+
+.caption Add "node" Type To HTTP Server (4/4) - "rpctimehttp/main.go"
+
+
+
+###
+* API Server (Implement RPC - Really, this time.)
+
+#--
+* 
+
+.code f_add_rpc_http-server/node_h.go /START1 OMIT/,/END1 OMIT/
+
+.caption Add RPC Usage To HTTP Server (1/2) - "rpctimehttp/node.go"
+
+#--
+* 
+
+.play f_add_rpc_http-server/node_h.go /START2 OMIT/,/END2 OMIT/
+
+.caption Add RPC Usage To HTTP Server (2/2) - "rpctimehttp/node.go"
+
