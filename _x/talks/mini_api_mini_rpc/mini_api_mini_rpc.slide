@@ -46,6 +46,32 @@ any other critical purpose.
 
 
 ###
+* Project Overview
+
+- Setup basic HTTP-based API server.
+- Setup RPC type and client.
+- Setup RPC server.
+- Add RPC client to API server.
+
+    // final directory trees
+
+    rpctimehttp
+    ├── main.go
+    └── node.go
+
+    rpctime
+    ├── client.go
+    ├── cmd
+    │   └── rpctime
+    │       └── main.go
+    ├── internal
+    │   └── zones
+    │       └── zones.go
+    └── rpc.go
+
+
+
+###
 * API Server (Setup)
 
 #--
@@ -114,7 +140,7 @@ any other critical purpose.
 
 .code d_setup_rpc-server/rpctime/main.go /START1 OMIT/,/END1 OMIT/
 
-.caption Setup RPC Server (1/1) - "rpctime/cmd/main.go"
+.caption Setup RPC Server (1/1) - "rpctime/cmd/rpctime/main.go"
 
 
 
