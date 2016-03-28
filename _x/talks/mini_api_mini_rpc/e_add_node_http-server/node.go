@@ -10,19 +10,18 @@ import (
 )
 
 type node struct {
-	timeServer  *rpctime.Client
-	multiplexer *http.ServeMux
+	timeServer  *rpctime.Client // HL
+	multiplexer *http.ServeMux  // HL
 }
 
 func newNode(rpcPort string) (*node, error) {
-	ts, err := rpctime.NewClient(rpcPort, time.Second*6)
+	ts, err := rpctime.NewClient(rpcPort, time.Second*6) // HL
 	if err != nil {
 		return nil, err
 	}
 
-	n := &node{}
-	n.timeServer = ts
-	n.multiplexer = n.mux()
+	n := &node{timeServer: ts} // HL
+	n.multiplexer = n.mux()    // HL
 
 	return n, nil
 }
@@ -31,7 +30,7 @@ func newNode(rpcPort string) (*node, error) {
 
 // START2 OMIT
 func (n *node) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	n.multiplexer.ServeHTTP(w, r)
+	n.multiplexer.ServeHTTP(w, r) // HL
 }
 
 func (n *node) mux() *http.ServeMux {

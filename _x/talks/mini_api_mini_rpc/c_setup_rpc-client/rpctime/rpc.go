@@ -11,8 +11,8 @@ import (
 )
 
 type RPC struct {
-	mu   sync.Mutex
-	reqs uint64
+	mu   sync.Mutex // HL
+	reqs uint64     // HL
 }
 
 func NewRPC() *RPC {
@@ -26,14 +26,14 @@ func (r *RPC) Time(zone string, curTime *time.Time) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	r.reqs++
+	r.reqs++ // HL
 
 	loc, err := zones.LocByZone(zone)
 	if err != nil {
 		return errors.New("zone not found")
 	}
 
-	*curTime = time.Now().In(loc)
+	*curTime = time.Now().In(loc) // HL
 	return nil
 }
 
@@ -41,7 +41,7 @@ func (r *RPC) Stats(_ bool, reqs *uint64) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	*reqs = r.reqs
+	*reqs = r.reqs // HL
 	return nil
 }
 

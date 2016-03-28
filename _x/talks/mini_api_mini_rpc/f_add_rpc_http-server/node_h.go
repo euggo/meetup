@@ -30,51 +30,51 @@ func (n *node) localHandler(w http.ResponseWriter, r *http.Request) {
 
 // START1 OMIT
 func (n *node) remoteHandler(w http.ResponseWriter, r *http.Request) {
-	zoneID, err := parth.SubSegToString(r.URL.Path, "remote")
-	if err != nil || zoneID == "" {
-		zoneID = "GMT"
-	}
+	zoneID, err := parth.SubSegToString(r.URL.Path, "remote") // HL
+	if err != nil || zoneID == "" {                           // HL
+		zoneID = "GMT" // HL
+	} // HL
 
-	res, err := n.timeServer.Time(zoneID)
+	res, err := n.timeServer.Time(zoneID) // HL
 	if err != nil {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 
-	t := &timeJSON{res}
+	t := &timeJSON{res} // HL
 
-	b, err := json.Marshal(t)
+	b, err := json.Marshal(t) // HL
 	if err != nil {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 
-	w.Write(b)
+	w.Write(b) // HL
 }
 
 // END1 OMIT
 
 // START2 OMIT
 type statsJSON struct {
-	RPCCount uint64 `json:"rpc_count"`
+	RPCCount uint64 `json:"rpc_count"` // HL
 }
 
 func (n *node) statsHandler(w http.ResponseWriter, r *http.Request) {
-	res, err := n.timeServer.Stats()
+	res, err := n.timeServer.Stats() // HL
 	if err != nil {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 
-	s := &statsJSON{res}
+	s := &statsJSON{res} // HL
 
-	b, err := json.Marshal(s)
+	b, err := json.Marshal(s) // HL
 	if err != nil {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
 
-	w.Write(b)
+	w.Write(b) // HL
 }
 
 // END2 OMIT

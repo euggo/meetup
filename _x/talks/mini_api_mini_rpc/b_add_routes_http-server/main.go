@@ -24,24 +24,24 @@ func localHandler(w http.ResponseWriter, r *http.Request) {
 
 // START1 OMIT
 func remoteHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("remote"))
+	w.Write([]byte("remote")) // HL
 }
 
 func statsHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("stats"))
+	w.Write([]byte("stats")) // HL
 }
 
 // END1 OMIT
 
+// START2 OMIT
 func main() {
 	mux := http.NewServeMux()
 
-	// START2 OMIT
-	// in main()
 	mux.HandleFunc("/api/local", localHandler)
-	mux.HandleFunc("/api/remote/", remoteHandler) // "/api/remote", or "/api/remote/{x...}"
-	mux.HandleFunc("/api/stats", statsHandler)
-	// END2 OMIT
+	mux.HandleFunc("/api/remote/", remoteHandler) // "/api/remote", or "/api/remote/{x...}" // HL
+	mux.HandleFunc("/api/stats", statsHandler)    // HL
 
 	http.ListenAndServe(":29876", mux)
 }
+
+// END2 OMIT

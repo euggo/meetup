@@ -9,17 +9,17 @@ import (
 )
 
 type Client struct {
-	conn *rpc.Client
+	conn *rpc.Client // HL
 }
 
 func NewClient(addr string, timeout time.Duration) (*Client, error) {
-	conn, err := net.DialTimeout("tcp", addr, timeout)
+	conn, err := net.DialTimeout("tcp", addr, timeout) // HL
 	if err != nil {
 		return nil, err
 	}
 
 	c := &Client{
-		conn: rpc.NewClient(conn),
+		conn: rpc.NewClient(conn), // HL
 	}
 
 	return c, nil
@@ -31,7 +31,7 @@ func NewClient(addr string, timeout time.Duration) (*Client, error) {
 func (c *Client) Time(zone string) (string, error) {
 	var curTime string
 
-	err := c.conn.Call("RPC.Time", zone, &curTime)
+	err := c.conn.Call("RPC.Time", zone, &curTime) // HL
 
 	return curTime, err
 }
@@ -39,7 +39,7 @@ func (c *Client) Time(zone string) (string, error) {
 func (c *Client) Stats() (uint64, error) {
 	var reqs uint64
 
-	err := c.conn.Call("RPC.Stats", false, &reqs)
+	err := c.conn.Call("RPC.Stats", false, &reqs) // HL
 
 	return reqs, err
 }

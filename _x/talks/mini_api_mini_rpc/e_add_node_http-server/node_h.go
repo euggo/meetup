@@ -12,7 +12,7 @@ type timeJSON struct {
 	Time time.Time `json:"time"`
 }
 
-func (n *node) localHandler(w http.ResponseWriter, r *http.Request) {
+func (n *node) localHandler(w http.ResponseWriter, r *http.Request) { // HL
 	t := &timeJSON{time.Now()}
 
 	b, err := json.Marshal(t)
@@ -24,11 +24,11 @@ func (n *node) localHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-func (n *node) remoteHandler(w http.ResponseWriter, r *http.Request) {
+func (n *node) remoteHandler(w http.ResponseWriter, r *http.Request) { // HL
 	w.Write([]byte("remote"))
 }
 
-func (n *node) statsHandler(w http.ResponseWriter, r *http.Request) {
+func (n *node) statsHandler(w http.ResponseWriter, r *http.Request) { // HL
 	w.Write([]byte("stats"))
 }
 
