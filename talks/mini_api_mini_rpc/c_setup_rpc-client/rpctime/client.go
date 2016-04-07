@@ -28,8 +28,8 @@ func NewClient(addr string, timeout time.Duration) (*Client, error) {
 // END1 OMIT
 
 // START2 OMIT
-func (c *Client) Time(zone string) (string, error) {
-	var curTime string
+func (c *Client) Time(zone string) (time.Time, error) {
+	var curTime time.Time
 
 	err := c.conn.Call("RPC.Time", zone, &curTime) // HL
 
