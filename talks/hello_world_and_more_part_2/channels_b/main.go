@@ -9,6 +9,7 @@ func toy(c chan string) {
 
 func main() {
 	c := make(chan string)
+
 	go toy(c)
 
 	c <- "test"

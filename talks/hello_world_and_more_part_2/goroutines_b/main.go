@@ -8,11 +8,11 @@ import (
 
 // START OMIT
 func toy(wg *sync.WaitGroup) {
+	defer wg.Done()
+
 	time.Sleep(time.Millisecond * 100)
 	fmt.Println("almost done!")
 	time.Sleep(time.Millisecond * 100)
-
-	wg.Done()
 }
 
 func main() {
@@ -22,10 +22,10 @@ func main() {
 	t := time.Now()
 	go toy(wg)
 	go toy(wg)
-	fmt.Println("concurrent duration A:", time.Now().Sub(t))
+	fmt.Println("concurrent funcs call duration:", time.Now().Sub(t))
 
 	wg.Wait()
-	fmt.Println("concurrent duration B:", time.Now().Sub(t))
+	fmt.Println("concurrent funcs completion duration:", time.Now().Sub(t))
 }
 
 // END OMIT
