@@ -1,0 +1,204 @@
+###
+Gopher It
+An Intro To Go For Web Devs.
+26 May 2016
+Tags: introduction, getting started, web
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+https://github.com/codemodus
+
+
+
+###
+* What
+
+#--
+* What is Go?
+
+"Go is an open source programming language that makes it easy to build simple, reliable, and efficient software."
+
+.link https://golang.org - Golang.org/
+
+- Released November 11th, 2009
+- Created by Rob Pike, Ken Thompson, and Robert Griesemer
+- Influenced by Pascal/Modula/Oberon + CSP (Newsqueak/Limbo)
+- Supported by Google
+
+#--
+* Overview
+
+- Strongly, and statically typed
+- Compiled (with runtime)
+- Compiled quickly
+- Garbage collected
+- OO-like
+- Functional-like
+- Concurrent
+
+
+
+###
+* How
+
+#--
+* How did Go come to be?
+
+Not exhaustively...
+
+Ken Thompson is the author of B, the predecessor to C.  He was also a colleague of C author Dennis Ritchie.  Together they developed UNIX.
+
+Alongside them at Bell Labs Rob Pike co-authored UTF-8 with Ken Thompson, developed Limbo, contributed to portions of UNIX, and wrote influential books on UNIX/programming with Brian W. Kernighan.
+
+Robert Griesemer has worked on code generation for the V8 JS engine, the Java Hotspot VM, and a distributed lock manager for the Google File System.
+
+#--
+* How does Go excel?
+
+Go is optimized for developers and modern processing
+
+- Keyword count is low (25 vs [Python 33, Ruby 41, C 44, Java 50, C++ 84])
+- Standard library is often enough
+- Inheritance does not exist
+- Memory management is a non-issue
+- Codebases are often cross-platform without additional work
+- Concurrency is baked-in
+- Concurrency primitives are reasonable
+- Runtime is included with binaries
+- Tooling prevents certain disputes: gofmt, go vet, golint
+- Tooling eases documentation/testing: go doc, go test
+
+
+
+###
+* Why
+
+#--
+* Why did Go come to be?
+
+"No major systems language has emerged in over a decade, but over that time the computing landscape has changed tremendously. ...  We believe it's worth trying again with a new language, a concurrent, garbage-collected language with fast compilation."
+
+.link https://golang.org/doc/faq#What_is_the_purpose_of_the_project - Golang.org/doc/faq#What_is_the_purpose_of_the_project
+
+A much more expansive answer to this question is available in the article, [[https://talks.golang.org/2012/splash.article][Go at Google: Language Design in the Service of Software Engineering.]]
+
+#--
+* Why use Go?
+
+- Minimize development and maintenance time
+- Make full use of modern processors
+- Encourage testable code
+- Improve documentation
+- Reduce overhead when portability is needed
+
+
+
+###
+* Getting Started
+
+#--
+* IDEs
+
+- Codebox IDE
+- CodeEnv
+- Eclipse IDE/GoClipse
+- GoWorks
+- JetBrains IntelliJ IDEA
+- Komodo IDE
+- LiteIDE
+- Visual Studio / Visual Studio Code
+- Wide
+- Zeus
+
+#--
+* Editors 1/2
+
+- Emacs
+- Vi/Vim
+- Atom
+- Brackets
+- Geany
+- Gedit
+- GNU Nano
+
+#--
+* Editors 1/2
+
+- jEdit
+- joe
+- Komodo Edit
+- Lime Text
+- Notepad++
+- Sublime Text
+- Textadept
+- TextMate
+
+#--
+* IDE or editor?  Either way.
+
+The tools offered by the Go Team and the community cover so much ground that there is no great distinction between the capabilities of IDEs and text editors (apart from the interfaces).
+
+For example, the following is a list of tools available in Vim using vim-go.
+
+GoBuild, GoDeps, GoFmt, GoInfo, GoPath, GoTestFunc, GoCallees, GoDescribe, GoFreevars, GoInstall, GoPlay, GoUpdateBinaries, GoCallers, GoDoc, GoGenerate, GoInstallBinaries, GoReferrers, GoVet, GoCallstack, GoDocBrowser, GoImplements, GoLint, GoRename, GoChannelPeers, GoDrop, GoImport, GoMetaLinter, GoRun, GoCoverage, GoErrCheck, GoImportAs, GoOracleScope, GoTest, GoDef, GoFiles, GoImports, GoOracleTags, GoTestCompile
+
+#--
+* Installing Go (Linux)
+
+Using Binary Releases:
+
+    mkdir ~/storage && cd $_
+    wget https://storage.googleapis.com/golang/go1.6.2.linux-amd64.tar.gz   
+    sudo tar -C /usr/local -zxf ~/storage/go1.6.2.linux-amd64.tar.gz   
+
+- Building from source is possible, but isn't interesting enough to cover at this time.
+
+Setup PATH/GOPATH:
+
+    mkdir ~/gocode
+    echo -e "\n"'export PATH=${PATH}:/usr/local/go/bin:${HOME}/gocode/bin' >> ~/.profile
+    echo 'export GOPATH=${HOME}/gocode' >> ~/.profile && source ~/.profile
+
+#--
+* Installing Dependencies (Debian-based Linux)
+
+Version Control:
+
+   sudo apt-get install git mercurial
+
+#--
+* Environment Variables (Linux)
+
+GOROOT is only relevant when installing Go to a non-standard location.
+
+    // Example of setting GOROOT - *Not likely needed*
+    echo -e "\n"'export GOROOT=${HOME}/go' >> ~/.profile && source ~/.profile
+
+Please note - GOPATH is used to locate source files and binaries in directories outside of `/usr/local/go` or GOROOT if set.  It is possible to have GOPATH set as a list of directories, but users are encouraged to maintain a single location.  This can become important later depending on one's preferred package vendoring solution.
+
+#--
+* Uninstalling Go (Standard Installation)
+
+- Remove `/usr/local/go`.
+- Remove GOPATH export.
+- Remove Go-related paths from PATH environment variable.
+
+
+
+###
+* Hello Eugene
+
+#--
+* Hello World (stdout)
+
+.play hw_stdout/main.go
+
+#--
+* Hello World (http)
+
+.play hw_http/main.go
+
