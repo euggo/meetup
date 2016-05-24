@@ -36,7 +36,6 @@ https://github.com/codemodus
 - Compiled (with runtime)
 - Compiled quickly
 - Garbage collected
-- Runs quickly
 - OO-like
 - Concurrent
 
@@ -66,9 +65,8 @@ Go is optimized for developers and modern processing
 - Inheritance does not exist
 - Memory management is a non-issue
 - Codebases are often cross-platform without additional work
-- Concurrency is baked-in
-- Concurrency primitives are reasonable
-- Runtime is included with binaries
+- Concurrency is baked-in and primitives are reasonable
+- Runtime is included with binaries and they run quickly
 - Tooling prevents certain disputes: gofmt, go vet, golint
 - Tooling eases documentation/testing: go doc, go test
 
