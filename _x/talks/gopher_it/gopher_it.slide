@@ -36,8 +36,8 @@ https://github.com/codemodus
 - Compiled (with runtime)
 - Compiled quickly
 - Garbage collected
+- Runs quickly
 - OO-like
-- Functional-like
 - Concurrent
 
 
@@ -126,7 +126,7 @@ A much more expansive answer to this question is available in the article, [[htt
 - GNU Nano
 
 #--
-* Editors 1/2
+* Editors 2/2
 
 - jEdit
 - joe
@@ -202,3 +202,82 @@ Please note - GOPATH is used to locate source files and binaries in directories 
 
 .play hw_http/main.go
 
+
+
+###
+* Databases, Testing, and Deployment
+
+#--
+* Using A Database
+
+.play db0/main.go /START OMIT/,/END OMIT/
+
+#--
+* Testing (Basis)
+
+.code work/work.go
+
+.caption "work/work.go"
+
+#--
+* Testing (Test Func)
+
+.code work/work_test.go
+
+.caption "work/work_test.go"
+
+#--
+* Testing (Testing And Other Commands)
+Run all tests:
+
+    go test
+
+Run a simple app:
+
+    go run {files}
+
+Build an app:
+
+    go build -o {binary}
+
+#--
+* Deployment
+
+- scp + service restart
+- blueGreen to minimize downtime/risks.
+- wercker/heroku/google app engine
+- Have complex needs or simply like config files? The cloud is the limit.
+
+#--
+* Deployment (Additional - systemd Unit File)
+
+.code systemd/gosysd.service
+
+#--
+* Deployment (Additional - app ready for service)
+
+.iframe systemd/main.go.html 576 980
+
+
+
+###
+* Resources
+
+#--
+* Online Resources
+
+- [[https://golang.org/][The front door: golang.org]]
+- [[https://play.golang.org/][The playground: play.golang.org]]
+- [[https://meetup.euggo.org/][This presentation and others: meetup.euggo.org]]
+- #go-nuts on irc.freenode.net
+- [[https://reddit.com/r/golang][Go on Reddit]]
+- [[https://groups.google.com/group/golang-nuts][Go Nuts mailing list]]
+- [[https://forum.golangbridge.org/][Go Forum]]
+- [[https://blog.gopheracademy.com/gophers-slack-community/][Gopher's slack community]]
+
+#--
+* Online Resources For Offline Resources
+
+- [[http://www.gopl.io/][The Go Programming Language - Alan A. A. Donovan, Brian Kernighan]]
+- [[https://www.meetup.com/eug-go][Go in Eugene (Meetup.com)]]
+- [[https://www.euggo.org][Go in Eugene (homepage)]]

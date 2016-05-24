@@ -1,0 +1,17 @@
+[Unit]
+Description=Go Systemd Test App
+After=network.target
+Documentation=https://godoc.org/github.com/daved/gosysd
+
+[Service]
+Type=simple
+PIDFile=/tmp/gosysd-pid/gosysd.pid
+
+ExecStart=/home/daved/gocode/bin/gosysd
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
