@@ -262,6 +262,15 @@ GOROOT is only relevant when installing Go to a non-standard location.
             ServeHTTP(ResponseWriter, *Request)
     }
 
+``
+
+    type ServeMux
+        func NewServeMux() *ServeMux
+        func (mux *ServeMux) Handle(pattern string, handler Handler)
+        func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request))
+        func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string)
+        func (mux *ServeMux) ServeHTTP(w ResponseWriter, r *Request)
+
 : - Anything that has a ServeHTTP method with this signature is an http.Handler.
 
 
