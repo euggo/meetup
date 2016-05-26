@@ -29,10 +29,12 @@ https://github.com/codemodus
 - In the C family; Influenced by Pascal/Modula/Oberon + CSP (Newsqueak/Limbo)
 - Supported by Google
 
-: Go is {n} years old.
-: Pike/Thompson established/contributed to *nix world. || Griesemer handled interpreters, files systems, and virtual machines. 
-: Concurrency based on the Hoare's "Communicating Sequential Processes". || net/http Server is fundamentally concurrent.
-: Supported by, but not controlled by Google; A mostly certain and open source future.
+: - Go is {n} years old.
+: - Pike/Thompson established/contributed to *nix world.
+: |- Griesemer handled interpreters, files systems, and virtual machines. 
+: - Conc based on Hoare's "Communicating Sequential Processes" (1985 book, not 1978 paper).
+: | * net/http Server is fundamentally concurrent.
+: - Supported by, but not controlled by Google; A mostly certain and open source future.
 
 #--
 * Overview
@@ -44,12 +46,14 @@ https://github.com/codemodus
 - OO-like
 - Concurrent
 
-: Type system prevents certain classes of errors.
-: No VM! Smallish binaries.
-: Compiler being reworked, recently bootstrapped (1.4). Compil time >=, and run speed <=. Losses almost fixes, gains expected.
-: GC has been reworked with large gains (e.g. 1.3 = 2-6s/10Gb, 1.6 = 10-15ms/100Gb+)
-: OOP possible, not pushed. Not many self-returning chains (e.g. This.Do.DoAnother).
-: Concurrency is not parallelism.
+: - Type system prevents certain classes of errors.
+: - No VM! Smallish binaries.
+: - Compiler being reworked, recently bootstrapped (1.4).
+: |- Compil time >=, and run speed <=. Losses almost fixes, gains expected.
+: - GC has been reworked with large gains (e.g. 1.3 = 2-6s/10Gb, 1.6 = 10-15ms/100Gb+)
+: - OOP possible, not pushed. Not many self-returning chains (e.g. This.Do.DoAnother).
+: - * Concurrency is not parallelism.
+
 
 
 ###
@@ -71,23 +75,43 @@ Robert Griesemer has worked on code generation for the V8 JS engine, the Java Ho
 
 Go is optimized for developers and modern processing
 
-- Keyword count is low (25 vs [Python 33, Ruby 41, C 44, Java 50, C++ 84])
+- Keyword count is low (25 vs [Python 33, Ruby 41, C 44, Java 50, PHP 65, C++ 84])
 - Standard library is often enough
 - Inheritance does not exist, but can be emulated (warning)
 - Memory management is a non-issue
 - Codebases are often cross-platform without additional work
 - Concurrency is baked-in and primitives are reasonable
-- Runtime is included with binaries and they run quickly
 - Tooling prevents certain disputes: gofmt, go vet, golint
 - Tooling eases documentation/testing: go doc, go test
+- Runtime is included with binaries and they run quickly
 
-: Minimizes complexity for devs. Maximizes rate of consumption and improves digestion.
-: Beyond stdlib, most packages are exceptionally stable.
-: James Gosling (Java), Gang of Four advocated. Replace implemenation inhtce (extends) with interface inhtce (implements).
-: || "Implements" is implicit. Inhtce emulated through composition (Gof4).
-: No memory management. Hooray!
-: Cross-platform edge cases can be worked around. 
-: Concurrency can be fun, but not as novel as it seems at first. Particularly for web devs.
+: - Mins complexity for devs. Maxes rate of consumption and improves digestion.
+: - Beyond stdlib, most packages are exceptionally stable.
+: - James Gosling (Java) advocated to replace implemenation inhtce (extends) with interface inhtce (implements).
+: |- "Implements" in go is implicit.
+: | Inhtce emulated through composition (Gof4). Compos is only real way in go.
+: |- Gang of Four "mantra" - "prefer composition over inheritance".
+: - No memory management. Hooray!
+: - Cross-platform edge cases can be worked around. 
+: - Concurrency can be fun, novel, and easy to abuse/confuse initially. Not a primary need for web devs, but should grok to prevent race conds.
+: - Tooling integrates easily with editors/ides. Run on save: save your work, time and sanity.
+: -
+: - cross-platform, and fast binaries... but for what architectures?
+
+#--
+* How does Go excel? (OS/Arch list)
+
+    OS          Architecture
+    ---------   ------------
+    darwin      386, amd64, arm, arm64
+    dragonfly        amd64
+    freebsd     386, amd64, arm
+    linux       386, amd64, arm, arm64, ppc64, ppc64le, mips64, mips64le
+    netbsd      386, amd64, arm
+    openbsd     386, amd64, arm
+    plan9       386, amd64
+    solaris          amd64
+    windows     386, amd64
 
 
 
@@ -164,6 +188,13 @@ For example, the following is a list of tools available in Vim using vim-go.
 GoBuild, GoDeps, GoFmt, GoInfo, GoPath, GoTestFunc, GoCallees, GoDescribe, GoFreevars, GoInstall, GoPlay, GoUpdateBinaries, GoCallers, GoDoc, GoGenerate, GoInstallBinaries, GoReferrers, GoVet, GoCallstack, GoDocBrowser, GoImplements, GoLint, GoRename, GoChannelPeers, GoDrop, GoImport, GoMetaLinter, GoRun, GoCoverage, GoErrCheck, GoImportAs, GoOracleScope, GoTest, GoDef, GoFiles, GoImports, GoOracleTags, GoTestCompile
 
 #--
+* Installing Dependencies (Debian-based Linux)
+
+Version Control:
+
+   sudo apt-get install git mercurial
+
+#--
 * Installing Go (Linux)
 
 Using Binary Releases:
@@ -180,28 +211,26 @@ Setup PATH/GOPATH:
     echo -e "\n"'export PATH=${PATH}:/usr/local/go/bin:${HOME}/gocode/bin' >> ~/.profile
     echo 'export GOPATH=${HOME}/gocode' >> ~/.profile && source ~/.profile
 
-#--
-* Installing Dependencies (Debian-based Linux)
-
-Version Control:
-
-   sudo apt-get install git mercurial
+: - PATH is obvious for most, but what about GOPATH?
+: | GOPATH is location of go source. Can be multiple dirs, best to centralize.
+: | | Important later depending on package vendoring solution.
 
 #--
-* Environment Variables (Linux)
+* Additional Environment Variables (Linux)
 
 GOROOT is only relevant when installing Go to a non-standard location.
 
     // Example of setting GOROOT - *Not likely needed*
     echo -e "\n"'export GOROOT=${HOME}/go' >> ~/.profile && source ~/.profile
 
-Please note - GOPATH is used to locate source files and binaries in directories outside of `/usr/local/go` or GOROOT if set.  It is possible to have GOPATH set as a list of directories, but users are encouraged to maintain a single location.  This can become important later depending on one's preferred package vendoring solution.
+: - Go source code is sum of /usr/local/go, or GOROOT if set, plus GOPATH.
+: - PATH: binaries, GOPATH: source (import, build, etc), GOROOT: alternate install loc.
 
 #--
-* Uninstalling Go (Standard Installation)
+* Uninstalling Go
 
-- Remove `/usr/local/go`.
-- Remove GOPATH export.
+- Remove `/usr/local/go` or custom GOROOT directory.
+- Remove GOPATH export, and GOROOT export if existing. 
 - Remove Go-related paths from PATH environment variable.
 
 
@@ -214,10 +243,26 @@ Please note - GOPATH is used to locate source files and binaries in directories 
 
 .play hw_stdout/main.go
 
+: - Binaries are all named "main". Libs named most anything, keep it simple.
+
 #--
 * Hello World (http)
 
 .play hw_http/main.go
+
+: - Functions are first-class.
+: | And heavily used in go. Some funcs return funcs that return funcs.
+: - mux is an http.Handler.
+: | http.Handler is likely to be a web devs favorite interface.
+
+#--
+* Hello World (http.Handler)
+
+    type Handler interface {
+            ServeHTTP(ResponseWriter, *Request)
+    }
+
+: - Anything that has a ServeHTTP method with this signature is an http.Handler.
 
 
 
@@ -228,6 +273,9 @@ Please note - GOPATH is used to locate source files and binaries in directories 
 * Using A Database
 
 .play db0/main.go /START OMIT/,/END OMIT/
+
+: - package and import declarations are excluded.
+: - Single line assignment/conditionals save room. Use wisely due to scoping.
 
 #--
 * Testing (Basis)
@@ -242,6 +290,10 @@ Please note - GOPATH is used to locate source files and binaries in directories 
 .code work/work_test.go
 
 .caption "work/work_test.go"
+
+: - Testing facilities are mostly aimed at unit testing.
+: - Functional testing is not too hard.
+: - Integration testing might require creativity, or an integ testing tool.
 
 #--
 * Testing (Testing And Other Commands)
