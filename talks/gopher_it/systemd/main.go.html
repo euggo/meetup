@@ -28,14 +28,6 @@ func main() {
 	sm := sigmon.New(nil)
 	sm.Run()
 
-	// setup and cleanup pid file
-	cleanupPID, err := vitals.SetupPIDFile()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
-	defer cleanupPID()
-
 	// setup http server
 	m := http.NewServeMux()
 	m.HandleFunc("/", handler)
