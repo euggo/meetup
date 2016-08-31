@@ -1,0 +1,217 @@
+###
+Cross-compiling
+Linux and Windows and More! Oh my!
+1 Sep 2016
+Tags: compiling, 
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+https://github.com/codemodus
+https://github.com/euggo
+
+
+
+###
+* Go Compilation Is So...
+
+#--
+* Go Compilation Is So Simple... "How simple is it?"
+
+Set GOOS and GOARCH, then build! (And maybe GOARM.)
+
+    // target: current system
+    go build github.com/somedev/somerepo
+ 
+    // target: 64-bit Linux
+    env GOOS=linux GOARCH=amd64 go build github.com/somedev/somerepo
+ 
+    // target: 32-bit Windows
+    env GOOS=windows GOARCH=386 go build github.com/somedev/somerepo
+ 
+    // target: Raspberry Pi -- *May need tweaking.
+    env GOOS=linux GOARCH=arm GOARM=6 go build github.com/somedev/somerepo
+
+.caption *Cross-compiling from Windows will require minor differences.
+
+#--
+* Go Compilation Is So Flexible... "How flexible is it?"
+
+    OS             Architecture
+    ---------      ------------
+    android                    arm
+    darwin         386, amd64, arm, arm64
+    dragonfly           amd64
+    freebsd        386, amd64, arm
+    linux          386, amd64, arm, arm64, ppc64, ppc64le, mips64, mips64le
+    netbsd         386, amd64, arm
+    openbsd        386, amd64, arm
+    plan9          386, amd64
+    solaris             amd64
+    windows        386, amd64
+
+.image https://storage.euggo.org/present/img/childish_looking_up.gif 275 _
+
+
+###
+* "Great! But what's the catch?"
+
+#--
+* What's the catch? There is no catch!
+    
+- Cross-compiling carries no penalties.
+
+.image https://storage.euggo.org/present/img/spacer.gif 100 _
+
+.image https://storage.euggo.org/present/img/not_sure_if.gif 200 _
+
+#--
+* Cross-compiling [x], Portability [?]
+
+The Go compiler makes cross-compilation trivial, and the standard library hides much of the cost of making software portable. However, there are still portability issues that should be considered.
+
+.image https://storage.euggo.org/present/img/spacer.gif
+
+.image https://storage.euggo.org/present/img/table_flip.gif
+
+.caption microsoft-induced_table_flipping.gif
+
+
+###
+* Notable/Common Caveats Of Portability
+
+
+* Filesystem (Some Portability Concerns)
+
+- File path rules
+- Config file location
+- Persistent storage location
+
+* System Calls (Some Portability Concerns)
+
+- Available signals
+- syscall library function/method argument values
+
+
+
+###
+* Resolving Portability Issues
+
+#--
+* Use The Right Tool (package)
+
+Often, portability can be resolved using appropriate libraries. (e.g. Using the package `filepath` instead of `path` when dealing with filesystem-related paths.)
+
+.image https://storage.euggo.org/present/img/spacer.gif 60 _
+
+.image https://storage.euggo.org/present/img/wrong_tool.gif
+
+#--
+* Use Explicit Build Tags
+
+As the first line of a .go file, with a newline preceding additional code:
+
+    // +build darwin dragonfly freebsd linux nacl netbsd openbsd solaris
+    
+    package main
+    
+    func someFunc() {
+        // unix-specific behavior
+    }
+
+.caption {file}_unix.go
+
+#--
+* Use Implicit Build Tags
+
+As a suffix to a file name (Explicit build tags would be redundant.):
+
+    package main
+
+    func someFunc() {
+        // windows-specific behavior
+    }
+
+.caption {file}_windows.go
+
+#--
+* {file}_unix.go Clarification
+
+`unix` is not a valid build tag or implicit suffix, but it is commonly used as a suffix along with unix-related build tags.
+
+.image https://storage.euggo.org/present/img/spacer.gif 188 _
+
+.image https://storage.euggo.org/present/img/caution.gif
+
+#--
+* !this Clarification
+
+What about?:
+
+    // +build !windows
+
+While negation is possible with build tags, targeting *nix systems requires more specificity than simply declaring `!windows`. Consider that there is the `android` tag, and that there may be new non-*nix tags introduced in the future.
+
+If the goal is to particularly exclude an OS, don't hesitate to use negation within the build tags.
+
+.image https://storage.euggo.org/present/img/caution.gif
+
+#--
+* Example Project Directory Tree (Build Tags)
+
+    $tree ${GOPATH}/src/github.com/codemodus/config
+    ├── config.go
+    ├── config_test.go
+    ├── defdir_unix.go
+    ├── defdir_windows.go
+    ├── LICENSE
+    └── README.md
+ 
+#--
+* Example Project File Contents (Build Tags)
+
+    $head -n10 defdir_unix.go
+    // +build darwin dragonfly freebsd linux nacl netbsd openbsd solaris
+
+    package config
+    
+    import (
+        "os"
+        "path/filepath"
+    )
+    
+    func defaultDirectory() string {
+ 
+ 
+    $head -n8 defdir_windows.go
+    package config
+    
+    import (
+        "os"
+        "path/filepath"
+    )
+
+    func defaultDirectory() string {
+
+#--
+* Example Usage Of OS-Specific Functions (Build Tags)
+
+    // ...
+    
+    // DefaultDir is the configuration directory fallback.
+    var DefaultDir = defaultDirectory()
+
+    // ...
+
+Just call the function.
+
+###
+* Under The Hood
+
+#--
+* Rob Pike - The Design Of The Go Assembler
+
+.iframe https://www.youtube.com/embed/KINIAgRpkDA 552 980
