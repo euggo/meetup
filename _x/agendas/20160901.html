@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>EUG Go | September 1st, 2016 | Cross-compiling</title>
+
+  <style>
+    body {
+        background: url(https://storage.euggo.org/meetup/img/bg/green-background.jpg) repeat center center fixed;
+        font-family: sans-serif;
+        font-size: large;
+        margin: 1em 0 0;
+    }
+
+    a {
+        color: #350045;
+        text-decoration: none;
+    }
+
+    #time {
+      font-family: "Lucida Console", Monaco, monospace;
+      font-weight: bold;
+      opacity: .4;
+      position: fixed;
+      top: 1em;
+      right: 1em;
+    }
+
+    h1 {
+      font-size: 3em;
+      text-align: center;
+      z-index: -10;
+      opacity: 0.1;
+      margin: 0 0 -.05em;
+    }
+
+    h2 {
+        text-align: center;
+      margin-bottom: .45em;
+    }
+
+    .welcome {
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .outer {
+        width: 100%;
+        margin-bottom: 2em;
+    }
+
+    .inner {
+        margin: 0 auto;
+        display: table;
+    }
+
+    .inner_sub {
+        margin: 0 .5em;
+    }
+
+    .tbl {
+      display: table;
+    }
+
+    .tbl .tbl-row-wrap {
+      display: table-row;
+    }
+
+    .tbl .tbl-row-wrap .tbl-cell {
+      display: table-cell;
+      padding: 4px 8px 8px;
+    }
+
+    .tbl-header {
+      padding: 8px !important;
+      background: rgba(187, 187, 187, 0.4);
+      border-left: 1px solid #999999;
+      border-bottom: 1px solid #999999;
+      text-indent: 1em;
+    }
+
+    .tbl-col1 {
+      background: rgba(238, 238, 238, 0.25);
+    }
+
+    .tbl-col2 {
+      background: #dddddd;
+      background: rgba(187, 187, 187, 0.25);
+    }
+  </style>
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+    <div id="time"></div>
+
+    <div class="welcome">
+      Welcome to the EUG Go Meetup.<br>
+      September 1st, 2016 6:30 p.m.<br>
+    </div>
+
+    <hr>
+
+    <h1>Cross-compiling</h1>
+
+    <div class="outer">
+      <div class="inner"><div class="inner_sub">
+        <h2>Introductions</h2>
+
+        <ul>
+            <li>Name*</li>
+            <li>Occupation</li>
+            <li>Other interests</li>
+            <li>Go fluency</li>
+            <li>Interests in Go</li>
+            <li>Other languages</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="outer">
+      <div class="inner"><div class="inner_sub">
+        <h2>Gifts From The Go Team</h2>
+
+        * If I remember to bring them.
+      </div></div>
+    </div>
+
+    <div class="outer">
+      <div class="inner"><div class="inner_sub">
+        <h2>Announcements</h2>
+
+        <ul>
+          <li><a href="http://www.meetup.com/EUG-Go/">Hump Day Hack-N-Chat</a> / Third Wednesdays from 2pm-8pm ... Come and Go any time.</li>
+          <li><a href="http://www.gopl.io/">GOPL.io</a> (Book Club? Second Wednesdays?)</li>
+          <li><a href="https://www.meetup.com/EUGLUG-Eugene-Unix-GNU-Linux-Users-Group/">EUGLUG - OpenHAB and Home Automation</a> September 5th 6:30pm @ LCC Downtown</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="outer">
+      <div class="inner"><div class="inner_sub">
+        <h2>Talks</h2>
+
+        <div class="tbl">
+          <div class="tbl-row-wrap">
+            <div class="tbl-cell tbl-header">
+              Title
+            </div>
+
+            <div class="tbl-cell tbl-header">
+              Subtitle
+            </div>
+          </div>
+
+          <div class="tbl-row-wrap">
+            <div class="tbl-cell tbl-col1">
+              <a href="../../_x/talks/cross-compiling/cross-compiling.slide">Cross-compiling</a>
+            </div>
+
+            <div class="tbl-cell tbl-col2">
+                Linux and Windows and More! Oh my!
+            </div>
+          </div>
+
+        </div>
+
+      </div></div>
+    </div>
+
+    <div class="outer">
+      <div class="inner"><div class="inner_sub">
+        <h2>Discussion</h2>
+
+        <ul>
+            <li>Yada, yada, yada</li>
+            <li>Bob Loblaw Law Blog</li>
+            <li>Etc.</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="outer">
+      <div class="inner"><div class="inner_sub">
+        <h2>Accessing Talks Online</h2>
+
+        <a href="https://www.euggo.org">https://www.euggo.org</a><br>
+        <br>
+
+        <span style="font-family:monospace;">
+            go get -u github.com/euggo/meetup<br>
+            go get -u golang.org/x/tools/cmd/present<br>
+            cd ${GOPATH}/src/github.com/euggo/meetup<br>
+            present
+        </span>
+      </div></div>
+    </div>
+
+    <div class="outer">
+      <div class="inner"><div class="inner_sub">
+        <h2>Channels</h2>
+
+        <ul>
+          <li>#go-nuts on irc.freenode.net</li>
+          <li>#pdxgo on irc.freenode.net</li>
+          <li>#euglug on irc.freenode.net</li>
+        </ul>
+      </div></div>
+    </div>
+
+
+    <script>
+      function fmtNums(i) {
+        if (i < 10) {
+          return "0" + i;
+        }
+
+        return i;
+      }
+
+      function fmtHour(h) {
+        if (h > 12) {
+          return h - 12;
+        }
+
+        if (h == 0) {
+          return 12;
+        }
+
+        return h;
+      }
+
+      function period(h) {
+        if (h < 12) {
+          return "a.m.";
+        }
+
+        return "p.m.";
+      }
+
+      function time() {
+        var cd = new Date();
+        var h = cd.getHours();
+        var p = period(h);
+        var m = cd.getMinutes();
+        var s = cd.getSeconds();
+
+        h = fmtHour(h);
+        m = fmtNums(m);
+        s = fmtNums(s);
+
+        document.getElementById('time').innerHTML = h + ":" + m /* + ":" + s*/ + " " + p;
+
+        t = setTimeout(function () {
+          time();
+        }, 5000);
+      }
+
+      time();
+    </script>
+</body>
+</html>
