@@ -226,6 +226,13 @@ Just call the function.
 * Now What?
 
 #--
+* Remember:
+
+- Cross-compiling is easy with Go.
+- Portability can present issues to deal with.
+- Rob Pike wears great jackets.
+
+#--
 * Try It!
 
 `go get` will download and install packages and dependencies.
