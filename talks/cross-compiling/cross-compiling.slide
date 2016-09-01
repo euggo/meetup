@@ -56,6 +56,7 @@ Set GOOS and GOARCH, then build! (And maybe GOARM.)
 .image https://storage.euggo.org/present/img/childish_looking_up.gif 275 _
 
 
+
 ###
 * "Great! But what's the catch?"
 
@@ -78,6 +79,7 @@ The Go compiler makes cross-compilation trivial, and the standard library hides 
 .image https://storage.euggo.org/present/img/table_flip.gif
 
 .caption microsoft-induced_table_flipping.gif
+
 
 
 ###
@@ -208,6 +210,8 @@ If the goal is to particularly exclude an OS, don't hesitate to use negation wit
 
 Just call the function.
 
+
+
 ###
 * Under The Hood
 
@@ -215,3 +219,16 @@ Just call the function.
 * Rob Pike - The Design Of The Go Assembler
 
 .iframe https://www.youtube.com/embed/KINIAgRpkDA 552 980
+
+
+
+###
+* Now What?
+
+#--
+* Try It!
+
+`go get` will download and install packages and dependencies.
+
+    // json2go generates Go structs from JSON.
+    go get -u github.com/mohae/json2go
