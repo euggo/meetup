@@ -1,0 +1,215 @@
+###
+Go RPC With gRPC
+Cross-platform, cross-language, simply.
+6 Oct 2016
+Tags: api, rpc, grpc, app
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+https://github.com/codemodus
+
+
+
+###
+* Interacting with the project.
+
+*** Review
+
+.link https://github.com/daved/grpcbasic0
+
+*** Get
+
+    go get -u github.com/daved/grpcbasic0/...
+
+*** Run
+
+    grpcbasic0 & grpcbasic0http & # run both apps in the background
+
+*** Kill
+
+    pkill grpcbasic0 # send SIGTERM to both apps
+
+
+
+###
+* Project Overview
+
+- Define system messages (Interface Definition Language: proto3)
+- Define services (gRPC proto3 plugin)
+- Define HTTP paths (gRPC-gateway proto3 plugin)
+- Generate Go code: types, stubs (gRPC)
+- Generate Go code: reverse proxy (gRPC-gateway)
+- Generate Swagger definition (swagger proto3 plugin)
+- Setup RPC server (and endpoints)
+- Setup Reverse Proxy
+
+
+
+###
+* Final Directory Tree
+
+    grpcbasic0
+    ├── cmd
+    │   ├── grpcbasic0
+    │   │   ├── main.go
+    │   │   └── rpc.go
+    │   └── grpcbasic0http
+    │       └── main.go
+    └── idl
+        ├── gogen.go
+        ├── grpcbasic0.pb.go
+        ├── grpcbasic0.pb.gw.go
+        ├── grpcbasic0.proto
+        └── grpcbasic0.swagger.json
+
+
+
+###
+* Using The IDL
+
+#--
+* Start Proto File
+
+.code a_define/grpcbasic0.proto /START1 OMIT/,/END1 OMIT/
+
+.caption "idl/grpcbasic0.proto" (1/3)
+
+#--
+* Define System Messages
+
+.code a_define/grpcbasic0.proto /START2 OMIT/,/END2 OMIT/
+
+.caption "idl/grpcbasic0.proto" (2/3)
+
+#--
+* Define System Services And Related HTTP Paths
+
+.code a_define/grpcbasic0.proto /START3 OMIT/,/END3 OMIT/
+
+.caption "idl/grpcbasic0.proto" (3/3)
+
+#--
+* Generate Code (gRPC, gRPC-gateway, swagger)
+
+.code b_gogen/idl/gogen.go
+
+.caption "idl/gogen.go"
+
+Now these commands can be run using `go generate`.
+
+But what do the go generate declarations contain? From a standard command line:
+
+.code b_gogen/idl/gogen.txt
+
+
+
+###
+* RPC Server Setup
+
+#--
+* Fulfill Service Interface (1/2)
+
+.code c_setup_server/grpcbasic0/rpc.go /START1 OMIT/,/END1 OMIT/
+
+.caption "cmd/grpcbasic0/rpc.go" (1/2)
+
+#--
+* Fulfill Service Interface (2/2)
+
+.code c_setup_server/grpcbasic0/rpc.go /START2 OMIT/,/END2 OMIT/
+
+.caption "cmd/grpcbasic0/rpc.go" (2/2)
+
+#--
+* Wire-up gRPC
+
+.code c_setup_server/grpcbasic0/main.go /START1 OMIT/,/END1 OMIT/
+
+In main():
+.code c_setup_server/grpcbasic0/main.go /START2 OMIT/,/END2 OMIT/
+
+.caption "cmd/grpcbasic0/main.go"
+
+
+
+##
+* Intermission
+
+#--
+* A Minor Reflection
+
+In a pinch, this is now enough for us to deploy our microservice.
+
+However, what about ...
+
+- Circuit breaking
+- Load balancing
+- Authentication
+- Logging/Tracing across boundaries
+- Etc.
+
+Great design requires work.
+
+
+
+###
+* HTTP API Server Setup
+
+#--
+* Wire-up gRPC-gateway (1/2)
+
+.code d_setup_http_api/grpcbasic0http/main.go /START1 OMIT/,/END1 OMIT/
+
+.caption "cmd/grpcbasic0http/main.go" (1/2)
+
+#--
+* Wire-up gRPC-gateway (2/2)
+
+In main():
+
+.code d_setup_http_api/grpcbasic0http/main.go /START2 OMIT/,/END2 OMIT/
+
+.caption "cmd/grpcbasic0http/main.go" (2/2)
+
+
+
+###
+* Again; Interacting with the project.
+
+#--
+* Now with swagger
+
+*** Get Swagger-UI
+
+    go get -u github.com/codemodus/swagui/cmd/swagui
+
+*** Run
+
+    swagui
+
+*** Visit
+
+    http://localhost:2288/?url=http://localhost:3343/v1/swagger.json
+
+.caption :2288 is the swagui default port, and :3343 is the HTTP API default port.
+.caption To note, the RPC Server default port is :3323
+
+
+
+###
+* Dependencies
+
+#--
+* A Rough List
+
+.link https://developers.google.com/protocol-buffers  proto3
+
+.link http://www.grpc.io gRPC (proto3 plugin)
+
+.link https://github.com/grpc-ecosystem/grpc-gateway gRPC-gateway (proto3 plugin)
+
+.link https://github.com/codemodus/swagui swagui
