@@ -44,16 +44,18 @@ func main() {
 	fos, errc := c.run()
 	//END4 OMIT
 
-	// print file contents or error
+	// print file contents
 	//START5 OMIT
 	for fo := range fos {
-		select {
-		case err := <-errc:
-			fmt.Fprintln(os.Stderr, err)
-			os.Exit(1)
-		default:
-			fmt.Println(fo.path, fo.data, fo.err)
-		}
+		fmt.Println(fo.path, fo.data, fo.err)
+	}
+
+	// print error, if any
+	select {
+	case err := <-errc:
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	default:
 	}
 }
 
