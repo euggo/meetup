@@ -209,7 +209,7 @@ conch Methods:
 * main
 
 #--
-* Setup main (1/xnx)
+* Setup main (1/2)
 
 Global vars:
 
@@ -226,7 +226,7 @@ fileInfoGroup:
 .caption "main.go"
 
 #--
-* Setup main (2/xnx)
+* Setup main (2/2)
 
 conch:
 
