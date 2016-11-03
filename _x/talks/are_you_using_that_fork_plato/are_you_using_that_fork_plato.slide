@@ -56,6 +56,13 @@ https://github.com/codemodus
 
 
 ###
+* Project Diagram
+
+.image svg/conch0.svg 568 _
+
+
+
+###
 * Create File Handling Types
 
 #--
@@ -105,6 +112,11 @@ Process file information and produce return type:
 
 ###
 * Create Concurrency Handling Type
+
+#--
+* Diagram Review
+
+.image svg/conch0.svg 568 _
 
 #--
 * For Dependency/Context
@@ -237,3 +249,14 @@ Print Results:
 .code conch0/main.go /START5 OMIT/,/END5 OMIT/
 
 .caption "main.go"
+
+#--
+* Diagram Review
+
+.image svg/conch0.svg 568 _
+
+#--
+* Done Diagram Review
+
+.image svg/conch0_done.svg 568 _
+
