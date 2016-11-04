@@ -1,0 +1,262 @@
+###
+Feeding Concurrent Processes
+Are you using that fork, Plato?
+3 Nov 2016
+Tags: concurrency, channels
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+https://github.com/codemodus
+
+
+
+###
+* Interacting with the project.
+
+*** Review
+
+.link https://github.com/daved/conch0
+
+*** Get
+
+    go get -u github.com/daved/conch0/...
+
+*** Run
+
+    // setup test files and run main app
+    conchtestdata && conch0
+
+*** Kill
+
+    // send SIGTERM to both apps
+    Ctrl+C
+
+
+
+###
+* Project Overview
+
+- Create file handling types.
+- Implement file handling.
+- Create concurrency handling type.
+- Implement concurrent processing.
+- Setup main.
+
+    // final directory tree
+    
+    conch0
+    ├── conch.go
+    ├── files.go
+    └── main.go
+
+
+
+###
+* Project Diagram
+
+.image svg/conch0.svg 568 _
+
+
+
+###
+* Create File Handling Types
+
+#--
+* For Work And Returns
+
+To hold file information from disk for processing:
+
+.code conch0/files.go /START1 OMIT/,/END1 OMIT/
+
+To represent file information post processing:
+
+.code conch0/files.go /START2 OMIT/,/END2 OMIT/
+
+.caption "files.go"
+
+
+
+###
+* Implement File Handling (Funcs/Methods)
+
+#--
+* fileInfoGroup new func
+
+Gather file information from disk:
+
+.code conch0/files.go /START3 OMIT/,/END3 OMIT/
+
+.caption "files.go"
+
+#--
+* fileOutput new func (1/2)
+
+Process file information and produce return type:
+
+.code conch0/files.go /START4 OMIT/,/END4 OMIT/
+
+.caption "files.go"
+
+#--
+* fileOutput new func (2/2)
+
+.code conch0/files.go /START5 OMIT/,/END5 OMIT/
+
+.caption "files.go"
+
+
+
+###
+* Create Concurrency Handling Type
+
+#--
+* Diagram Review
+
+.image svg/conch0.svg 568 _
+
+#--
+* For Dependency/Context
+
+To hold fileInfoGroup and channels needed for concurrent processes: 
+
+.code conch0/conch.go /START1 OMIT/,/END1 OMIT/
+
+.caption "conch.go"
+
+
+
+###
+* Implement Concurrenct Processing (Funcs/Methods)
+
+#--
+* conch new func
+
+Receive and setup dependencies/context:
+
+.code conch0/conch.go /START2 OMIT/,/END2 OMIT/
+
+.caption "conch.go"
+
+#--
+* conch "surface" methods
+
+Get done channel for cleanup:
+
+.code conch0/conch.go /START3 OMIT/,/END3 OMIT/
+
+Kick-off concurrent processing and get output/err channels:
+
+.code conch0/conch.go /START4 OMIT/,/END4 OMIT/
+
+.caption "conch.go"
+
+#--
+* conch concurrency methods (1/3)
+
+Generate paths to feed to digestion goroutines:
+
+.code conch0/conch.go /START5 OMIT/,/END5 OMIT/
+
+.caption "conch.go"
+
+#--
+* conch concurrency methods (2/3)
+
+Fan-out digestion goroutines:
+
+.code conch0/conch.go /START6 OMIT/,/END6 OMIT/
+
+*"width" is a global variable (int)
+
+.caption "conch.go"
+
+#--
+* conch concurrency methods (3/3)
+
+Call processing:
+
+.code conch0/conch.go /START7 OMIT/,/END7 OMIT/
+
+*"slow" is a global variable (bool)
+
+.caption "conch.go"
+
+
+
+###
+* Summary Of Types And Funcs/Methods
+
+* Summary (1/2)
+
+Types:
+
+- fileInfoGroup
+- fileOutput
+- conch
+
+Funcs:
+
+- newFileInfoGroup
+- newFileOutput
+- newConch
+
+#--
+* Summary (2/2)
+
+conch Methods:
+
+- doneChan
+- run
+- feedPaths
+- fanout
+- digest
+
+
+
+###
+* main
+
+#--
+* Setup main (1/2)
+
+Global vars:
+
+.code conch0/main.go /START1 OMIT/,/END1 OMIT/
+
+Flags:
+
+.code conch0/main.go /START2 OMIT/,/END2 OMIT/
+
+fileInfoGroup:
+
+.code conch0/main.go /START3 OMIT/,/END3 OMIT/
+
+.caption "main.go"
+
+#--
+* Setup main (2/2)
+
+conch:
+
+.code conch0/main.go /START4 OMIT/,/END4 OMIT/
+
+Print Results:
+
+.code conch0/main.go /START5 OMIT/,/END5 OMIT/
+
+.caption "main.go"
+
+#--
+* Diagram Review
+
+.image svg/conch0.svg 568 _
+
+#--
+* Done Diagram Review
+
+.image svg/conch0_done.svg 568 _
+
