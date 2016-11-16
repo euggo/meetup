@@ -43,15 +43,16 @@ func (c *conch) doneChan() chan struct{} {
 // an error is returned.
 //START5 OMIT
 func (c *conch) feedPaths(paths chan string) {
+	defer close(paths)
+
 	for _, v := range c.fig.fsi {
 		select {
 		case paths <- filepath.Join(c.fig.dir, v.Name()):
 		case <-c.done:
 			c.err <- errors.New("canceled")
+			return
 		}
 	}
-
-	close(paths)
 }
 
 //END5 OMIT
