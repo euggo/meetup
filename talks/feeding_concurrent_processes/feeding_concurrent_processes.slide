@@ -121,7 +121,7 @@ Process file information and produce return type:
 #--
 * For Dependency/Context
 
-To hold fileInfoGroup and channels needed for concurrent processes: 
+To hold fileInfoGroup and cancellation channel: 
 
 .code conch0/conch.go /START1 OMIT/,/END1 OMIT/
 
@@ -166,22 +166,18 @@ Generate paths to feed to digestion goroutines:
 #--
 * conch concurrency methods (2/3)
 
-Fan-out digestion goroutines:
+Fan-out/fan-in digestion goroutines ("width" is a global):
 
 .code conch0/conch.go /START6 OMIT/,/END6 OMIT/
-
-*"width" is a global variable (int)
 
 .caption "conch.go"
 
 #--
 * conch concurrency methods (3/3)
 
-Call processing:
+Call processing ("slow" is a global):
 
 .code conch0/conch.go /START7 OMIT/,/END7 OMIT/
-
-*"slow" is a global variable (bool)
 
 .caption "conch.go"
 
@@ -209,10 +205,10 @@ Funcs:
 
 conch Methods:
 
-- doneChan
+- done
 - run
-- feedPaths
-- fanout
+- produce
+- consume
 - digest
 
 
@@ -260,3 +256,22 @@ Print Results:
 
 .image svg/conch0_done.svg 568 _
 
+
+
+###
+* Acknowledgements
+
+#--
+* For ...
+
+inspiration:
+.link https://blog.golang.org/pipelines
+
+a great graphics tool:
+.link https://www.draw.io
+
+correcting cancellation in `conch.produce()`:
+.link https://github.com/jazeee Jaz Singh @ EUG Go
+
+suggesting a better way of handling the closing of channels:
+.link https://twitter.com/gevgev66 Gevorg Gevorgyan @ Los Angeles Gophers

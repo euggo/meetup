@@ -38,10 +38,10 @@ func main() {
 	// get new conch and setup cleanup
 	//START4 OMIT
 	c := newConch(fig)
-	defer close(c.doneChan())
+	defer close(c.done())
 
 	// get fileOutput and error channels // OMIT
-	fos, errc := c.run()
+	fos, errs := c.run()
 	//END4 OMIT
 
 	// print file contents
@@ -52,7 +52,7 @@ func main() {
 
 	// print error, if any
 	select {
-	case err := <-errc:
+	case err := <-errs:
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	default:
