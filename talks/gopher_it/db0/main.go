@@ -3,16 +3,24 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
+var dbFile *os.File
+
 func init() {
-	db, err := sql.Open("sqlite3", "./example.db")
+	var err error
+	if dbFile, err = ioutil.TempFile("", "db"); err != nil {
+		panic(err)
+	}
+
+	db, err := sql.Open("sqlite3", dbFile.Name())
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		panic(err)
 	}
 
 	_, err = db.Exec(`
@@ -24,8 +32,7 @@ func init() {
 	`)
 
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		panic(err)
 	}
 
 	_, err = db.Exec(`
@@ -42,34 +49,31 @@ func init() {
 	`)
 
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		panic(err)
 	}
 }
 
 func cleanup() {
-	_ = os.Remove("./example.db")
+	_ = os.Remove(dbFile.Name())
 }
 
 // START OMIT
 func main() {
-	db, err := sql.Open("sqlite3", "./example.db")
+	db, err := sql.Open("sqlite3", dbFile.Name())
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		log.Fatalln(err)
 	}
 	defer cleanup()
 
 	rows, err := db.Query("SELECT * FROM info")
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		log.Panicln(err)
 	}
 
 	for rows.Next() {
 		id, day, god := 0, "", ""
 		if err = rows.Scan(&id, &day, &god); err != nil {
-			fmt.Fprintln(os.Stderr, err)
+			fmt.Println(err)
 			break
 		}
 
