@@ -248,7 +248,7 @@ GOROOT is only relevant when installing Go to a non-standard location.
 #--
 * Hello World (http)
 
-.play hw_http/main.go
+.play hw_http/main.go /START1 OMIT/,/END1 OMIT/
 
 : - Functions are first-class.
 : | And heavily used in go. Some funcs return funcs that return funcs.

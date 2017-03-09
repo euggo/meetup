@@ -267,7 +267,7 @@ GoBuild, GoDeps, GoFmt, GoInfo, GoPath, GoTestFunc, GoCallees, GoDescribe, GoFre
 #--
 * Hello World (http)
 
-.code hw_httpa/main.go HLmain
+.code hw_httpa/main.go /START1 OMIT/,/END1 OMIT/ HLmain
 
 : - We see, package declaration, and import declarations.
 : - We also see the helloHandler function, but let's skip over it for now.
@@ -305,7 +305,7 @@ GoBuild, GoDeps, GoFmt, GoInfo, GoPath, GoTestFunc, GoCallees, GoDescribe, GoFre
 #--
 * Hello World (http Handler/HandlerFunc)
 
-.code hw_httpb/main.go HLhandler
+.code hw_httpb/main.go /START1 OMIT/,/END1 OMIT/ HLhandler
 
 : - The line highlighted within the main function shows how one would manually convert their own function to a http.HandlerFunc.
 : - In the first display of this code, the commented out line had been used. The ServeMux HandleFunc method automatically converts any provided handler as a convenience.
@@ -314,7 +314,7 @@ GoBuild, GoDeps, GoFmt, GoInfo, GoPath, GoTestFunc, GoCallees, GoDescribe, GoFre
 #--
 * Hello World (http) / Run It!
 
-.play hw_httpa/main.go
+.play hw_httpa/main.go /START1 OMIT/,/END1 OMIT/
 
 .link http://localhost:8789
 
