@@ -1,0 +1,131 @@
+body {
+    font-family: sans-serif;
+    font-size: large;
+    background: url(https://storage.euggo.org/site/img/bg/devs-dark-background.png) repeat center center fixed;
+    background-size: cover;
+    width: 100%;
+    color: white;
+    margin: 0;
+}
+
+a {
+    color: #eadaff;
+    text-decoration: none;
+}
+
+h1 {
+  font-size: 3em;
+  text-align: center;
+  z-index: -10;
+  opacity: 0.1;
+  margin: 0 0 -.05em;
+}
+
+h2 {
+    color: #ffffdd;
+    text-align: center;
+    margin: .45em auto;
+    opacity: .666;
+}
+
+h2:before {
+    content: "·";
+    margin-right: .25em;
+}
+
+h2:after {
+    content: "·";
+    margin-left: .25em;
+}
+
+h3 {
+    margin: -.25em auto -.5em;
+    opacity: .8;
+}
+
+h3:after {
+    content: ":";
+    margin-left: .1em;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+}
+
+ul, ol {
+    margin: 1em;
+}
+
+.nobull {
+    list-style-type: none;
+}
+
+.divider {
+    width: 50%;
+    opacity: .5;
+}
+
+.code {
+    font-family: monospace;
+    background: rgba(0, 0, 0, .5);
+    padding: 1em;
+    border-radius: .5em;
+}
+
+.small-text {
+  font-size: small;
+  line-height: 100%;
+  display: inline-block;
+  opacity: .4;
+}
+
+.welcome {
+  font-weight: bold;
+  text-align: center;
+}
+
+.outer {
+    width: 100%;
+    margin: 2em auto;
+}
+
+.inner {
+    margin: 0 auto;
+    display: table;
+}
+
+.inner_sub {
+    margin: 0 .5em;
+}
+
+.tbl {
+  display: table;
+}
+
+.tbl .tbl-row-wrap {
+  display: table-row;
+}
+
+.tbl .tbl-row-wrap .tbl-cell {
+  display: table-cell;
+  padding: 4px 8px 8px;
+}
+
+.tbl-header {
+  padding: 8px !important;
+  background: rgba(187, 187, 187, 0.4);
+  border-left: 1px solid #999999;
+  border-bottom: 1px solid #999999;
+  text-indent: 1em;
+}
+
+.tbl-col1 {
+  background: rgba(238, 238, 238, 0.25);
+}
+
+.tbl-col2 {
+  background: #dddddd;
+  background: rgba(187, 187, 187, 0.25);
+}
