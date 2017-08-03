@@ -1,5 +1,5 @@
 ###
-Hello World And More (Part 1)
+Hello World And More
 Basic examples of Go code.
 3 Aug 2017
 Tags: introduction, code examples
@@ -198,15 +198,15 @@ Arrays are the underlying type of slices.  They are managed by the runtime.
 * Functions (Typed)
 
     // from the net/http package in the standard library...
-
     type HandlerFunc func(ResponseWriter, *Request)
 
-    // ServeHTTP calls f(w, r).
     func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
         f(w, r)  
     }
 
 .play func_httphandlerfunc/main.go 
+
+[[http://localhost:8799][http://localhost:8799]]
 
 #--
 * Function Return Values
