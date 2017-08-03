@@ -4,7 +4,7 @@ import "fmt"
 
 // START OMIT
 func main() {
-	a := [3]string{"todavia", "no", "mas"}
+	a := [2]string{"realmente", "no", "mas"}
 
 	fmt.Println(a)
 }

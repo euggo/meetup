@@ -1,0 +1,391 @@
+###
+Hello World And More (Part 1)
+Basic examples of Go code.
+3 Aug 2017
+Tags: introduction, code examples
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+https://github.com/codemodus
+
+
+
+###
+* Hello Eugene
+
+#--
+* Hello World (stdout)
+
+.play hw_stdout/main.go
+
+#--
+* Hello World (http)
+
+.play hw_http/main.go
+
+[[http://localhost:8789/hello][http://localhost:8789/hello]]
+
+- Functions are first class citizens
+
+
+
+###
+* Please note...
+
+#--
+* Notables
+
+1. Keep in mind that the following slides may not include package or import declarations unless there is an interesting reason to do so.
+
+2. Favor vertical code over horizontal code.
+
+.code structs_anon/main.go /START OMIT/,/END OMIT/
+
+3. Code in these slides may favor width due to the limited space.
+
+.code structs_anon_bad/main.go /START OMIT/,/END OMIT/
+
+
+
+###
+* Types
+
+#--
+* Types Overview
+
+- basic types
+- sequences
+- structures
+- functions
+- interfaces
+
+#--
+* Basic Types And Default Values
+
+    var i int     // 0
+    var i8 int8   // 0
+    var i16 int16 // 0
+    var i32 int32 // 0
+    var i64 int64 // 0
+
+    var u uint     // 0
+    var u8 uint8   // 0
+    var u16 uint16 // 0
+    var u32 uint32 // 0
+    var u64 uint64 // 0
+
+    var up uintptr // 0 - uint large enough to stor uninterpreted bits of pointer val
+    var b byte     // 0 - alias of uint8
+    var r rune     // 0 - alias of int32 (represents a Unicode code point)
+
+    var f32 float32     // 0
+    var f64 float64     // 0
+    var c64 complex64   // 0+0i - set of all complex nums w/float32 real and imaginary parts
+    var c128 complex128 // 0+0i - set of all complex nums w/float64 real and imaginary parts
+
+    var b bool   // false
+    var s string // "" - readonly byte slice
+
+#--
+* Var Declaration And Initialization
+
+Long form:
+
+    var n int64 = 99
+    var x, y int = 1, 2
+    var a, z = true, "test"
+
+Short form:
+
+    n := int64(99)
+    x, y := 1, 2
+    a, z := true, "test"
+
+Reassignment:
+
+    n = 8 // the assigned value is expected to be int64
+    x, y = int(n), 60 // n is converted to int from int64
+    a, z = false, "west"
+
+
+#--
+* Sequences
+
+    a1 := [...]int{9, 0, 2, 1, 0}             // type is [5]int         (int array)
+    a2 := []int{9, 7, 4, 0, 1}                // type is []int          (int slice)
+    m1 := map[int]string{0: "zero", 1: "one"} // type is map[int]string (int/string map)
+
+#--
+* Sequences (Array)
+
+.play array_a/main.go /START OMIT/,/END OMIT/
+
+And:
+
+.play array_b/main.go /START OMIT/,/END OMIT/
+
+#--
+* Sequences (Slice)
+
+.play slice_a/main.go /START OMIT/,/END OMIT/
+
+Also:
+
+.play slice_b/main.go /START OMIT/,/END OMIT/
+
+Arrays are the underlying type of slices.  They are managed by the runtime.
+
+.link https://blog.golang.org/go-slices-usage-and-internals Go Slices: usage and internals
+
+#--
+* Sequences (Map)
+
+.play map_a/main.go /START OMIT/,/END OMIT/
+
+#--
+* Structs
+
+.play structs/main.go /START OMIT/,/END OMIT/
+
+#--
+* Structs/Pointers (Will it blend?)
+
+.play structs_pointers_a_alt/main.go /START OMIT/,/END OMIT/
+
+#--
+* Structs/Pointers (Fix the error)
+
+.play structs_pointers_a/main.go /START OMIT/,/END OMIT/
+
+- Dereferencing the pointer will fix the error, as will changing the function definition.
+- However, the output is still not correct.
+
+#--
+* Structs/Pointers (Gotcha test)
+
+.code structs_pointers_b_alt/main.go /START1 OMIT/,/END1 OMIT/
+
+.play structs_pointers_b_alt/main.go /START2 OMIT/,/END2 OMIT/
+
+#--
+* Structs/Pointers (Fix the output)
+
+.play structs_pointers_b/main.go /START OMIT/,/END OMIT/
+
+- Methods on instances are limited in scope
+- Those that seldom use pointers might wrestle with them for a while
+
+#--
+* Structs/Pointers (declaration/init)
+
+.play structs_pointers_init/main.go /START OMIT/,/END OMIT/
+
+#--
+* Structs Embedding
+
+.play structs_embedding/main.go /START OMIT/,/END OMIT/
+
+#--
+* Anonymous Structs
+
+.code structs_anon/main.go /START OMIT/,/END OMIT/
+
+#--
+* Functions (Typed)
+
+    // from the net/http package in the standard library...
+
+    type HandlerFunc func(ResponseWriter, *Request)
+
+    // ServeHTTP calls f(w, r).
+    func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
+        f(w, r)  
+    }
+
+.play func_httphandlerfunc/main.go 
+
+#--
+* Function Return Values
+
+.play return_values/main.go /START OMIT/,/END OMIT/
+
+- Discarding return values is perfectly valid
+- Don't be in the habit of discarding errors
+
+#--
+* Errors
+
+.code errors/murphy
+
+.play errors/main.go /START OMIT/,/END OMIT/
+
+- Ignoring errors will ruin maintainability and readability
+- Ensuring that errors are handled encourages better design
+- Don't panic
+
+#--
+* Errors (shortened)
+
+.code errors/main.go /START OMIT/,/END OMIT/
+
+.code errors_shortened/main.go /START OMIT/,/END OMIT/
+
+*** Assignments can be combined with a conditional.
+
+- Be aware of scope limitation
+
+#--
+* Defined Errors
+
+.play errors_defined/main.go /START OMIT/,/END OMIT/
+
+#--
+* Expected Functions (main/init)
+
+- Reserve init func usage for libraries which truly need pre-main activity
+- main funcs should not need to be tested, they should be populated with tested code
+- Avoid globals in applications to simplify testing (An exception to this might be within a small lib)
+
+.code main_init/main.go /START OMIT/,/END OMIT/
+
+#--
+* Interfaces 1/2
+
+.code interfaces/main.go /START1 OMIT/,/END1 OMIT/
+
+- Types implement interfaces implicitly
+
+#--
+* Interfaces 2/2
+
+.play interfaces/main.go /START2 OMIT/,/END2 OMIT/
+
+
+
+###
+* defer, panic, recover
+
+#--
+* defer
+
+.play defer/main.go /START OMIT/,/END OMIT/
+
+- defer stores functions LIFO
+- Deferred functions are ran at the termination of the surrounding function
+
+#--
+* defer and loops
+
+.play defer_loops_a/main.go /START OMIT/,/END OMIT/
+
+- Parameters are evaluated when defer is called, not when the deferred function is called - Use a closure to change this behavior
+
+.play defer_loops_b/main.go /START OMIT/,/END OMIT/
+
+*Note the C-style loops
+
+#--
+* Oh, yeah, loops.
+
+While:
+
+.play loops_a/main.go /START OMIT/,/END OMIT/
+
+Forever:
+
+.play loops_b/main.go /START OMIT/,/END OMIT/
+
+#--
+* Panic/Recover (It does serve a purpose!)
+
+- Recover from the exceptional
+- Errors are not exceptional, they are typical
+
+#--
+* Panic/Recover (Example)
+
+.play panic_recover/main.go /START OMIT/,/END OMIT/
+
+
+###
+* Goroutines and Channels
+
+#--
+* Goroutines vs Blocking Code
+
+.play goroutines_a/main.go /START OMIT/,/END OMIT/
+
+#--
+* Goroutines Sync
+
+- If main exits while goroutines are running, they are killed - sync them
+
+.play goroutines_b/main.go /START OMIT/,/END OMIT/
+
+#--
+* Channels (It won't blend)
+
+.play channels_a/main.go /START OMIT/,/END OMIT/
+
+#--
+* Channels (Release the pressure)
+
+.play channels_b/main.go /START OMIT/,/END OMIT/
+
+*It's usually most appropriate to close a channel in the same scope it was created
+
+#--
+* Channels (A closer look)
+
+.play channels_c/main.go /START OMIT/,/END OMIT/
+
+#--
+* Channels And Select
+
+.play chan_select_a/main.go /START OMIT/,/END OMIT/
+
+*** tick and boom are both instances of "chan time.Time"
+
+
+
+###
+* References
+
+#--
+* Official Docs
+
+.link https://tour.golang.org Tour of Go
+
+.link https://golang.org/doc/code.html How To Write Go Code
+
+.link https://golang.org/doc/effective_go.html Effective Go
+
+.link https://golang.org/ref/spec Go Language Spec
+
+.link https://golang.org/ref/mem Go Memory Model
+
+#--
+* Official Blog
+
+.link https://blog.golang.org/go-slices-usage-and-internals Go Slices: usage and internals
+
+.link https://blog.golang.org/error-handling-and-go Error Handling In Go
+
+.link https://blog.golang.org/errors-are-values Errors Are Values
+
+.link https://blog.golang.org/defer-panic-and-recover Defer, Panic, Recover
+
+.link https://blog.golang.org/pipelines Go Concurrency Patterns: Pipelines
+
+#--
+* Un-official Blog (articles noted during creation of slides)
+
+.link https://gobyexample.com/mutexes Mutexes (Ordering Concurrent Access)
+
+.link http://nathanleclaire.com/blog/2015/10/10/interfaces-and-composition-for-effective-unit-testing-in-golang/ Testing And Interfaces
+
+.link http://www.goinggo.net/2014/05/methods-interfaces-and-embedded-types.html Methods, Interfaces, And Embedded Types In Go

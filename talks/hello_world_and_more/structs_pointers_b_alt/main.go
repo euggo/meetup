@@ -23,11 +23,11 @@ func (g gopher) obfuscate() {
 
 // END1 OMIT
 
+// START2 OMIT
 func roleCall(g *gopher) {
 	fmt.Printf("%s is present.\n", g.name)
 }
 
-// START2 OMIT
 func main() {
 	g := &gopher{
 		name: "Novyem",

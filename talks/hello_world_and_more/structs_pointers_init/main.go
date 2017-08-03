@@ -19,7 +19,7 @@ func main() {
 		name: "Pointy",
 	}
 
-	gp1 := new(gopher) // type *gopher
+	gp1 := new(gopher) // type is *gopher using 'new()' builtin
 	gp1.name = "Poindexter"
 
 	fmt.Printf("%T, %T, %T, %T\n", gi0, gi1, gp0, gp1)

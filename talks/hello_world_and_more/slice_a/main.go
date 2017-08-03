@@ -5,7 +5,7 @@ import "fmt"
 // START OMIT
 func main() {
 	s := []string{"y", "ahora", "mas"}
-	s = append(s, "y")
+	s = append(s, "y") // builtin function
 	s = append(s, "mas", "para", "siempre")
 
 	fmt.Println(s)

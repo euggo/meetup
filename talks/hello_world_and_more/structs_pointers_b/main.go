@@ -13,7 +13,7 @@ type gopher struct {
 }
 
 // START OMIT
-func (g gopher) obfuscate() {
+func (g *gopher) obfuscate() {
 	g.name = secretName
 }
 
