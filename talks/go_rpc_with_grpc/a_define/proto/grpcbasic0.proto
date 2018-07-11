@@ -5,7 +5,7 @@ syntax = "proto3";
 //
 // User Service API provides create, read, and read (many) access to a list of 
 // users.
-package idl;
+package pb;
 
 import "google/api/annotations.proto";
 // END1 OMIT

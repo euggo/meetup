@@ -10,42 +10,87 @@ Tags: api, rpc, grpc, app
 Daved
 disjuncter@gmail.com
 https://github.com/daved
-https://github.com/codemodus
 
 
 
 ###
-* Interacting with the project.
+* RPC - Remote Procedure Call
 
-*** Review
+#--
+* What's old is new again.
+
+RPC: Simplified-for-caller remote subroutine execution.
+
+1960s - Materialization
+
+1970s - Formalization
+
+1980s - Stablization
+
+1990s - Popularization
+
+2000s - Dematerialization
+
+2010s - Reformalization/Restabilization/Repopularization
+
+
+
+###
+* Project Resources
+
+#--
+* Interact with this project.
+
+Home
 
 .link https://github.com/daved/grpcbasic0
 
-*** Get
+Get
 
-    go get -u github.com/daved/grpcbasic0/...
+    go get -u github.com/daved/grpcbasic0/...  # "-u" forces update
 
-*** Run
+Run
 
-    grpcbasic0 & grpcbasic0http & # run both apps in the background
+    # run both apps in the background
+    grpcbasic0 & grpcbasic0http &
 
-*** Kill
+Kill
 
-    pkill grpcbasic0 # send SIGTERM to both apps
+    # send SIGTERM to both apps
+    pkill grpcbasic0
 
 
 
 ###
-* Project Overview
+* RPC Server Example
 
-- Define system messages (Interface Definition Language: proto3)
-- Define services (gRPC proto3 plugin)
-- Define HTTP paths (gRPC-gateway proto3 plugin)
-- Generate Go code: types, stubs (gRPC)
-- Generate Go code: reverse proxy (gRPC-gateway)
-- Generate Swagger definition (swagger proto3 plugin)
-- Setup RPC server (and endpoints)
-- Setup Reverse Proxy
+#--
+* Server Project Stages
+
+**- Define Expectations
+**- Generate Code
+**- Implement Logic
+
+#--
+* Define Expectations (Stage 1/3)
+
+- Messages (structures) using the Interface Definition Language "Protocol Buffers"
+- Services (subroutines) using the proto3 plugin "go"
+- HTTP paths using the proto3 plugin "grpc-gateway"
+
+#--
+* Generate Code (Stage 2/3)
+
+- Go: types, interfaces, stubs (for developing gRPC server/client)
+- Go: reverse-proxy (for developing gRPC-gateway server)
+- JSON: OpenAPI definition (for client consumption: developer or tooling)
+
+
+###
+* Implement Logic (Stage 3/3)
+
+- RPC Endpoints/Server
+- HTTP Reverse-proxy Server
 
 
 
@@ -59,12 +104,13 @@ https://github.com/codemodus
     │   │   └── rpc.go
     │   └── grpcbasic0http
     │       └── main.go
-    └── idl
-        ├── gogen.go
-        ├── grpcbasic0.pb.go
-        ├── grpcbasic0.pb.gw.go
-        ├── grpcbasic0.proto
-        └── grpcbasic0.swagger.json
+    ├── pb
+    │   ├── gogen.go
+    │   ├── grpcbasic0.pb.go
+    │   ├── grpcbasic0.pb.gw.go
+    │   └── grpcbasic0.swagger.json
+    └── proto
+        └── grpcbasic0.proto
 
 
 
@@ -74,36 +120,36 @@ https://github.com/codemodus
 #--
 * Start Proto File
 
-.code a_define/grpcbasic0.proto /START1 OMIT/,/END1 OMIT/
+.code a_define/proto/grpcbasic0.proto /START1 OMIT/,/END1 OMIT/
 
-.caption "idl/grpcbasic0.proto" (1/3)
-
-#--
-* Define System Messages
-
-.code a_define/grpcbasic0.proto /START2 OMIT/,/END2 OMIT/
-
-.caption "idl/grpcbasic0.proto" (2/3)
+.caption "proto/grpcbasic0.proto" (1/3)
 
 #--
-* Define System Services And Related HTTP Paths
+* Define Messages
 
-.code a_define/grpcbasic0.proto /START3 OMIT/,/END3 OMIT/
+.code a_define/proto/grpcbasic0.proto /START2 OMIT/,/END2 OMIT/
 
-.caption "idl/grpcbasic0.proto" (3/3)
+.caption "proto/grpcbasic0.proto" (2/3)
 
 #--
-* Generate Code (gRPC, gRPC-gateway, swagger)
+* Define Services And Related HTTP Paths
 
-.code b_gogen/idl/gogen.go
+.code a_define/proto/grpcbasic0.proto /START3 OMIT/,/END3 OMIT/
 
-.caption "idl/gogen.go"
+.caption "proto/grpcbasic0.proto" (3/3)
+
+#--
+* Generate gRPC Server, Go code, and OpenAPI Definition
+
+.code b_gogen/pb/gogen.go
+
+.caption "pb/gogen.go"
 
 Now these commands can be run using `go generate`.
 
-But what do the go generate declarations contain? From a standard command line:
+But what do the go generate declarations contain? From a typical command line:
 
-.code b_gogen/idl/gogen.txt
+.code b_gogen/pb/gogen.txt
 
 
 
@@ -111,21 +157,21 @@ But what do the go generate declarations contain? From a standard command line:
 * RPC Server Setup
 
 #--
-* Fulfill Service Interface (1/2)
+* Implement Service Interface (1/2)
 
 .code c_setup_server/grpcbasic0/rpc.go /START1 OMIT/,/END1 OMIT/
 
 .caption "cmd/grpcbasic0/rpc.go" (1/2)
 
 #--
-* Fulfill Service Interface (2/2)
+* Implement Service Interface (2/2)
 
 .code c_setup_server/grpcbasic0/rpc.go /START2 OMIT/,/END2 OMIT/
 
 .caption "cmd/grpcbasic0/rpc.go" (2/2)
 
 #--
-* Wire-up gRPC
+* Implement gRPC Server
 
 .code c_setup_server/grpcbasic0/main.go /START1 OMIT/,/END1 OMIT/
 
@@ -136,7 +182,7 @@ In main():
 
 
 
-##
+###
 * Intermission
 
 #--
@@ -149,10 +195,9 @@ However, what about ...
 - Circuit breaking
 - Load balancing
 - Authentication
+- Authorization
 - Logging/Tracing across boundaries
 - Etc.
-
-Great design requires work.
 
 
 
@@ -160,14 +205,14 @@ Great design requires work.
 * HTTP API Server Setup
 
 #--
-* Wire-up gRPC-gateway (1/2)
+* Implement Reverse-proxy Server (1/2)
 
 .code d_setup_http_api/grpcbasic0http/main.go /START1 OMIT/,/END1 OMIT/
 
 .caption "cmd/grpcbasic0http/main.go" (1/2)
 
 #--
-* Wire-up gRPC-gateway (2/2)
+* Implement Reverse-proxy Server (2/2)
 
 In main():
 
@@ -178,20 +223,20 @@ In main():
 
 
 ###
-* Again; Interacting with the project.
+* Additional Project Resources
 
 #--
-* Now with swagger
+* Interact via SwaggerUI
 
-*** Get Swagger-UI
+Get
 
     go get -u github.com/codemodus/swagui/cmd/swagui
 
-*** Run
+Run
 
     swagui
 
-*** Visit
+Visit
 
     http://localhost:2288/?url=http://localhost:3343/v1/swagger.json
 
