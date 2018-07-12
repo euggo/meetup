@@ -15,7 +15,7 @@ import (
 
 func main() {
 	var port string
-	flag.StringVar(&port, "rcp", ":3323", "rcp port (default: ':3323')")
+	flag.StringVar(&port, "rpc", ":3323", "rpc port (default: ':3323')")
 	flag.Parse()
 
 	//START2 OMIT

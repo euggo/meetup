@@ -11,27 +11,27 @@ import "google/api/annotations.proto";
 // END1 OMIT
 
 // START2 OMIT
-message User {
+message UserResp {
     int64 id = 1;
     string name = 2;
     int64 age = 3;
     string fortune = 4;
 }
 //OMIT
-message UserRecordReq {
+message NewUserReq {
     string name = 1;
     int64 age = 2;
 }
 //OMIT
-message UserGetReq {
+message GetUserReq {
     int64 id = 1;
 }
 //OMIT
-message Users {
-    repeated User users = 1;
+message UsersResp {
+    repeated UserResp users = 1;
 }
 //OMIT
-message UsersGetReq {
+message GetUsersReq {
     int64 start = 1;
     int64 count = 2;
     bool desc = 3;
@@ -40,20 +40,20 @@ message UsersGetReq {
 
 // START3 OMIT
 service UserService {
-    rpc RecordUser(UserRecordReq) returns (User) {
+    rpc NewUser(NewUserReq) returns (UserResp) {
         option(google.api.http) = {
             post: "/v1/user"
             body: "*"
         };
     }
 
-    rpc GetUser(UserGetReq) returns (User) {
+    rpc GetUser(GetUserReq) returns (UserResp) {
         option(google.api.http) = {
             get: "/v1/user/{id}"
         };
     }
 
-    rpc GetUsers(UsersGetReq) returns (Users) {
+    rpc GetUsers(GetUsersReq) returns (UsersResp) {
         option(google.api.http) = {
             get: "/v1/users"
         };

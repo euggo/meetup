@@ -18,19 +18,17 @@ import (
 //END1 OMIT
 
 func main() {
-	var rcpAddr, port string
-	flag.StringVar(&rcpAddr, "rcp", ":3323", "rcp addr (default: ':3323')")
+	var rpcAddr, port string
+	flag.StringVar(&rpcAddr, "rpc", ":3323", "rpc addr (default: ':3323')")
 	flag.StringVar(&port, "http", ":3343", "http port (default: '3343')")
 	flag.Parse()
 
 	//START2 OMIT
 	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
-
 	m := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterUserServiceHandlerFromEndpoint(ctx, m, rcpAddr, opts)
+
+	err := pb.RegisterUserServiceHandlerFromEndpoint(ctx, m, rpcAddr, opts)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "cannot register service handler: %s\n", err)
 		os.Exit(1)

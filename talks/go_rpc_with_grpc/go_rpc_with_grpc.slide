@@ -29,9 +29,9 @@ RPC: Simplified-for-caller remote subroutine execution.
 
 1990s - Popularization
 
-2000s - Dematerialization
+2000s - Depopularization
 
-2010s - Reformalization/Restabilization/Repopularization
+2010s - Repopularization
 
 
 
@@ -39,7 +39,7 @@ RPC: Simplified-for-caller remote subroutine execution.
 * Project Resources
 
 #--
-* Interact with this project.
+* 
 
 Home
 
@@ -72,6 +72,24 @@ Kill
 **- Implement Logic
 
 #--
+* Final Directory Tree
+
+    grpcbasic0
+    ├── cmd
+    │   ├── grpcbasic0
+    │   │   ├── main.go
+    │   │   └── rpc.go
+    │   └── grpcbasic0http
+    │       └── main.go
+    ├── pb
+    │   ├── gogen.go
+    │   ├── grpcbasic0.pb.go
+    │   ├── grpcbasic0.pb.gw.go
+    │   └── grpcbasic0.swagger.json
+    └── proto
+        └── grpcbasic0.proto
+
+#--
 * Define Expectations (Stage 1/3)
 
 - Messages (structures) using the Interface Definition Language "Protocol Buffers"
@@ -91,26 +109,6 @@ Kill
 
 - RPC Endpoints/Server
 - HTTP Reverse-proxy Server
-
-
-
-###
-* Final Directory Tree
-
-    grpcbasic0
-    ├── cmd
-    │   ├── grpcbasic0
-    │   │   ├── main.go
-    │   │   └── rpc.go
-    │   └── grpcbasic0http
-    │       └── main.go
-    ├── pb
-    │   ├── gogen.go
-    │   ├── grpcbasic0.pb.go
-    │   ├── grpcbasic0.pb.gw.go
-    │   └── grpcbasic0.swagger.json
-    └── proto
-        └── grpcbasic0.proto
 
 
 
