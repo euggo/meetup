@@ -157,24 +157,24 @@ But what do the go generate declarations contain? From a typical command line:
 #--
 * Implement Service Interface (1/2)
 
-.code c_setup_server/grpcbasic0/rpc.go /START1 OMIT/,/END1 OMIT/
+.code c_setup_server/cmd/grpcbasic0/rpc.go /START1 OMIT/,/END1 OMIT/
 
 .caption "cmd/grpcbasic0/rpc.go" (1/2)
 
 #--
 * Implement Service Interface (2/2)
 
-.code c_setup_server/grpcbasic0/rpc.go /START2 OMIT/,/END2 OMIT/
+.code c_setup_server/cmd/grpcbasic0/rpc.go /START2 OMIT/,/END2 OMIT/
 
 .caption "cmd/grpcbasic0/rpc.go" (2/2)
 
 #--
 * Implement gRPC Server
 
-.code c_setup_server/grpcbasic0/main.go /START1 OMIT/,/END1 OMIT/
+.code c_setup_server/cmd/grpcbasic0/main.go /START1 OMIT/,/END1 OMIT/
 
 In main():
-.code c_setup_server/grpcbasic0/main.go /START2 OMIT/,/END2 OMIT/
+.code c_setup_server/cmd/grpcbasic0/main.go /START2 OMIT/,/END2 OMIT/
 
 .caption "cmd/grpcbasic0/main.go"
 
@@ -205,7 +205,7 @@ However, what about ...
 #--
 * Implement Reverse-proxy Server (1/2)
 
-.code d_setup_http_api/grpcbasic0http/main.go /START1 OMIT/,/END1 OMIT/
+.code d_setup_http_api/cmd/grpcbasic0http/main.go /START1 OMIT/,/END1 OMIT/
 
 .caption "cmd/grpcbasic0http/main.go" (1/2)
 
@@ -214,14 +214,14 @@ However, what about ...
 
 In main():
 
-.code d_setup_http_api/grpcbasic0http/main.go /START2 OMIT/,/END2 OMIT/
+.code d_setup_http_api/cmd/grpcbasic0http/main.go /START2 OMIT/,/END2 OMIT/
 
 .caption "cmd/grpcbasic0http/main.go" (2/2)
 
 
 
 ###
-* Additional Project Resources
+* Extras
 
 #--
 * Interact via SwaggerUI
@@ -241,13 +241,27 @@ Visit
 .caption :2288 is the swagui default port, and :3343 is the HTTP API default port.
 .caption To note, the RPC Server default port is :3323
 
+#--
+* Python Client Example
+
+Install Dependencies and Generate Structures/Stub
+
+    python -m pip install grpcio grpcio-tools googleapis-common-protos
+    python -m grpc_tools.protoc -I../../proto \
+        -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+        --python_out=. --grpc_python_out=. ../../proto/grpcbasic0.proto
+
+Code
+
+.code e_setup_python_client/client/grpcbasic0pyclient/grpcbasic0pyclient.py
+
 
 
 ###
-* Dependencies
+* Project Dependencies
 
 #--
-* A Rough List
+* 
 
 .link https://developers.google.com/protocol-buffers  proto3
 
