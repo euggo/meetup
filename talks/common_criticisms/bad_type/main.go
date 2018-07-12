@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/daved/euggo_slides/common_criticisms/bad_type/p1"
+	"github.com/euggo/meetup/talks/common_criticisms/bad_type/p1"
 )
 
 // START OMIT

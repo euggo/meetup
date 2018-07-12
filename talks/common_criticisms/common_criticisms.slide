@@ -18,14 +18,15 @@ https://github.com/codemodus
 * "Go lacks generics."
 
 #--
-* Solving Generics For Now
+* Generics For Today
 
-More often than not it is least costly and most performant to write/duplicate the relevant code.  Nonetheless, Go doesn't technically lack generics.
-
-Using interface{} and the reflect package, generic libraries are feasible.  However, using reflection is not performant.  It is also possible to use code generation to acheive a more perfomant solution, but at the cost of complexity.
+- Approve implmentation {x}. (harms build time and lang/lang maint)
+- Use a library. (harms app performance and orthogonality)
+- Accept some duplication. (harms dev and maint time)
+- Use a generator. (adds build step and harms dev time)
 
 #--
-* Is that all there is to generics and Go?
+* Generics For Tomorrow
 
 "Generics may well be added at some point. We don't feel an urgency for them, although we understand some programmers do.
 
@@ -36,10 +37,10 @@ Generics are convenient but they come at a cost in complexity in the type system
 
 
 ###
-* "Why wasn't Go written as a functional language?"
+* "Why is Go an imperative language?"
 
 #--
-* Pragmatism
+* Purity Of Pragmatism
 
 Posted by Ian Lance Taylor (Member of the Go Team at Google):
 
@@ -54,27 +55,63 @@ Therefore, Go was not designed as a functional language."
 
 
 ###
-* "nil is evil.", "The type system is terrible.", etc.
+* "Isn't nil just null?"
+#* , "The type system is terrible.", etc.
 
 #--
-* Why would you do that?
+* nil can bite. Errors help muzzle it.
 
-If code is developed idiomatically and carefully, I have yet to see nil become a burden.  It can happen, but such code leaves one wondering "Why would you do that?"
+- Functions often return multiple values.
+- An error returned with another value is much like a result type in FP. 
 
-Similarly, complaints about the type system are normally based upon negligent and/or dubious examples.
+.code bad_nil/main.go /START1 OMIT/,/END1 OMIT/
 
-#--
-* Example Of Negligent Example
-
-nil isn't the problem, bad code is the problem.
-
-.code bad_nil/main.go /START OMIT/,/END OMIT/
-
-- Check the error.
-- Check for nil if there is any remaining concern.
+A possibly nil `f` isn't the problem here.
 
 #--
-* Example Of Ignorant Example
+* Check errors.
+
+.code bad_nil/main.go /START2 OMIT/,/END2 OMIT/
+
+- Checking errors is roughly as verbose as result type handling.
+- It is rare for the benefits of pattern matching to be worthwhile in this usage.
+- Dynamic langs usually complicate control flow or ignore error handling.
+
+
+
+###
+* "I don't like Go's error handling."
+
+#--
+* Errors are not exceptional
+
+- Errors are values that usually affect control flow.
+- Failures should be an integral concern.
+- Ignoring potentialities is bad design.
+
+#--
+* Errors should be checked; Nay, they must be checked.
+
+.play errors/main.go /START OMIT/,/END OMIT/
+
+#--
+* For a more thorough understanding of errors...
+
+From 2011 (technical and introductory):
+
+.link https://blog.golang.org/error-handling-and-go blog.Golang.org/error-handling-and-go
+
+From 2015 (philosophical and ancillary):
+
+.link https://blog.golang.org/errors-are-values blog.Golang.org/errors-are-values
+
+
+
+###
+* Field/Method Export Leaks
+
+#--
+* 
 
 .code bad_type/p1/p1.go
 
@@ -84,49 +121,39 @@ nil isn't the problem, bad code is the problem.
 - Use an intermediate type if needed.
 
 #--
-* Answering The Ignorant Example
+* 
 
-.iframe http://play.golang.org/p/5dX_ziUFxi 720 960
+.iframe http://play.golang.org/p/DfH2CaUqGKu 760 980
 
 
 
 ###
-* "Go has poor dependency management."
+* "Go has no dependency management."
 
 #--
 * Solutions From The Community
 
-Early on, and even now, libraries are often simple and stable enough to manage dependencies manually or not at all.  Despite that, dependency management is an issue worth addressing.
+- Libs are often simple and stable enough to manage manually.
+- First direct solution to appear was gvm.
+- Then godep and many others.
+- dep is widely accepted as the currently "preferred" solution.
 
-The first solution to appear was gvm.
+.link https://github.com/moovweb/gvm GitHub.com/moovweb/gvm
 
-.link https://github.com/moovweb/gvm Github.com/moovweb/gvm
+.link https://github.com/tools/godep GitHub.com/tools/godep
 
-gvm primarily simplifies Go version management.  An added bonus is that each Go version can have it's own GOPATH.  This creates a sort of dependency management, but is limited.
-
-Soon after, godep came along focusing solely on dependency management.
-
-.link https://github.com/tools/godep Github.com/tools/godep
+.link https://github.com/golang/dep GitHub.com/golang/dep
 
 #--
 * The Go Team Responded
 
-While manual management of dependencies was the strategy employed and encouraged by Google, the Go Team bowed to community pressure and provided experimental support for "vendor directories" in version 1.5.
+- Vendor subdirectory.
+- Official solution "vgo" coming in August 2018 with Go 1.11. 
+- Upgrade path from dep is assured.
 
 .link https://golang.org/cmd/go/#hdr-Vendor_Directories Golang.org/cmd/go/#hdr-Vendor_Directories
 
-The vendoring experiment has been deemed successful, so Go 1.6 will default to this behavior with an environment variable to turn it off.  Later versions of Go will not offer that option.
-
-
-
-#--
-* Now There Are More Solutions
-
-Throughout the process of public debate, many solutions started appearing that took advantage of the proposed experimental changes.  As the experiment began, still more solutions came to light.
-
-At this time, there is no shortage of vendoring solutions and related tools.
-
-.link https://github.com/golang/go/wiki/PackageManagementTools Github.com/golang/go/wiki/PackageManagementTools
+.link https://github.com/golang/go/wiki/vgo GitHub.com/golang/go/wiki/vgo
 
 
 
@@ -136,11 +163,18 @@ At this time, there is no shortage of vendoring solutions and related tools.
 #--
 * Garbage Collection Is Valuable
 
-"One of the biggest sources of bookkeeping in systems programs is memory management. We feel it's critical to eliminate that programmer overhead, and advances in garbage collection technology in the last few years give us confidence that we can implement it with low enough overhead and no significant latency.
+Memory management:
 
-Another point is that a large part of the difficulty of concurrent and multi-threaded programming is memory management; as objects get passed among threads it becomes cumbersome to guarantee they become freed safely. Automatic garbage collection makes concurrent code far easier to write."
+- eases development and maintenance.
+- removes an entire class of security concerns.
 
-.link https://golang.org/doc/faq#garbage_collection Golang.org/doc/faq#Garbage_Collection
+Unfortunately:
+
+- GC prevents determinism.
+
+Fortunately:
+
+- most applications don't need determinism (which necessitates complexity).
 
 #--
 * Garbage Collection Can Be Avoided 1/2
@@ -205,38 +239,3 @@ Allocations Might Be Caused By:
 More importantly as RAM doubles with the next generation of hardware, simply doubling GOGC will halve the number of GC cycles. On the other hand since GOGC is based on reachable object size, doubling the load by doubling the reachable objects requires no retuning. The application just scales. Furthermore, unencumbered by ongoing support for dozens of knobs, the runtime team can focus on improving the runtime based on feedback from real customer applications."
 
 .link https://blog.golang.org/go15gc blog.Golang.org/go15gc
-
-
-
-###
-* "I don't like Go's error handling"
-
-#--
-* Errors are not exceptional
-
-Errors in Go are simply any type which satisfies the `error` interface.  They are values without any exotic behavior, unless you wish it to be so.
-
-.code errors/interface.txt
-
-This allows them to be handled when and how they are needed most.  Control flow and the code itself is moved strictly by developer intent.
-
-The "front and center" approach to errors is a great strength regarding code stability and readability.  The small cost of not being able to postpone paying the technical debt of handling errors is profitable after only a short time.
-
-#--
-* Minimization And Flexibility Of Error Handling
-
-For a more thorough understanding of errors...
-
-From 2011 (technical and introductory):
-
-.link https://blog.golang.org/error-handling-and-go blog.Golang.org/error-handling-and-go
-
-From 2015 (philosophical and ancillary):
-
-.link https://blog.golang.org/errors-are-values blog.Golang.org/errors-are-values
-
-#--
-* Errors should be checked; Nay, they must be checked.
-
-.play errors/main.go /START OMIT/,/END OMIT/
-
