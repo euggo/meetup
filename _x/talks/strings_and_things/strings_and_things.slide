@@ -1,0 +1,84 @@
+###
+Strings And Things
+Unicode handling in Go.
+2 Aug 2018
+Tags: unicode, utf8, rune, string, []byte, slice of bytes
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+
+
+
+###
+* Strings
+
+#--
+* Let's Handle Some Text!
+
+Request: Make every other letter within a string uppercased.
+
+.image https://storage.euggo.org/present/img/rice_porridge.jpg 460 _
+
+.caption "Å være midt i smørøyet."
+
+#--
+* Specifics
+
+Example Input: "å være midt i smørøyet."
+Translation: "To be in the middle of the butter's eye." (To be in a fantastic place.)
+Desired Output: "Å vÆrE mIdT i SmØrØyEt."
+
+#--
+* The Plan
+
+- Write a unit test.
+- Implement the subroutine.
+- Run the unit test.
+- Repeat step 2 and 3 as needed.
+
+
+
+###
+* Unit Testing
+
+#--
+* Unit tests in Go are data driven.
+
+.code a_unit_test/caselib/caselib_test_.go
+
+.caption caselib/caselib_test.go
+
+#--
+* First "Non" Attempt.
+
+.code a_unit_test/caselib/caselib.go
+
+.caption caselib/caselib.go
+
+#--
+* Go has a useful and thorough testing library.
+
+.code a_unit_test/caselib/caselib_test_.go /START1 OMIT/,/END1 OMIT/
+
+.caption caselib/caselib_test.go
+
+.play runtest/a_unit_test/main.go /START1 OMIT/,/END1 OMIT/
+
+Tests are normally run from the command line using `go test`.
+
+
+
+###
+* Dissecting A `string`
+
+#--
+* #Loop over string using c-style
+# test bad c-style
+
+# loop 
+
+#* Unit tests are for highly isolated computational functions.
