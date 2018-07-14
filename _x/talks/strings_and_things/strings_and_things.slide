@@ -46,21 +46,52 @@ Desired Output: "Å vÆrE mIdT i SmØrØyEt."
 * Unit Testing
 
 #--
+* Go has a useful and thorough testing library.
+
+Valid tests:
+
+**- use the prefix "Test".
+**- receive a pointer to the testing.T type.
+
+.code a_unit_test/caselib/caselib_test_.go /^func/,//
+
+#--
 * Unit tests in Go are data driven.
 
-.code a_unit_test/caselib/caselib_test_.go
+.code a_unit_test/caselib/caselib_test_.go /BGN2/,/END2/
 
 .caption caselib/caselib_test.go
 
+- A slice (dynamic array) of anonymous structs is assigned to `ds` ("dataset").
+- Slice literals and struct literals look similar. Line formatting eases readability.
+- Struct field names are not required in cases such as this.
+
 #--
-* First "Non" Attempt.
+* One Test Framework, Please. Hold The Assertions.
+
+.link https://golang.org/doc/faq#assertions Idiomatic Go favors direct handling of types.
+
+.code a_unit_test/caselib/caselib_test_.go /BGN3/,/END3/
+
+.caption caselib/caselib_test.go
+
+Third-party assertion libraries:
+
+**- slightly decrease line count.
+**- require learning an additional type system.
+**- reduce readability.
+**- increase character count.
+**- introduce a dependency.
+
+#--
+* First "Non" Implementation.
 
 .code a_unit_test/caselib/caselib.go
 
 .caption caselib/caselib.go
 
 #--
-* Go has a useful and thorough testing library.
+* Run it!
 
 .code a_unit_test/caselib/caselib_test_.go /START1 OMIT/,/END1 OMIT/
 
@@ -76,7 +107,67 @@ Tests are normally run from the command line using `go test`.
 * Dissecting A `string`
 
 #--
-* #Loop over string using c-style
+* C-style Loop
+
+.play b_string_loop/main.go /BGN1/,/END1/
+
+#--
+* C-style Loop And `string`
+
+- `string` tracks an underlying array of bytes and a length.
+- Iterating over a string using an index traverses the underlying array.
+
+.image https://storage.euggo.org/present/img/string_struct.png _ 264
+
+.caption credit: https://research.swtch.com/godata
+
+#--
+* C-style Loop With Readable Output
+
+.play c_string_loop/main.go /BGN1/,/END1/
+
+#--f
+* Raw Bytes From A String? Let's talk about encodings.
+
+Unicode maps all written characters to numeric values (within a 32 bit space). 
+
+The utf8 encoding:
+
+**- is a way of optimizing (for space) the communication of unicode code points.
+**- uses from 1 to 4 bytes to communicate a unicode code point.
+**- "flags" the first bits of the first byte in a sequence to indicate byte count. 
+
+ Character          å
+ Name               LATIN SMALL LETTER A WITH RING ABOVE
+ Unicode (decimal)  229
+ Unicode (binary)   00000000 00000000 00000000 11100101
+ UTF-8 (decimal)    11000011:10100101
+ UTF-8 (binary)     195:165
+
+#--
+* More Unicode Examples
+
+ Character          a
+ Name               LATIN SMALL LETTER A
+ Unicode (decimal)  97
+ Unicode (binary)   00000000 00000000 00000000 01100001
+ UTF-8 (binary)     01100001
+ UTF-8 (decimal)    97
+
+ Character          勇
+ Name               CJK COMPATIBILITY IDEOGRAPH-2F825
+ Unicode (decimal)  194597
+ Unicode (binary)   00000000 00000010 11111000 00100101
+ UTF-8 (binary)     11110000:10101111:10100000:10100101
+ UTF-8 (decimal)    240:175:160:165
+
+.caption [[https://en.wikipedia.org/wiki/CJK_Compatibility_Ideographs_Supplement][Wikipedia: CJK Compatability Ideographs Supplement]]
+
+#--
+* Range Loop
+
+.play d_string_loop/main.go /BGN1/,/END1/
+
 # test bad c-style
 
 # loop 
