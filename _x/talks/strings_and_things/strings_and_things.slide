@@ -210,6 +210,13 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 * Final Implementation(s)
 
 #--
+* Your Implementation
+
+.link https://play.golang.org/p/viTThDyEL03 play.golang.org/p/viTThDyEL03
+
+.link https://www.euggo.org/ln/strings-and-things www.euggo.org/ln/strings-and-things
+
+#--
 * Obvious Implementation
 
 .code f_unit_test/caselib/caselib.go /^func/,/^}/
