@@ -5,9 +5,9 @@ import "fmt"
 func main() {
 	//BGN1 OMIT
 	s := "å være midt i smørøyet."
-	// TODO: decide on a good-ish reason for needing to control iteration count
-	for k, v := range s {
-		fmt.Printf("%2d: %3d %s\n", k, v, string(v))
+
+	for i := 0; i < len(s); i++ {
+		fmt.Printf("%2d: %T - %v\n", i, s[i], s[i])
 	}
 	//END1 OMIT
 }

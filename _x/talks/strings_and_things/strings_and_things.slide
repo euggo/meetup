@@ -23,14 +23,7 @@ Request: Make every other letter within a string uppercased.
 
 .image https://storage.euggo.org/present/img/rice_porridge.jpg 460 _
 
-.caption "Å være midt i smørøyet."
-
-#--
-* Specifics
-
-Example Input: "å være midt i smørøyet."
-Translation: "To be in the middle of the butter's eye." (To be in a fantastic place.)
-Desired Output: "Å vÆrE mIdT i SmØrØyEt."
+.caption Å være midt i smørøyet. / "To be in the middle of the butter's eye." (To be in a fantastic place.)
 
 #--
 * The Plan
@@ -75,7 +68,7 @@ Valid tests:
 
 .caption caselib/caselib_test.go
 
-Third-party assertion libraries:
+*** As an aside; Third-party assertion libraries:
 
 **- slightly decrease line count.
 **- require learning an additional type system.
@@ -83,8 +76,13 @@ Third-party assertion libraries:
 **- increase character count.
 **- introduce a dependency.
 
+
+
+###
+* First Implementation
+
 #--
-* First "Non" Implementation.
+* Non Implementation
 
 .code a_unit_test/caselib/caselib.go
 
@@ -99,7 +97,21 @@ Third-party assertion libraries:
 
 .play runtest/a_unit_test/main.go /START1 OMIT/,/END1 OMIT/
 
-Tests are normally run from the command line using `go test`.
+*** Tests are normally run from the command line using `go test`.
+
+
+
+###
+* Second Implementation
+
+#--
+* Naive Implementation
+
+.code b_unit_test/caselib/caselib.go /^func/,/^}/
+
+.caption caselib/caselib.go
+
+.play runtest/b_unit_test/main.go /START1 OMIT/,/END1 OMIT/
 
 
 
@@ -107,42 +119,47 @@ Tests are normally run from the command line using `go test`.
 * Dissecting A `string`
 
 #--
-* C-style Loop
+* C-style Loop (sliced `string`)
 
-.play b_string_loop/main.go /BGN1/,/END1/
+.play c_string_loop/main.go /BGN1/,/END1/
 
 #--
-* C-style Loop And `string`
+* C-style Loop (`string` index)
+
+.play d_string_loop/main.go /BGN1/,/END1/
+
+#--
+* Some `string` Details
 
 - `string` tracks an underlying array of bytes and a length.
-- Iterating over a string using an index traverses the underlying array.
+- Iterating over a string using an index traverses the underlying array of bytes.
 
 .image https://storage.euggo.org/present/img/string_struct.png _ 264
 
 .caption credit: https://research.swtch.com/godata
 
+
+
+###
+* Unicode / UTF-8
+
 #--
-* C-style Loop With Readable Output
-
-.play c_string_loop/main.go /BGN1/,/END1/
-
-#--f
 * Raw Bytes From A String? Let's talk about encodings.
 
-Unicode maps all written characters to numeric values (within a 32 bit space). 
+Unicode maps all written characters to numeric values (> 16 bit space). 
 
-The utf8 encoding:
+The UTF-8 (Unicode Transformation Format 8) encoding:
 
 **- is a way of optimizing (for space) the communication of unicode code points.
 **- uses from 1 to 4 bytes to communicate a unicode code point.
-**- "flags" the first bits of the first byte in a sequence to indicate byte count. 
+**- "flags" the first bits of the first byte within a sequence to indicate sequence length. 
 
  Character          å
  Name               LATIN SMALL LETTER A WITH RING ABOVE
  Unicode (decimal)  229
  Unicode (binary)   00000000 00000000 00000000 11100101
- UTF-8 (decimal)    11000011:10100101
- UTF-8 (binary)     195:165
+ UTF-8 (binary)     11000011:10100101
+ UTF-8 (decimal)    195:165
 
 #--
 * More Unicode Examples
@@ -164,12 +181,53 @@ The utf8 encoding:
 .caption [[https://en.wikipedia.org/wiki/CJK_Compatibility_Ideographs_Supplement][Wikipedia: CJK Compatability Ideographs Supplement]]
 
 #--
+* Even More Unicode Examples
+
+.image https://storage.euggo.org/present/img/unicode_example_1.png _ 600
+
+
+
+###
+* Dissecting A `string` (Again)
+
+#--
 * Range Loop
 
-.play d_string_loop/main.go /BGN1/,/END1/
+.play e_string_loop/main.go /BGN1/,/END1/
 
-# test bad c-style
+#--
+* Range Loop And `string`
 
-# loop 
+- Ranging over a `string` actively interprets the utf8 encoded bytes.
+- The "current index" is tracked/skipped as though iterating over a slice of bytes.
+- Instead of the value being a `byte`, the value starting at the index is a `rune`.
 
-#* Unit tests are for highly isolated computational functions.
+*** `byte` is an alias for `uint8` - utf8 uses bytes (8 bits)
+*** `rune` is an alias for `int32` - unicode must be within a 32 bit space
+
+
+###
+* Final Implementation(s)
+
+#--
+* Obvious Implementation
+
+.code f_unit_test/caselib/caselib.go /^func/,/^}/
+
+.caption caselib/caselib.go
+
+.play runtest/f_unit_test/main.go /START1 OMIT/,/END1 OMIT/
+
+#--
+* Improved Implementation
+
+.code g_unit_test/caselib/caselib.go /^func/,/^}/
+
+.caption caselib/caselib.go
+
+.play runtest/g_unit_test/main.go /START1 OMIT/,/END1 OMIT/
+
+Provided by Nilium via #go-nuts on freenode.net:
+
+.link https://github.com/nilium Github/nilium
+.link https://twitter.com/nilium Twitter/nilium

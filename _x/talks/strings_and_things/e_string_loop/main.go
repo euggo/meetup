@@ -6,8 +6,8 @@ func main() {
 	//BGN1 OMIT
 	s := "å være midt i smørøyet."
 
-	for i := 0; i < len(s); i++ {
-		fmt.Printf("%2d: %v\n", i, s[i])
+	for i, r := range s {
+		fmt.Printf("%2d: %T - %3d / string - %s\n", i, r, r, string(r))
 	}
 	//END1 OMIT
 }

@@ -7,7 +7,7 @@ func main() {
 	s := "å være midt i smørøyet."
 
 	for i := 0; i < len(s); i++ {
-		fmt.Printf("%2d: %3d %s\n", i, s[i], string(s[i]))
+		fmt.Printf("%2d: %T - %v\n", i, s[i:i+1], s[i:i+1])
 	}
 	//END1 OMIT
 }
