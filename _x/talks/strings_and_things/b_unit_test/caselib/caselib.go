@@ -6,20 +6,20 @@ import (
 
 // ToWaveCase uppercases every other letter in a string.
 func ToWaveCase(s string) string {
-	r, uc := "", true
+	out, uc := "", true
 	for i := 0; i < len(s); i++ {
 		c := s[i : i+1]
 		if c == " " {
-			r += " "
+			out += c
 			continue
 		}
 		if !uc {
-			r += c
+			out += c
 			uc = true
 			continue
 		}
-		r += strings.ToUpper(c)
+		out += strings.ToUpper(c)
 		uc = false
 	}
-	return r
+	return out
 }

@@ -23,7 +23,7 @@ Request: Make every other letter within a string uppercased.
 
 .image https://storage.euggo.org/present/img/rice_porridge.jpg 460 _
 
-.caption Å være midt i smørøyet. / "To be in the middle of the butter's eye." (To be in a fantastic place.)
+.caption Å være midt i smørøyet. / To be in the middle of the butter's eye. (To be in a fantastic place.)
 
 #--
 * The Plan
@@ -203,7 +203,7 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 - Instead of the value being a `byte`, the value starting at the index is a `rune`.
 
 *** `byte` is an alias for `uint8` - utf8 uses bytes (8 bits)
-*** `rune` is an alias for `int32` - unicode must be within a 32 bit space
+*** `rune` is an alias for `int32` - unicode exceeds 16 bit space (int32 covers this safely)
 
 
 ###
@@ -238,3 +238,51 @@ Provided by Nilium via #go-nuts on freenode.net:
 
 .link https://github.com/nilium Github/nilium
 .link https://twitter.com/nilium Twitter/nilium
+
+
+
+###
+* More To Consider
+
+#--
+* Multi-point Characters
+
+.play h_gotcha_norm_form/main.go /BGN1 OMIT/,/END1 OMIT/
+
+#--
+* Normal Forms
+
+ U+006F        = o
+ U+0300        = ̀
+ U+006F/U+0300 = ò NFD
+ U+00F2        = ò NFC
+
+**- NFD Normalization Form Canonical Decomposition
+**- NFC Normalization Form Canonical Composition
+**- NFKD Normalization Form Compatibility Decomposition
+**- NFKC Normalization Form Compatibility Composition
+
+.link https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms Normal Forms
+
+#--
+* Quick And Clean Fix
+
+.play i_gotcha_fix_norm_form/main.go /BGN1 OMIT/,/END1 OMIT/
+
+This can be optimized to reduce GC. However...
+
+"Programmers waste enormous amounts of time thinking about, or worrying about, the speed of noncritical parts of their programs, and these attempts at efficiency actually have a strong negative impact when debugging and maintenance are considered. We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil. Yet we should not pass up our opportunities in that critical 3%." - Donald Knuth
+
+
+
+###
+* Summary
+
+* Summary
+
+- A `string` tracks an underlying UTF-8 encoded `byte` array and a length.
+- A `string` index ("s[i]") returns an individual UTF-8 encoded byte.
+- A sliced `string` ("s[i:j]") returns a `string` (careful; can be malformed).
+- Ranging over a `string` provides `rune` access via UTF-8 interpretation.
+- A `rune` represents a Unicode code point.
+- Text handling should often rely on relevant libraries.
