@@ -14,7 +14,7 @@ func ToWaveCase(s string) string {
 			continue
 		}
 		if !uc {
-			out += c
+			out += strings.ToLower(c)
 			uc = true
 			continue
 		}

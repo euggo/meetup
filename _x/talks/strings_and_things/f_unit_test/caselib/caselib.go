@@ -17,7 +17,7 @@ func ToWaveCase(s string) string { //OMIT
 			continue
 		}
 		if !uc {
-			bs = append(bs, s[i:i+l]...)
+			bs = append(bs, strings.ToLower(s[i:i+l])...)
 			uc = true
 			continue
 		}
