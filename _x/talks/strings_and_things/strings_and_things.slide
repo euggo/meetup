@@ -265,13 +265,11 @@ Provided by Nilium via #go-nuts on freenode.net:
 .link https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms Normal Forms
 
 #--
-* Quick And Clean Fix
+* Quick And Dirty Fix
 
 .play i_gotcha_fix_norm_form/main.go /BGN1 OMIT/,/END1 OMIT/
 
-This can be optimized to reduce GC. However...
-
-"Programmers waste enormous amounts of time thinking about, or worrying about, the speed of noncritical parts of their programs, and these attempts at efficiency actually have a strong negative impact when debugging and maintenance are considered. We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil. Yet we should not pass up our opportunities in that critical 3%." - Donald Knuth
+.link https://godoc.org/golang.org/x/text/unicode/norm golang.org/x/text/unicode/norm to the rescue!
 
 
 
