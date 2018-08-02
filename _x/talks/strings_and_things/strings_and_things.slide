@@ -55,26 +55,31 @@ Valid tests:
 
 .caption caselib/caselib_test.go
 
-- A slice (dynamic array) of anonymous structs is assigned to `ds` ("dataset").
-- Slice literals and struct literals look similar. Line formatting eases readability.
-- Struct field names are not required in cases such as this.
+: A slice (dynamic array) of anonymous structs is assigned to `ds` ("dataset").
+: Slice literals and struct literals look similar. Line formatting eases readability.
+: Struct field names are not required in cases such as this.
+
+#--
+* Unit tests in Go are data driven. (Details)
+
+.code a_unit_test/caselib/caselib_test_.go /BGN3/,/END3/
+
+.caption caselib/caselib_test.go
 
 #--
 * One Test Framework, Please. Hold The Assertions.
 
 .link https://golang.org/doc/faq#assertions Idiomatic Go favors direct handling of types.
 
-.code a_unit_test/caselib/caselib_test_.go /BGN3/,/END3/
+.code a_unit_test/caselib/caselib_test_.go /BGN4/,/END4/
 
 .caption caselib/caselib_test.go
 
-*** As an aside; Third-party assertion libraries:
-
-**- slightly decrease line count.
-**- require learning an additional type system.
-**- reduce readability.
-**- increase character count.
-**- introduce a dependency.
+: Third-party assertion libraries:
+: /1 slightly decrease line count.
+: But, they:
+: /1 require learning an additional type system. /2 reduce readability. 
+: /3 increase character count. /4 introduce a dependency.
 
 
 
@@ -97,7 +102,7 @@ Valid tests:
 
 .play runtest/a_unit_test/main.go /START1 OMIT/,/END1 OMIT/
 
-*** Tests are normally run from the command line using `go test`.
+: Tests are normally run from the command line using the `go test` tool.
 
 
 
@@ -113,6 +118,11 @@ Valid tests:
 
 .play runtest/b_unit_test/main.go /START1 OMIT/,/END1 OMIT/
 
+: using a c-style for loop...
+: build a string while tracking uppercase status...
+: if the supposed character is a space, add to string...
+: otherwise, tolower or toupper and add to string
+
 
 
 ###
@@ -123,10 +133,19 @@ Valid tests:
 
 .play c_string_loop/main.go /BGN1/,/END1/
 
+: This prints the current index (2 digit aligned), and the type and value of the sliced data.
+: Slicing a string returns a string.
+: To understand why the characters are corrupted, let's look at indexed strings.
+
 #--
 * C-style Loop (`string` index)
 
 .play d_string_loop/main.go /BGN1/,/END1/
+
+: This prints the current index (2 digit aligned), and the type and value of the indexed data.
+: Notice that the length of the string is 8 while there are only 6 chracters.
+: Also note the first three values: 195, 165, 32...
+: and they are all uint8
 
 #--
 * Some `string` Details
@@ -146,23 +165,28 @@ Valid tests:
 #--
 * Raw Bytes From A String? Let's talk about encodings.
 
-Unicode maps all written characters to numeric values (> 16 bit space). 
+Unicode maps all written characters, marks, etc. to numeric values (> 16 bit space). 
+
+ Character          a
+ Name               LATIN SMALL LETTER A
+ Unicode (decimal)  97
+ Unicode (binary)   00000000 00000000 00000000 01100001
+
+ Character          勇
+ Name               CJK COMPATIBILITY IDEOGRAPH-2F825
+ Unicode (decimal)  194597
+ Unicode (binary)   00000000 00000010 11111000 00100101
+ 
+: Unicode code point 194597 requires 24 bit space to ensure uniqueness.
+: Go does not have a 24 bit type, so a 32 bit type will be required (and is a common path).
+
+#--
+* I heard you like encoding.
 
 The UTF-8 (Unicode Transformation Format 8) encoding:
 
 **- is a way of optimizing (for space) the communication of unicode code points.
 **- uses from 1 to 4 bytes to communicate a unicode code point.
-**- "flags" the first bits of the first byte within a sequence to indicate sequence length. 
-
- Character          å
- Name               LATIN SMALL LETTER A WITH RING ABOVE
- Unicode (decimal)  229
- Unicode (binary)   00000000 00000000 00000000 11100101
- UTF-8 (binary)     11000011:10100101
- UTF-8 (decimal)    195:165
-
-#--
-* More Unicode Examples
 
  Character          a
  Name               LATIN SMALL LETTER A
@@ -171,6 +195,11 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
  UTF-8 (binary)     01100001
  UTF-8 (decimal)    97
 
+: UTF-8 "flags" the first bits of the first byte in a sequence to show sequence length. 
+
+#--
+* Unicode Examples With UTF-8
+
  Character          勇
  Name               CJK COMPATIBILITY IDEOGRAPH-2F825
  Unicode (decimal)  194597
@@ -178,12 +207,23 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
  UTF-8 (binary)     11110000:10101111:10100000:10100101
  UTF-8 (decimal)    240:175:160:165
 
-.caption [[https://en.wikipedia.org/wiki/CJK_Compatibility_Ideographs_Supplement][Wikipedia: CJK Compatability Ideographs Supplement]]
+ Character          å
+ Name               LATIN SMALL LETTER A WITH RING ABOVE
+ Unicode (decimal)  229
+ Unicode (binary)   00000000 00000000 00000000 11100101
+ UTF-8 (binary)     11000011:10100101
+ UTF-8 (decimal)    195:165
+
+: Notables:
+: The utf8 decimal value for the "å" is 195,165 and is 2 bytes.
+: The unicode code point for the "å" is 229 (which is one >16 bit space value).
 
 #--
-* Even More Unicode Examples
+* More Unicode Examples
 
-.image https://storage.euggo.org/present/img/unicode_example_1.png _ 600
+.image https://storage.euggo.org/present/img/unicode_example_1.png _ 560
+
+.caption [[https://en.wikipedia.org/wiki/CJK_Compatibility_Ideographs_Supplement][Wikipedia: CJK Compatability Ideographs Supplement]]
 
 
 
@@ -195,15 +235,24 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 
 .play e_string_loop/main.go /BGN1/,/END1/
 
+: This prints the current index (2 digit aligned), the type of the value range returns,
+: the digital representation of the value range returns, and string representation of the value range returns.
+: -
+: It should be interesting to us that the index jumps.
+
 #--
 * Range Loop And `string`
 
 - Ranging over a `string` actively interprets the utf8 encoded bytes.
 - The "current index" is tracked/skipped as though iterating over a slice of bytes.
-- Instead of the value being a `byte`, the value starting at the index is a `rune`.
+- Instead of the value being a `byte`, the value _starting_ at the index is a `rune`.
 
-*** `byte` is an alias for `uint8` - utf8 uses bytes (8 bits)
-*** `rune` is an alias for `int32` - unicode exceeds 16 bit space (int32 covers this safely)
+*** `byte` is an alias for `uint8`
+*** `rune` is an alias for `int32`
+
+: utf8 uses bytes (8 bits)
+: again, unicode exceeds 16 bit space (int32 covers this safely)
+: "starting" is italicized because a single rune may be directly related to up to 4 interpreted bytes.
 
 
 ###
@@ -216,6 +265,8 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 
 .link https://www.euggo.org/ln/strings-and-things www.euggo.org/ln/strings-and-things
 
+: If you'd like, you're welcome to solve this. We can pause for a bit if anyone is interested.
+
 #--
 * Obvious Implementation
 
@@ -224,6 +275,11 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 .caption caselib/caselib.go
 
 .play runtest/f_unit_test/main.go /START1 OMIT/,/END1 OMIT/
+
+: using a range loop...
+: build a slice of bytes while tracking uppercase status...
+: if the character is not a letter, add to string...
+: otherwise, tolower or toupper and add to string
 
 #--
 * Improved Implementation
@@ -238,6 +294,10 @@ Provided by Nilium via #go-nuts on freenode.net:
 
 .link https://github.com/nilium Github/nilium
 .link https://twitter.com/nilium Twitter/nilium
+
+: using the standard library string map function...
+: provide an anonymous function to be called on each rune...
+: that swaps casing function every other letter
 
 
 
@@ -254,8 +314,10 @@ Provided by Nilium via #go-nuts on freenode.net:
 
  U+006F        = o
  U+0300        = ̀
- U+006F/U+0300 = ò NFD
- U+00F2        = ò NFC
+ U+006F/U+0300 = ò NFD (Decomposed)
+ U+00F2        = ò NFC (Composed)
+
+ U+006F/U+0300 equates to U+00F2
 
 **- NFD Normalization Form Canonical Decomposition
 **- NFC Normalization Form Canonical Composition
@@ -271,6 +333,7 @@ Provided by Nilium via #go-nuts on freenode.net:
 
 .link https://godoc.org/golang.org/x/text/unicode/norm golang.org/x/text/unicode/norm to the rescue!
 
+: Technically, we could decompose the results as well.
 
 
 ###
@@ -283,4 +346,4 @@ Provided by Nilium via #go-nuts on freenode.net:
 - A sliced `string` ("s[i:j]") returns a `string` (careful; can be malformed).
 - Ranging over a `string` provides `rune` access via UTF-8 interpretation.
 - A `rune` represents a Unicode code point.
-- Text handling should often rely on relevant libraries.
+- *Text handling should often rely on relevant libraries.

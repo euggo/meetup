@@ -8,6 +8,6 @@ import (
 func main() {
 	GoTest := func() { runtest.Run(caselib.TestToWaveCase) }
 	//START1 OMIT
-	GoTest() // This is a helper function for demonstration only.
+	GoTest() // helper function for demo use
 	//END1 OMIT
 }
