@@ -5,7 +5,7 @@ import "testing"
 //START1 OMIT
 func TestToWaveCase(t *testing.T) {
 	//BGN2 OMIT
-	ds := []struct {
+	tests := []struct {
 		s, want string
 	}{
 		{"in a fantastic place.", "In A fAnTaStIc PlAcE."},
@@ -13,10 +13,10 @@ func TestToWaveCase(t *testing.T) {
 	}
 	//END2 OMIT
 	//BGN4 OMIT
-	for _, d := range ds {
-		got := ToWaveCase(d.s)
-		if got != d.want {
-			t.Errorf("got %q, want %q", got, d.want)
+	for _, tt := range tests {
+		got := ToWaveCase(tt.s)
+		if got != tt.want {
+			t.Errorf("got %q, want %q", got, tt.want)
 		}
 	}
 	//END4 OMIT
@@ -26,9 +26,9 @@ func TestToWaveCase(t *testing.T) {
 
 // Junk ...
 func Junk() {
-	// should match "ds" in TestToWaveCase OMIT
+	// should match "tests" in TestToWaveCase OMIT
 	//BGN3 OMIT
-	ds := []struct { // HL
+	tests := []struct { // HL
 		// start of anonymous struct definition
 		s    string // HL
 		want string // HL
@@ -41,5 +41,5 @@ func Junk() {
 		// end of slice literal
 	} // HL
 	//END3 OMIT
-	_ = ds // OMIT
+	_ = tests // OMIT
 }

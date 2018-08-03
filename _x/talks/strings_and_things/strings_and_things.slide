@@ -49,18 +49,18 @@ Valid tests:
 .code a_unit_test/caselib/caselib_test_.go /^func/,//
 
 #--
-* Unit tests in Go are data driven.
+* Unit tests in Go are table-driven.
 
 .code a_unit_test/caselib/caselib_test_.go /BGN2/,/END2/
 
 .caption caselib/caselib_test.go
 
-: A slice (dynamic array) of anonymous structs is assigned to `ds` ("dataset").
+: A slice (dynamic array) of anonymous structs is assigned to `tests`.
 : Slice literals and struct literals look similar. Line formatting eases readability.
 : Struct field names are not required in cases such as this.
 
 #--
-* Unit tests in Go are data driven. (Details)
+* Unit tests in Go are table-driven. (Details)
 
 .code a_unit_test/caselib/caselib_test_.go /BGN3/,/END3/
 
@@ -80,6 +80,13 @@ Valid tests:
 : But, they:
 : /1 require learning an additional type system. /2 reduce readability. 
 : /3 increase character count. /4 introduce a dependency.
+
+#--
+* The Test (Full View)
+
+.code a_unit_test/caselib/caselib_test_.go /START1 OMIT/,/END1 OMIT/
+
+.caption caselib/caselib_test.go
 
 
 
@@ -133,7 +140,7 @@ Valid tests:
 
 .play c_string_loop/main.go /BGN1/,/END1/
 
-: This prints the current index (2 digit aligned), and the type and value of the sliced data.
+: This prints the current index, and the type and value of the sliced data.
 : Slicing a string returns a string.
 : To understand why the characters are corrupted, let's look at indexed strings.
 
@@ -142,7 +149,7 @@ Valid tests:
 
 .play d_string_loop/main.go /BGN1/,/END1/
 
-: This prints the current index (2 digit aligned), and the type and value of the indexed data.
+: This prints the current index, and the type and value of the indexed data.
 : Notice that the length of the string is 8 while there are only 6 chracters.
 : Also note the first three values: 195, 165, 32...
 : and they are all uint8
@@ -235,7 +242,7 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 
 .play e_string_loop/main.go /BGN1/,/END1/
 
-: This prints the current index (2 digit aligned), the type of the value range returns,
+: This prints the current index, the type of the value range returns,
 : the digital representation of the value range returns, and string representation of the value range returns.
 : -
 : It should be interesting to us that the index jumps.
@@ -310,7 +317,7 @@ Provided by Nilium via #go-nuts on freenode.net:
 .play h_gotcha_norm_form/main.go /BGN1 OMIT/,/END1 OMIT/
 
 #--
-* Normal Forms
+* Unicode Normal Forms
 
  U+006F        = o
  U+0300        = ̀
