@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/euggo/meetup/_x/talks/strings_and_things/g_unit_test/caselib"
-	"github.com/euggo/meetup/_x/talks/strings_and_things/runtest"
+	"github.com/euggo/meetup/talks/strings_and_things/g_unit_test/caselib"
+	"github.com/euggo/meetup/talks/strings_and_things/runtest"
 )
 
 func main() {
