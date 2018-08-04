@@ -174,15 +174,15 @@ Valid tests:
 
 Unicode maps all written characters, marks, etc. to numeric values (> 16 bit space). 
 
- Character          a
- Name               LATIN SMALL LETTER A
- Unicode (decimal)  97
- Unicode (binary)   00000000 00000000 00000000 01100001
+ Character              a
+ Name                   LATIN SMALL LETTER A
+ Unicode (decimal/hex)  97 / U+0061
+ Unicode (binary)       00000000 00000000 00000000 01100001
 
- Character          勇
- Name               CJK COMPATIBILITY IDEOGRAPH-2F825
- Unicode (decimal)  194597
- Unicode (binary)   00000000 00000010 11111000 00100101
+ Character              勇
+ Name                   CJK COMPATIBILITY IDEOGRAPH-2F825
+ Unicode (decimal/hex)  194597 / U+2F825
+ Unicode (binary)       00000000 00000010 11111000 00100101
  
 : Unicode code point 194597 requires 24 bit space to ensure uniqueness.
 : Go does not have a 24 bit type, so a 32 bit type will be required (and is a common path).
@@ -195,31 +195,31 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 **- is a way of optimizing (for space) the communication of unicode code points.
 **- uses from 1 to 4 bytes to communicate a unicode code point.
 
- Character          a
- Name               LATIN SMALL LETTER A
- Unicode (decimal)  97
- Unicode (binary)   00000000 00000000 00000000 01100001
- UTF-8 (binary)     01100001
- UTF-8 (decimal)    97
+ Character              a
+ Name                   LATIN SMALL LETTER A
+ Unicode (decimal/hex)  97 / U+0061
+ Unicode (binary)       00000000 00000000 00000000 01100001
+ UTF-8 (binary)         01100001
+ UTF-8 (decimal/hex)    97 / \x61
 
 : UTF-8 "flags" the first bits of the first byte in a sequence to show sequence length. 
 
 #--
 * Unicode Examples With UTF-8
 
- Character          勇
- Name               CJK COMPATIBILITY IDEOGRAPH-2F825
- Unicode (decimal)  194597
- Unicode (binary)   00000000 00000010 11111000 00100101
- UTF-8 (binary)     11110000:10101111:10100000:10100101
- UTF-8 (decimal)    240:175:160:165
+ Character              勇
+ Name                   CJK COMPATIBILITY IDEOGRAPH-2F825
+ Unicode (decimal/hex)  194597 / U+2F825
+ Unicode (binary)       00000000 00000010 11111000 00100101
+ UTF-8 (binary)         11110000:10101111:10100000:10100101
+ UTF-8 (decimal/hex)    240:175:160:165 / \xf0\xaf\xa0\xa5
 
- Character          å
- Name               LATIN SMALL LETTER A WITH RING ABOVE
- Unicode (decimal)  229
- Unicode (binary)   00000000 00000000 00000000 11100101
- UTF-8 (binary)     11000011:10100101
- UTF-8 (decimal)    195:165
+ Character              å
+ Name                   LATIN SMALL LETTER A WITH RING ABOVE
+ Unicode (decimal/hex)  229 / U+00E5
+ Unicode (binary)       00000000 00000000 00000000 11100101
+ UTF-8 (binary)         11000011:10100101
+ UTF-8 (decimal/hex)    195:165 / \xc3\xa5
 
 : Notables:
 : The utf8 decimal value for the "å" is 195,165 and is 2 bytes.
@@ -312,7 +312,7 @@ Provided by Nilium via #go-nuts on freenode.net:
 * More To Consider
 
 #--
-* Multi-point Characters
+* Multi-point Characters / Combining Marks
 
 .play h_gotcha_norm_form/main.go /BGN1 OMIT/,/END1 OMIT/
 
@@ -334,13 +334,34 @@ Provided by Nilium via #go-nuts on freenode.net:
 .link https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms Normal Forms
 
 #--
-* Quick And Dirty Fix
+* Combining Marks Fix Attempt
 
 .play i_gotcha_fix_norm_form/main.go /BGN1 OMIT/,/END1 OMIT/
 
-.link https://godoc.org/golang.org/x/text/unicode/norm golang.org/x/text/unicode/norm to the rescue!
+.link https://godoc.org/golang.org/x/text/unicode/norm golang.org/x/text/unicode/norm to the rescue! sort of...
 
-: Technically, we could decompose the results as well.
+#--
+* Night Of The Living Code Points
+
+Not all decomposed characters have composed equivalents!
+
+Text handling may require:
+
+- decomposition to ensure equality.
+- special logic based upon language-specific expectations.
+
+*** Keep in mind that there are languages that read from right to left.
+
+: Showing consideration to all users should make us question if we've been accurate and thorough.
+: If it's important, contact a linguist.
+
+#--
+* (Not So) Quick And Dirty Fix
+
+.play j_gotcha_fix_norm_form/main.go /BGN1 OMIT/,/END1 OMIT/
+
+.caption *This is not thoroughly tested.
+
 
 
 ###
@@ -353,4 +374,5 @@ Provided by Nilium via #go-nuts on freenode.net:
 - A sliced `string` ("s[i:j]") returns a `string` (careful; can be malformed).
 - Ranging over a `string` provides `rune` access via UTF-8 interpretation.
 - A `rune` represents a Unicode code point.
-- *Text handling should often rely on relevant libraries.
+- *Text handling should generally rely on relevant libraries.
+- *Thorough text handling often requires highly specialized knowledge.

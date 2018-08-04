@@ -8,7 +8,7 @@ import (
 
 func main() {
 	//BGN1 OMIT
-	in := "The quick bròwn 狐 jumped over the lazy 犬"
+	in := "The quick bròwn 狐 jumped o⃐⃐⃐ver the lazy 犬"
 	rs := []rune(norm.NFC.String(in))
 
 	n := len(rs)
