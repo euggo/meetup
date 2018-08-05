@@ -116,3 +116,27 @@ A much more expansive answer to this question is available in the article, Go at
 : Development time may be slowed relative to leveraging frameworks in other languages,
 : but the small slowdown returns speed, flexibility, and maintainability.
 : Frameworks are available, but generally discouraged. Libraries provide plenty of reusability.
+
+
+
+###
+* Resources
+
+#--
+* Online Resources
+
+- [[https://golang.org/][The front door: golang.org]]
+- [[https://play.golang.org/][The playground: play.golang.org]]
+- [[https://meetup.euggo.org/][This presentation and others: meetup.euggo.org]]
+- #go-nuts on irc.freenode.net
+- [[https://reddit.com/r/golang][Go on Reddit]]
+- [[https://groups.google.com/group/golang-nuts][Go Nuts mailing list]]
+- [[https://forum.golangbridge.org/][Go Forum]]
+- [[https://blog.gopheracademy.com/gophers-slack-community/][Gopher's slack community]]
+
+#--
+* Online Resources For Offline Resources
+
+- [[http://www.gopl.io/][The Go Programming Language - Alan A. A. Donovan, Brian Kernighan]]
+- [[https://www.meetup.com/eug-go][Go in Eugene (Meetup.com)]]
+- [[https://www.euggo.org][Go in Eugene (homepage)]]
