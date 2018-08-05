@@ -1,3 +1,0 @@
-type murphy struct{}
-
-func (m *murphy) law() (bool, error)
