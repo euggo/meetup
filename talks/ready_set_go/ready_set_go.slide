@@ -33,11 +33,27 @@ https://github.com/codemodus
 * Overview
 
 - Strongly, and statically typed
-- Compiled (with runtime)
-- Compiled quickly
+- Quickly compiled
 - Garbage collected
-- OO-like
-- Concurrent
+- Object-oriented-like
+- Focused on concurrency
+
+: Runtime is included with executable. Nearly any OS/Arch can be targetted.
+: GC is exceptionally fast.
+: No classes (so, no implementation inheritance); Only data structures and composition, and interfaces.
+: This concurrency facilitates parallelism.
+
+#--
+* Hello World
+
+.play hw_stdout/main.go
+
+#--
+* Hello HTTP
+
+.play hw_http/main.go /BGN1/,/END1/
+
+.link http://localhost:8789
 
 
 
@@ -49,11 +65,14 @@ https://github.com/codemodus
 
 Not exhaustively...
 
-Ken Thompson is the author of B, the predecessor to C.  He was also a colleague of C author Dennis Ritchie.  Together they developed UNIX.
+Ken Thompson is the author of B, the predecessor to C.  He was also a colleague of C author Dennis Ritchie.  Together they developed Unix.
 
-Alongside them at Bell Labs Rob Pike co-authored UTF-8 with Ken Thompson, developed Limbo, contributed to portions of UNIX, and wrote influential books on UNIX/programming with Brian W. Kernighan.
+Alongside them at Bell Labs Rob Pike co-authored UTF-8 with Ken Thompson, developed Limbo, contributed to portions of Unix, and wrote influential books on Unix/programming with Brian W. Kernighan.
 
 Robert Griesemer has worked on code generation for the V8 JS engine, the Java Hotspot VM, and a distributed lock manager for the Google File System.
+
+: Ritchie and Kernighan wrote "the" book on C. In 2015 Kernighan and Alan A. A. Donovan (Google) wrote "The Go Programming Language".
+: Go has direct lineage to C.
 
 #--
 * How does Go excel?
@@ -62,7 +81,6 @@ Go is optimized for developers and modern processing
 
 - Keyword count is low (25 vs [Python 33, Ruby 41, C 44, Java 50, C++ 84])
 - Standard library is often enough
-- Inheritance does not exist
 - Memory management is a non-issue
 - Codebases are often cross-platform without additional work
 - Concurrency is baked-in and primitives are reasonable
@@ -90,8 +108,11 @@ A much more expansive answer to this question is available in the article, Go at
 * Why use Go?
 
 - Minimize development and maintenance time
-- Make full use of modern processors
+- Make full/better use of modern processors
 - Encourage testable code
 - Improve documentation
 - Reduce overhead when portability is needed
 
+: Development time may be slowed relative to leveraging frameworks in other languages,
+: but the small slowdown returns speed, flexibility, and maintainability.
+: Frameworks are available, but generally discouraged. Libraries provide plenty of reusability.
