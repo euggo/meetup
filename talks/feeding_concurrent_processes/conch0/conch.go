@@ -2,124 +2,102 @@ package main
 
 import (
 	"errors"
-	"path/filepath"
 	"sync"
-	"time"
 )
 
-// conch holds a file info group, and done channel.
-//START1 OMIT
+// BGN1 OMIT
 type conch struct {
-	fig *fileInfoGroup
-	d   chan struct{}
+	d chan struct{}
 }
 
-//END1 OMIT
-
-// newConch returns a pointer to a new conch with channel setup.
-//START2 OMIT
-func newConch(fig *fileInfoGroup) *conch {
+func newConch() *conch {
 	return &conch{
-		fig: fig,
-		d:   make(chan struct{}),
+		d: make(chan struct{}),
 	}
 }
 
-//END2 OMIT
-
-// done returns the done channel.
-//START3 OMIT
 func (c *conch) done() chan struct{} {
 	return c.d
 }
 
-//END3 OMIT
+// END1 OMIT
 
-// produce is a generator that produces paths for processing. If canceled, an
-// error is produced.
-//START5 OMIT
-func (c *conch) produce() (<-chan string, <-chan error) {
-	paths := make(chan string)
-	errs := make(chan error, 1)
+// BGN3 OMIT
+func (c *conch) produce(paths []string) (<-chan string, <-chan error) {
+	psc := make(chan string)
+	ec := make(chan error, 1)
 
-	go func() {
-		defer close(paths)
+	go func() { // feed paths chan, close chan when complete
+		defer close(psc)
 
-		for _, v := range c.fig.fsi {
+		for _, p := range paths {
 			select {
-			case paths <- filepath.Join(c.fig.dir, v.Name()):
+			case psc <- p:
 			case <-c.d:
-				errs <- errors.New("canceled")
+				ec <- errors.New("canceled")
 				return
 			}
 		}
 	}()
 
-	return paths, errs
+	return psc, ec
 }
 
-//END5 OMIT
+// END3 OMIT
 
-// digest processes the file located at the currently provided path, and sends
-// out a new result.
-//START7 OMIT
-func (c *conch) digest(paths <-chan string, fos chan<- *fileOutput) {
-	for p := range paths {
-		fo := newFileOutput(p)
-
-		if slow {
-			select {
-			case <-time.After(time.Second):
-			case <-c.d:
-				return
-			}
-		}
-
+// BGN5 OMIT
+func (c *conch) digest(fisc chan<- *fileInfo, psc <-chan string) {
+	for p := range psc {
+		fi := newFileInfo(p)
 		select {
-		case fos <- fo:
+		case fisc <- fi:
 		case <-c.d:
 			return
 		}
 	}
 }
 
-//END7 OMIT
+// END5 OMIT
 
-// consume sets-up digest goroutines according to width. Each digest goroutine
-// waits for data from the paths channel and the entire function collapses when
-// completed.
-//START6 OMIT
-func (c *conch) consume(paths <-chan string) <-chan *fileOutput {
-	fos := make(chan *fileOutput)
+// BGN4 OMIT
+func (c *conch) consume(width int, psc <-chan string) <-chan *fileInfo {
+	fisc := make(chan *fileInfo)
 
-	go func() {
+	go func() { // create consumers, close fileInfo channel when complete
 		var wg sync.WaitGroup
 		wg.Add(width)
 
 		for i := 0; i < width; i++ {
-			go func() {
-				c.digest(paths, fos)
+			go func() { // run consumer in goroutine to bind with wg.Done call
+				c.digest(fisc, psc)
 				wg.Done()
 			}()
 		}
 
 		wg.Wait()
-		close(fos)
+		close(fisc)
 	}()
 
-	return fos
+	return fisc
 }
 
-//END6 OMIT
+// END4 OMIT
 
-// run calls the path generator, calls the consume func using the returned
-// paths channel, and returns the outs and errs channels.
-//START4 OMIT
-func (c *conch) run() (<-chan *fileOutput, <-chan error) {
-	paths, errs := c.produce()
-	fos := c.consume(paths)
+// BGN2 OMIT
+func (c *conch) run(width int, paths []string) (<-chan *fileInfo, func() error) {
+	psc, ec := c.produce(paths)   // HLproduce
+	fisc := c.consume(width, psc) // HLconsume
 
-	return fos, errs
+	errFn := func() error { // HLerror
+		select { // HLerror
+		case err := <-ec: // HLerror
+			return err // HLerror
+		default: // HLerror
+			return nil // HLerror
+		} // HLerror
+	} // HLerror
+
+	return fisc, errFn
 }
 
-//END4 OMIT
+// END2 OMIT

@@ -15,38 +15,63 @@ https://github.com/codemodus
 
 
 ###
+* CSP - Communicating Sequential Processes
+
+#--
+* An explicit implementation.
+
+Channels are first-class primitives, conduits by which processes can communicate.
+
+"Don't communicate by sharing memory, share memory by communicating."
+
+.link https://www.youtube.com/watch?v=PAAkCSZUG1c&t=2m48s - Rob Pike "Go Proverbs @ Gopherfest 2015"
+
+: Erlang is also based on CSP, but as in the original Hoare papers, the "conduits" are implicit.
+
+
+
+###
+* Project Resources
+
+#--
 * Interacting with the project.
 
-*** Review
+Home
 
 .link https://github.com/daved/conch0
 
-*** Get
+Get
 
-    go get -u github.com/daved/conch0/...
+    go get -u github.com/daved/conch0/...  # "-u" forces update
 
-*** Run
+Run
 
-    // setup test files and run main app
+    # setup test files and run main app
     conchtestdata && conch0
 
-*** Kill
+Kill
 
-    // send SIGTERM to both apps
+    # send SIGTERM to main app
     Ctrl+C
 
 
 
 ###
-* Project Overview
+* Concurrent Handler
 
-- Create file handling types.
-- Implement file handling.
-- Create concurrency handling type.
-- Implement concurrent processing.
-- Setup main.
+#--
+* Concurrent File Handler Stages
 
-    // final directory tree
+**- Implement file handling.
+
+- Gather gzipped file paths.
+- Pre-process file info and contents.
+
+**- Implement concurrent processing.
+**- Test.
+
+#--
+* Final Directory Tree
     
     conch0
     ├── conch.go
@@ -58,205 +83,145 @@ https://github.com/codemodus
 ###
 * Project Diagram
 
-.image svg/conch0.svg 568 _
+.image svg/conch0.svg 520 _
 
 
 
 ###
-* Create File Handling Types
+* Implement File Handling
 
 #--
-* For Work And Returns
+* Gather gzipped file paths from a directory:
 
-To hold file information from disk for processing:
+.code conch0/files.go /BGN1 OMIT/,/END1 OMIT/
 
-.code conch0/files.go /START1 OMIT/,/END1 OMIT/
+.caption "files.go"
 
-To represent file information post processing:
+#--
+* File data structure for additional handling:
 
-.code conch0/files.go /START2 OMIT/,/END2 OMIT/
+.code conch0/files.go /BGN2 OMIT/,/END2 OMIT/
 
 .caption "files.go"
 
 
 
 ###
-* Implement File Handling (Funcs/Methods)
+* Implement Concurrent Processing
 
 #--
-* fileInfoGroup new func
+* Diagram Review For "Main" - Note the left block.
 
-Gather file information from disk:
-
-.code conch0/files.go /START3 OMIT/,/END3 OMIT/
-
-.caption "files.go"
+.image svg/conch0.svg 520 _
 
 #--
-* fileOutput new func (1/2)
+* Sketch Main (Create)
 
-Process file information and produce return type:
-
-.code conch0/files.go /START4 OMIT/,/END4 OMIT/
-
-.caption "files.go"
-
-#--
-* fileOutput new func (2/2)
-
-.code conch0/files.go /START5 OMIT/,/END5 OMIT/
-
-.caption "files.go"
-
-
-
-###
-* Create Concurrency Handling Type
-
-#--
-* Diagram Review
-
-.image svg/conch0.svg 568 _
-
-#--
-* For Dependency/Context
-
-To hold fileInfoGroup and cancellation channel: 
-
-.code conch0/conch.go /START1 OMIT/,/END1 OMIT/
-
-.caption "conch.go"
-
-
-
-###
-* Implement Concurrenct Processing (Funcs/Methods)
-
-#--
-* conch new func
-
-Receive and setup dependencies/context:
-
-.code conch0/conch.go /START2 OMIT/,/END2 OMIT/
-
-.caption "conch.go"
-
-#--
-* conch "surface" methods
-
-Get done channel for cleanup:
-
-.code conch0/conch.go /START3 OMIT/,/END3 OMIT/
-
-Kick-off concurrent processing and get output/err channels:
-
-.code conch0/conch.go /START4 OMIT/,/END4 OMIT/
-
-.caption "conch.go"
-
-#--
-* conch concurrency methods (1/3)
-
-Generate paths to feed to digestion goroutines:
-
-.code conch0/conch.go /START5 OMIT/,/END5 OMIT/
-
-.caption "conch.go"
-
-#--
-* conch concurrency methods (2/3)
-
-Fan-out/fan-in digestion goroutines ("width" is a global):
-
-.code conch0/conch.go /START6 OMIT/,/END6 OMIT/
-
-.caption "conch.go"
-
-#--
-* conch concurrency methods (3/3)
-
-Call processing ("slow" is a global):
-
-.code conch0/conch.go /START7 OMIT/,/END7 OMIT/
-
-.caption "conch.go"
-
-
-
-###
-* Summary Of Types And Funcs/Methods
-
-* Summary (1/2)
-
-Types:
-
-- fileInfoGroup
-- fileOutput
-- conch
-
-Funcs:
-
-- newFileInfoGroup
-- newFileOutput
-- newConch
-
-#--
-* Summary (2/2)
-
-conch Methods:
-
-- done
-- run
-- produce
-- consume
-- digest
-
-
-
-###
-* main
-
-#--
-* Setup main (1/2)
-
-Global vars:
-
-.code conch0/main.go /START1 OMIT/,/END1 OMIT/
-
-Flags:
-
-.code conch0/main.go /START2 OMIT/,/END2 OMIT/
-
-fileInfoGroup:
-
-.code conch0/main.go /START3 OMIT/,/END3 OMIT/
+.code conch0/main.go /BGN1 OMIT/,/END1 OMIT/ HLcreate
 
 .caption "main.go"
 
 #--
-* Setup main (2/2)
+* Sketch Main (Run)
 
-conch:
-
-.code conch0/main.go /START4 OMIT/,/END4 OMIT/
-
-Print Results:
-
-.code conch0/main.go /START5 OMIT/,/END5 OMIT/
+.code conch0/main.go /BGN1 OMIT/,/END1 OMIT/ HLrun
 
 .caption "main.go"
 
 #--
-* Diagram Review
+* Sketch Main (Iterate)
 
-.image svg/conch0.svg 568 _
+.code conch0/main.go /BGN1 OMIT/,/END1 OMIT/ HLiterate
+
+.caption "main.go"
 
 #--
-* Done Diagram Review
+* Sketch Main (Report)
 
-.image svg/conch0_done.svg 568 _
+.code conch0/main.go /BGN1 OMIT/,/END1 OMIT/ HLreport
+
+.caption "main.go"
+
+#--
+* Conch, New Func, and Done
+
+.code conch0/conch.go /BGN1 OMIT/,/END1 OMIT/
+
+.caption "conch.go"
+
+Closing the done channel facilitates "cancelation".
+
+#--
+* Diagram Review For "Run" - Note the right blocks.
+
+.image svg/conch0.svg 520 _
+
+#--
+* Run (Produce)
+
+.code conch0/conch.go /BGN2 OMIT/,/END2 OMIT/ HLproduce
+
+.caption "conch.go"
+
+#--
+* Run (Consume)
+
+.code conch0/conch.go /BGN2 OMIT/,/END2 OMIT/ HLconsume
+
+.caption "conch.go"
+
+#--
+* Run (Error Check)
+
+.code conch0/conch.go /BGN2 OMIT/,/END2 OMIT/ HLerror
+
+.caption "conch.go"
+
+#--
+* Diagram Review For "Produce" - Note the blue line.
+
+.image svg/conch0.svg 520 _
+
+#--
+* Produce
+
+.code conch0/conch.go /BGN3 OMIT/,/END3 OMIT/
+
+.caption "conch.go"
+ 
+#--
+* Diagram Review For "Consume" - Note the red line.
+
+.image svg/conch0.svg 520 _
+
+#--
+* Consume
+
+.code conch0/conch.go /BGN4 OMIT/,/END4 OMIT/
+
+.caption "conch.go"
+
+#--
+* Digest
+
+.code conch0/conch.go /BGN5 OMIT/,/END5 OMIT/
+
+.caption "conch.go"
 
 
+
+###
+* Test
+
+#--
+* Diagram Review Before Testing
+
+.image svg/conch0.svg 520 _
+
+#--
+* This Slide Intentionally Left Blank
+
+You're supposed to demo the application now.
 
 ###
 * Acknowledgements
@@ -267,10 +232,10 @@ Print Results:
 inspiration:
 .link https://blog.golang.org/pipelines
 
-a great graphics tool:
+being a great graphics tool:
 .link https://www.draw.io
 
-correcting cancellation in `conch.produce()`:
+correcting cancelation in `conch.produce()`:
 .link https://github.com/jazeee Jaz Singh @ EUG Go
 
 suggesting a better way of handling the closing of channels:
