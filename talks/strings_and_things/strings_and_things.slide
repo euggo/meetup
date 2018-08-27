@@ -176,12 +176,12 @@ Unicode maps all written characters, marks, etc. to numeric values (> 16 bit spa
 
  Character              a
  Name                   LATIN SMALL LETTER A
- Unicode (decimal/hex)  97 / U+0061
+ Unicode (decimal/hex)  97 / 0x00000061
  Unicode (binary)       00000000 00000000 00000000 01100001
 
  Character              勇
  Name                   CJK COMPATIBILITY IDEOGRAPH-2F825
- Unicode (decimal/hex)  194597 / U+2F825
+ Unicode (decimal/hex)  194597 / 0x0002F825
  Unicode (binary)       00000000 00000010 11111000 00100101
  
 : Unicode code point 194597 requires 24 bit space to ensure uniqueness.
@@ -197,10 +197,10 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 
  Character              a
  Name                   LATIN SMALL LETTER A
- Unicode (decimal/hex)  97 / U+0061
+ Unicode (decimal/hex)  97 / 0x00000061
  Unicode (binary)       00000000 00000000 00000000 01100001
  UTF-8 (binary)         01100001
- UTF-8 (decimal/hex)    97 / \x61
+ UTF-8 (decimal/hex)    97 / 0x61
 
 : UTF-8 "flags" the first bits of the first byte in a sequence to show sequence length. 
 
@@ -209,17 +209,17 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 
  Character              勇
  Name                   CJK COMPATIBILITY IDEOGRAPH-2F825
- Unicode (decimal/hex)  194597 / U+2F825
+ Unicode (decimal/hex)  194597 / 0x0002F825
  Unicode (binary)       00000000 00000010 11111000 00100101
  UTF-8 (binary)         11110000:10101111:10100000:10100101
- UTF-8 (decimal/hex)    240:175:160:165 / \xf0\xaf\xa0\xa5
+ UTF-8 (decimal/hex)    240:175:160:165 / 0xF0 0xAF 0xA0 0xA5
 
  Character              å
  Name                   LATIN SMALL LETTER A WITH RING ABOVE
- Unicode (decimal/hex)  229 / U+00E5
+ Unicode (decimal/hex)  229 / 0x000000E5
  Unicode (binary)       00000000 00000000 00000000 11100101
  UTF-8 (binary)         11000011:10100101
- UTF-8 (decimal/hex)    195:165 / \xc3\xa5
+ UTF-8 (decimal/hex)    195:165 / 0xC3 0xA5
 
 : Notables:
 : The utf8 decimal value for the "å" is 195,165 and is 2 bytes.
@@ -257,8 +257,8 @@ The UTF-8 (Unicode Transformation Format 8) encoding:
 *** `byte` is an alias for `uint8`
 *** `rune` is an alias for `int32`
 
-: utf8 uses bytes (8 bits)
-: again, unicode exceeds 16 bit space (int32 covers this safely)
+: UTF8 uses bytes (8 bits).
+: Again, unicode exceeds 16 bit space (int32 covers this safely).
 : "starting" is italicized because a single rune may be directly related to up to 4 interpreted bytes.
 
 
@@ -332,6 +332,8 @@ Provided by Nilium via #go-nuts on freenode.net:
 **- NFKC Normalization Form Compatibility Composition
 
 .link https://en.wikipedia.org/wiki/Unicode_equivalence#Normal_forms Normal Forms
+
+: The "u+" prefix indicates that the following hex value is intended to represent a unicode code point.
 
 #--
 * Combining Marks Fix Attempt
