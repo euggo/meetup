@@ -367,13 +367,31 @@ Text handling may require:
 
 
 ###
+* Even More To Consider
+
+#--
+* Malformed Data
+
+.play k_gotcha_malformed/main.go /BGN1 OMIT/,/END1 OMIT/
+
+#--
+* Sorry Not Sorry
+
+There is no fix for malformed strings just as there is no "fix" for bad logic.
+
+: Except, of course, by reforming the data/logic correctly from the start.
+
+
+
+###
 * Summary
 
 * Summary
 
-- A `string` tracks an underlying UTF-8 encoded `byte` array and a length.
-- A `string` index ("s[i]") returns an individual UTF-8 encoded byte.
-- A sliced `string` ("s[i:j]") returns a `string` (careful; can be malformed).
+- A `string` tracks an underlying `byte` array and a length.
+- A `string` index ("s[i]") returns an individual `byte`.
+- Bytes from a `string` derived from Unicode code points are UTF-8 formatted. 
+- A sliced `string` ("s[i:j]") returns a `string` (may be malformed UTF-8).
 - Ranging over a `string` provides `rune` access via UTF-8 interpretation.
 - A `rune` represents a Unicode code point.
 - *Text handling should generally rely on relevant libraries.
