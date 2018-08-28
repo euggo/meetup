@@ -38,16 +38,16 @@ Channels are first-class primitives, conduits by which processes can communicate
 
 Home
 
-.link https://github.com/daved/conch0
+.link https://github.com/daved/conch
 
 Get
 
-    go get -u github.com/daved/conch0/...  # "-u" forces update
+    go get -u github.com/daved/conch/...  # "-u" forces update
 
 Run
 
     # setup test files and run main app
-    conchtestdata && conch0
+    conchtestdata && conch
 
 Kill
 
@@ -73,7 +73,7 @@ Kill
 #--
 * Final Directory Tree
     
-    conch0
+    conch
     ├── conch.go
     ├── files.go
     └── main.go
@@ -83,7 +83,7 @@ Kill
 ###
 * Project Diagram
 
-.image svg/conch0.svg 520 _
+.image svg/conch.svg 520 _
 
 
 
@@ -93,14 +93,14 @@ Kill
 #--
 * Gather gzipped file paths from a directory:
 
-.code conch0/files.go /BGN1 OMIT/,/END1 OMIT/
+.code conch/files.go /BGN1 OMIT/,/END1 OMIT/
 
 .caption "files.go"
 
 #--
 * File data structure for additional handling:
 
-.code conch0/files.go /BGN2 OMIT/,/END2 OMIT/
+.code conch/files.go /BGN2 OMIT/,/END2 OMIT/
 
 .caption "files.go"
 
@@ -112,40 +112,40 @@ Kill
 #--
 * Diagram Review For "Main" - Note the left block.
 
-.image svg/conch0.svg 520 _
+.image svg/conch.svg 520 _
 
 #--
 * Sketch Main (Create)
 
-.code conch0/main.go /BGN1 OMIT/,/END1 OMIT/ HLcreate
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLcreate
 
 .caption "main.go"
 
 #--
 * Sketch Main (Run)
 
-.code conch0/main.go /BGN1 OMIT/,/END1 OMIT/ HLrun
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLrun
 
 .caption "main.go"
 
 #--
 * Sketch Main (Iterate)
 
-.code conch0/main.go /BGN1 OMIT/,/END1 OMIT/ HLiterate
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLiterate
 
 .caption "main.go"
 
 #--
 * Sketch Main (Report)
 
-.code conch0/main.go /BGN1 OMIT/,/END1 OMIT/ HLreport
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLreport
 
 .caption "main.go"
 
 #--
 * Conch, New Func, and Done
 
-.code conch0/conch.go /BGN1 OMIT/,/END1 OMIT/
+.code conch/conch.go /BGN1 OMIT/,/END1 OMIT/
 
 .caption "conch.go"
 
@@ -154,57 +154,57 @@ Closing the done channel facilitates "cancelation".
 #--
 * Diagram Review For "Run" - Note the right blocks.
 
-.image svg/conch0.svg 520 _
+.image svg/conch.svg 520 _
 
 #--
 * Run (Produce)
 
-.code conch0/conch.go /BGN2 OMIT/,/END2 OMIT/ HLproduce
+.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLproduce
 
 .caption "conch.go"
 
 #--
 * Run (Consume)
 
-.code conch0/conch.go /BGN2 OMIT/,/END2 OMIT/ HLconsume
+.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLconsume
 
 .caption "conch.go"
 
 #--
 * Run (Error Check)
 
-.code conch0/conch.go /BGN2 OMIT/,/END2 OMIT/ HLerror
+.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLerror
 
 .caption "conch.go"
 
 #--
 * Diagram Review For "Produce" - Note the blue line.
 
-.image svg/conch0.svg 520 _
+.image svg/conch.svg 520 _
 
 #--
 * Produce
 
-.code conch0/conch.go /BGN3 OMIT/,/END3 OMIT/
+.code conch/conch.go /BGN3 OMIT/,/END3 OMIT/
 
 .caption "conch.go"
  
 #--
 * Diagram Review For "Consume" - Note the red line.
 
-.image svg/conch0.svg 520 _
+.image svg/conch.svg 520 _
 
 #--
 * Consume
 
-.code conch0/conch.go /BGN4 OMIT/,/END4 OMIT/
+.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/
 
 .caption "conch.go"
 
 #--
 * Digest
 
-.code conch0/conch.go /BGN5 OMIT/,/END5 OMIT/
+.code conch/conch.go /BGN5 OMIT/,/END5 OMIT/
 
 .caption "conch.go"
 
@@ -216,7 +216,7 @@ Closing the done channel facilitates "cancelation".
 #--
 * Diagram Review Before Testing
 
-.image svg/conch0.svg 520 _
+.image svg/conch.svg 520 _
 
 #--
 * This Slide Intentionally Left Blank
