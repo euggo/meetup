@@ -1,0 +1,61 @@
+###
+Intro To EUG Go
+Let's Jump Into It
+27 Sep 2018
+Tags: intro
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+
+
+
+#--
+* Go At 30,000 Feet
+
+.background https://storage.euggo.org/present/img/clouds_up_high.jpg
+
+- Lightweight, low(ish)-level
+- Strongly and statically typed
+- Quickly compiled w/GC
+- Object-oriented-like
+- Focused on concurrency
+
+: OO-like in that Go does not have type classes; Composition only, no inheritance.
+
+#--
+* Go At 300 Feet
+
+.background https://storage.euggo.org/present/img/largest_tree.jpg
+
+- Fully/Carefully utilize infrastructure
+- Minimize development/maintenance time
+- Encourage testing and documentation
+- Simplify cross-platform deployments
+
+: To be clear, dev time can be slightly longer than avg, but maint far lower.
+: Aside from an overall lower time cost, optimization is usually less necessary.
+
+#--
+* Go At 3 Feet
+
+.background https://storage.euggo.org/present/img/gopher_in_field.jpg
+
+.play ./hw_conc/main.go /BGN OMIT/,/END OMIT/
+
+: colon/equals assignment operator declares and initializes a variable
+: in this case, the variable is a channel of strings with a buffer of "2"
+: a goroutine is ran that sends "world" into the channel and closes it after a sleep
+: "hello" is sent into the same channel while the goroutine is waiting at the sleep func
+: range (or "iterate") over the channel, printing the received strings
+
+* You're Invited!
+
+.background https://storage.euggo.org/present/img/eugene_downtown.jpg
+
+6:30pm, First Thursdays @ RAIN / 942 Olive St. in Downtown Eugene
+
+.caption Bring a laptop if you'd like.
