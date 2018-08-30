@@ -48,10 +48,10 @@ https://github.com/daved
 .play ./hw_conc/main.go /BGN OMIT/,/END OMIT/
 
 : colon/equals assignment operator declares and initializes a variable
-: in this case, the variable is a channel of strings with a buffer of "2"
-: a goroutine is ran that sends "world" into the channel and closes it after a sleep
-: "hello" is sent into the same channel while the goroutine is waiting at the sleep func
-: range (or "iterate") over the channel, printing the received strings
+: in this case, the variable is a channel of strings
+: a concurrent goroutine is ran that sends "eugene" into the channel after sleeping
+: "hello" is printed while the goroutine is waiting at the sleep function
+: the channel is received from and the received value is printed
 
 * You're Invited!
 
