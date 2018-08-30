@@ -18,6 +18,19 @@ https://github.com/daved
 
 .background https://storage.euggo.org/present/img/clouds_up_high.jpg
 
+- Fully/Carefully utilize infrastructure
+- Minimize development/maintenance time
+- Encourage testing and documentation
+- Simplify cross-platform deployments
+
+: To be clear, dev time can be slightly longer than avg, but maint is often far lower.
+: Aside from an overall lower time cost, optimization is usually less necessary.
+
+#--
+* Go At 300 Feet
+
+.background https://storage.euggo.org/present/img/largest_tree.jpg
+
 - Lightweight, low(ish)-level
 - Strongly and statically typed
 - Quickly compiled w/GC
@@ -25,19 +38,6 @@ https://github.com/daved
 - Focused on concurrency
 
 : OO-like in that Go does not have type classes; Composition only, no inheritance.
-
-#--
-* Go At 300 Feet
-
-.background https://storage.euggo.org/present/img/largest_tree.jpg
-
-- Fully/Carefully utilize infrastructure
-- Minimize development/maintenance time
-- Encourage testing and documentation
-- Simplify cross-platform deployments
-
-: To be clear, dev time can be slightly longer than avg, but maint far lower.
-: Aside from an overall lower time cost, optimization is usually less necessary.
 
 #--
 * Go At 3 Feet
@@ -59,3 +59,8 @@ https://github.com/daved
 6:30pm, First Thursdays @ RAIN / 942 Olive St. in Downtown Eugene
 
 .caption Bring a laptop if you'd like.
+
+Resources:
+[[https://golang.org/][The front door: golang.org]]
+[[https://www.meetup.com/eug-go][Go in Eugene (Meetup.com)]]
+[[https://www.euggo.org][Go in Eugene (homepage)]]
