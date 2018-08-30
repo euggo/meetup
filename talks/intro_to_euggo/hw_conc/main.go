@@ -5,20 +5,17 @@ import (
 	"time"
 )
 
+// BGN OMIT
 func main() {
-	// BGN OMIT
-	c := make(chan string, 2)
+	c := make(chan string)
 
 	go func() {
-		time.Sleep(time.Second)
-		c <- "World"
-		close(c)
+		time.Sleep(time.Second * 3)
+		c <- "Eugene"
 	}()
 
-	c <- "Hello"
-
-	for s := range c {
-		fmt.Println(s)
-	}
-	// END OMIT
+	fmt.Print("Hello, ")
+	fmt.Println(<-c)
 }
+
+// END OMIT

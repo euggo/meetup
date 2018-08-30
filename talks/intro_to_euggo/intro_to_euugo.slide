@@ -18,10 +18,10 @@ https://github.com/daved
 
 .background https://storage.euggo.org/present/img/clouds_up_high.jpg
 
-- Fully/Carefully utilize infrastructure
-- Minimize development/maintenance time
-- Encourage testing and documentation
-- Simplify cross-platform deployments
+- Carefully and fully utilize infrastructure
+- Minimize development and maintenance time
+- Encourage testing, benchmarking, and documentation
+- Simplify cross-platform development
 
 : To be clear, dev time can be slightly longer than avg, but maint is often far lower.
 : Aside from an overall lower time cost, optimization is usually less necessary.
@@ -32,12 +32,13 @@ https://github.com/daved
 .background https://storage.euggo.org/present/img/largest_tree.jpg
 
 - Lightweight, low(ish)-level
-- Strongly and statically typed
-- Quickly compiled w/GC
+- Strongly, statically typed; Compiled w/GC
 - Object-oriented-like
-- Focused on concurrency
+- Concurrent; Parallel
 
+: Low-level, but non-deterministic.
 : OO-like in that Go does not have type classes; Composition only, no inheritance.
+: Parallelism when resources permit; Serialized concurrency otherwise.
 
 #--
 * Go At 3 Feet
