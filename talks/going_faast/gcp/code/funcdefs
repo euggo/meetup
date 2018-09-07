@@ -1,0 +1,7 @@
+ func (http.ResponseWriter,*http.Request)     // HTTP
+ func (context.Context, PubSubMessage) error  // Pub/Sub
+ func (context.Context, GCSEvent) error       // Storage
+ func (context.Context, FirestoreEvent) error // Firestore
+ func (context.Context, AnalyticsEvent) error // Analytics (Firebase)
+ func (context.Context, AuthEvent) error      // Firebase Auth
+ func (context.Context, RTDBEvent) error      // Firebase Realtime DB

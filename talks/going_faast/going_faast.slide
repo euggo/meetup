@@ -1,0 +1,133 @@
+###
+Going Faast
+Go In Light Of FAAS
+6 Sep 2018
+Tags: faas, unit, http, interface
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+
+
+
+###
+* What Is FAAS Anyway?
+
+#--
+* Functions As A Service
+
+Simply stated, FAAS is on-demand function calling.
+
+#--
+* Best Use Cases
+
+- Batch Processing (set and forget task processing)
+- Stream Processing (parallel computing)
+- ETL / Extract, Transform, Load (go-between)
+
+#--
+* Exotic/Emerging Use Cases
+
+- Applications formed by "nano-services"
+
+
+
+###
+* Amazon Web Services - Lambda
+
+#-
+* Lambda - Hello
+
+.code -numbers aws/hello/main.go /BGN/,/END/
+
+#--
+* Lambda - Hello - In Use
+
+.play client/awshello/main.go /BGN/,/END/
+
+#-
+* Lambda - Long Echo
+
+.code -numbers aws/longecho/main.go /BGN/,/END/
+
+#--
+* Lambda - Long Echo - In Use
+
+.play client/awslongecho/main.go /BGN/,/END/
+
+
+
+###
+* Google Cloud Platform - Cloud Functions (Alpha)
+
+#-
+* Cloud Functions - Hello
+
+.code -numbers gcp/hello/fn.go /Hand/,/END/
+
+#--
+* Cloud Functions - Hello - In Use
+
+.play client/gcphello/main.go /BGN/,/END/
+
+#-
+* Cloud Functions - Long Echo
+
+.code -numbers gcp/longecho/fn.go /Hand/,/END/
+
+#--
+* Cloud Functions - Long Echo - In Use
+
+.play client/gcplongecho/main.go /BGN/,/END/
+
+
+
+###
+* What's The Diff?
+
+#--
+* Function Definitions
+
+AWS
+.code aws/code/funcdefs
+
+GCP
+.code gcp/code/funcdefs
+
+#--
+* What Do They Tell Me?
+
+What do the following tell me about a given function body?
+
+AWS
+
+ func (context.Context, TIn) error {}
+
+GCP
+
+ func (context.Context, PubSubMessage) error {}
+
+.caption -
+
+What can I do with the following that I can't do otherwise?
+
+GCP
+
+ func(http.ResponseWriter, *http.Request)
+
+###
+* Stepping Away From Vendors
+
+* How Does Go Compare To Language X?
+
+- Faster startup/processing
+- Greater control of streams
+- Generally less dependencies
+
+#--
+* Try This At Home
+
+It's super easy to get started, you can even use a built-in code editor.
