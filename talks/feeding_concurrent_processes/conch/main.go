@@ -7,8 +7,8 @@ import (
 
 // BGN1 OMIT
 func main() {
-	paths, err := gzipFilePaths("./testfiles") // HLpaths
-	if err != nil {                            // HLpaths
+	paths, err := gzipFilePaths("./testdata") // HLpaths
+	if err != nil {                           // HLpaths
 		logFatalln(err) // HLpaths
 	} // HLpaths
 	done := make(chan struct{}) // HLdonechan
