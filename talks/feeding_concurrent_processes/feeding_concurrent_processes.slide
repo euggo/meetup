@@ -18,7 +18,7 @@ https://github.com/codemodus
 * CSP - Communicating Sequential Processes
 
 #--
-* An explicit implementation.
+* An Explicit Implementation
 
 Channels are first-class primitives, conduits by which processes can communicate.
 
@@ -34,7 +34,7 @@ Channels are first-class primitives, conduits by which processes can communicate
 * Project Resources
 
 #--
-* Interacting with the project.
+* Interacting With The Project
 
 Home
 
@@ -57,17 +57,13 @@ Kill
 
 
 ###
-* Concurrent Handler
+* Concurrency Handler
 
 #--
-* Concurrent File Handler Stages
+* Concurrency Handler Project Stages
 
 **- Implement file handling.
-
-- Gather gzipped file paths.
-- Pre-process file info and contents.
-
-**- Implement concurrent processing.
+**- Implement concurrency handling.
 **- Test.
 
 #--
@@ -81,130 +77,262 @@ Kill
 
 
 ###
+* Implement File Handling
+
+#--
+* File Handling Components
+
+**- Gzipped File Paths
+**- File Info Type
+
+Paths will be digested by the concurrency handler in construction of "fileInfo" instances.
+
+#--
+* Gzipped File Paths
+
+.code conch/files.go /BGN1 OMIT/,/END1 OMIT/ HLargs
+
+.caption "files.go"
+
+#--
+* File Info Type And Construction Function
+
+.code conch/files.go /BGN2 OMIT/,/END2 OMIT/ HLargs
+
+.caption "files.go"
+
+
+
+###
+* Implement Concurrency Handling
+
+#--
+* Concurrency Handling Components
+
+**- Orchestrator
+**- Producer
+**- Consumer
+**- Digestor
+
+The orchestrator manages a producer and consumer along with shared wiring.
+
+The consumer manages one or more digestors.
+
+The orchestrator provides access to digested values and processing errors.
+
+#--
 * Project Diagram
 
 .image svg/conch.svg 520 _
 
-
-
-###
-* Implement File Handling
-
 #--
-* Gather gzipped file paths from a directory:
+* Orchestrator
 
-.code conch/files.go /BGN1 OMIT/,/END1 OMIT/
-
-.caption "files.go"
-
-#--
-* File data structure for additional handling:
-
-.code conch/files.go /BGN2 OMIT/,/END2 OMIT/
-
-.caption "files.go"
-
-
-
-###
-* Implement Concurrent Processing
-
-#--
-* Diagram Review For "Main" - Note the left block.
-
-.image svg/conch.svg 520 _
-
-#--
-* Sketch Main (Create)
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLcreate
-
-.caption "main.go"
-
-#--
-* Sketch Main (Run)
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLrun
-
-.caption "main.go"
-
-#--
-* Sketch Main (Iterate)
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLiterate
-
-.caption "main.go"
-
-#--
-* Sketch Main (Report)
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLreport
-
-.caption "main.go"
-
-#--
-* Conch, New Func, and Done
-
-.code conch/conch.go /BGN1 OMIT/,/END1 OMIT/
+.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLargs
 
 .caption "conch.go"
 
-Closing the done channel facilitates "cancelation".
+The done channel facilitates cancelation.
 
 #--
-* Diagram Review For "Run" - Note the right blocks.
-
-.image svg/conch.svg 520 _
-
-#--
-* Run (Produce)
+* Orchestrator (Produce)
 
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLproduce
 
 .caption "conch.go"
 
 #--
-* Run (Consume)
+* Orchestrator (Consume)
 
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLconsume
 
 .caption "conch.go"
 
 #--
-* Run (Error Check)
+* Orchestrator (Error Check Closure)
 
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLerror
 
 .caption "conch.go"
 
 #--
-* Diagram Review For "Produce" - Note the blue line.
+* Orchestrator (return)
+
+.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLreturn
+
+.caption "conch.go"
+
+#--
+* Diagram Review
+
+.image svg/conch.svg 520 _
+
+#--
+* Main
+
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/
+
+.caption "main.go"
+
+#--
+* Main (Paths)
+
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLpaths
+
+.caption "main.go"
+
+#--
+* Main (Done chan)
+
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLdonechan
+
+.caption "main.go"
+
+#--
+* Main (Process)
+
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLprocess
+
+.caption "main.go"
+
+#--
+* Main (Iterate)
+
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLiterate
+
+.caption "main.go"
+
+#--
+* Main (Check Error)
+
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLreport
+
+.caption "main.go"
+
+#--
+* Diagram Review
 
 .image svg/conch.svg 520 _
 
 #--
 * Produce
 
-.code conch/conch.go /BGN3 OMIT/,/END3 OMIT/
+.code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLargs
 
 .caption "conch.go"
- 
+
 #--
-* Diagram Review For "Consume" - Note the red line.
+* Produce (chan)
+
+.code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLchan
+
+.caption "conch.go"
+
+#--
+* Produce (Concurrently)
+
+.code conch/conch.go /BGN31 OMIT/,/END31 OMIT/
+
+.caption "conch.go"
+
+#--
+* Produce (Concurrently - close)
+
+.code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLclose
+
+.caption "conch.go"
+
+#--
+* Produce (Concurrently - select)
+
+.code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLselect
+
+.caption "conch.go"
+
+#--
+* Produce (return)
+
+.code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLreturn
+
+.caption "conch.go"
+
+#--
+* Diagram Review
 
 .image svg/conch.svg 520 _
 
 #--
 * Consume
 
-.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/
+.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLargs
 
 .caption "conch.go"
 
 #--
+* Consume (chan)
+
+.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLchan
+
+.caption "conch.go"
+
+#--
+* Consume (Concurrently)
+
+.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/
+
+.caption "conch.go"
+
+#--
+* Consume (Concurrently - close)
+
+.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLclose
+
+.caption "conch.go"
+
+#--
+* Consume (Concurrently - sync.WaitGroup)
+
+.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwg
+
+.caption "conch.go"
+
+#--
+* Consume (Concurrently - Concurrently)
+
+.code conch/conch.go /BGN411 OMIT/,/END411 OMIT/
+
+.caption "conch.go"
+
+#--
+* Consume (Concurrently - Concurrently - width)
+
+.code conch/conch.go /BGN411 OMIT/,/END411 OMIT/ HLwidth
+
+.caption "conch.go"
+
+#--
+* Consume (Concurrently - Concurrently - digest)
+
+.code conch/conch.go /BGN411 OMIT/,/END411 OMIT/ HLdigest
+
+.caption "conch.go"
+
+#--
+* Consume (return)
+
+.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLreturn
+
+.caption "conch.go"
+
+#--
+* Diagram Review
+
+.image svg/conch.svg 520 _
+
+#--
 * Digest
 
-.code conch/conch.go /BGN5 OMIT/,/END5 OMIT/
+.code conch/conch.go /BGN5 OMIT/,/END5 OMIT/ HLargs
 
 .caption "conch.go"
 
@@ -214,14 +342,16 @@ Closing the done channel facilitates "cancelation".
 * Test
 
 #--
-* Diagram Review Before Testing
+* This Slide Intentionally Left Blank
+
+.caption * No, it's not actually blank, but you are supposed to demo the application now.
+
+#--
+* Final Diagram Review
 
 .image svg/conch.svg 520 _
 
-#--
-* This Slide Intentionally Left Blank
 
-You're supposed to demo the application now.
 
 ###
 * Acknowledgements

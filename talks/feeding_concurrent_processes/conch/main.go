@@ -7,21 +7,26 @@ import (
 
 // BGN1 OMIT
 func main() {
-	paths, err := gzipFilePaths("./testfiles")
-	if err != nil {
-		fmt.Printf("cannot get paths: %s\n", err)
-		os.Exit(1)
-	}
-	c := newConch() // HLcreate
+	paths, err := gzipFilePaths("./testfiles") // HLpaths
+	if err != nil {                            // HLpaths
+		logFatalln(err) // HLpaths
+	} // HLpaths
+	done := make(chan struct{}) // HLdonechan
+	defer close(done)           // HLdonechan
 
-	fis, runErr := c.run(4, paths) // HLrun
-	for fi := range fis {          // HLiterate
+	fis, fisErr := fileInfos(done, 4, paths) // HLprocess
+	for fi := range fis {                    // HLiterate
 		fmt.Println(fi.path, fi.data, fi.err) // HLiterate
 	} // HLiterate
 
-	if err = runErr(); err != nil { // HLreport
-		fmt.Printf("run error: %s\n", err) // HLreport
+	if err = fisErr(); err != nil { // HLreport
+		logFatalln(err) // HLreport
 	} // HLreport
 }
 
 // END1 OMIT
+
+func logFatalln(v ...interface{}) {
+	fmt.Fprintln(os.Stderr, v...) //nolint
+	os.Exit(1)
+}

@@ -2,56 +2,42 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 )
 
-// BGN1 OMIT
-type conch struct {
-	d chan struct{}
-}
-
-func newConch() *conch {
-	return &conch{
-		d: make(chan struct{}),
-	}
-}
-
-func (c *conch) done() chan struct{} {
-	return c.d
-}
-
-// END1 OMIT
-
 // BGN3 OMIT
-func (c *conch) produce(paths []string) (<-chan string, <-chan error) {
-	psc := make(chan string)
-	ec := make(chan error, 1)
+func produce(done <-chan struct{}, paths []string) (<-chan string, <-chan error) { // HLargs
+	psc := make(chan string)   // HLchan
+	esc := make(chan error, 1) // HLchan
 
+	// BGN31 OMIT
 	go func() { // feed paths chan, close chan when complete
-		defer close(psc)
+		defer close(psc) // HLclose
+		defer close(esc) // HLclose
 
 		for _, p := range paths {
-			select {
-			case psc <- p:
-			case <-c.d:
-				ec <- errors.New("canceled")
-				return
-			}
+			select { // HLselect
+			case psc <- p: // HLselect
+			case <-done: // HLselect
+				esc <- errors.New("canceled") // HLselect
+				return                        // HLselect
+			} // HLselect
 		}
 	}()
+	// END31 OMIT
 
-	return psc, ec
+	return psc, esc // HLreturn
 }
 
 // END3 OMIT
 
 // BGN5 OMIT
-func (c *conch) digest(fisc chan<- *fileInfo, psc <-chan string) {
+func digest(done <-chan struct{}, fisc chan<- *fileInfo, psc <-chan string) { // HLargs
 	for p := range psc {
-		fi := newFileInfo(p)
 		select {
-		case fisc <- fi:
-		case <-c.d:
+		case fisc <- newFileInfo(p):
+		case <-done:
 			return
 		}
 	}
@@ -60,44 +46,50 @@ func (c *conch) digest(fisc chan<- *fileInfo, psc <-chan string) {
 // END5 OMIT
 
 // BGN4 OMIT
-func (c *conch) consume(width int, psc <-chan string) <-chan *fileInfo {
-	fisc := make(chan *fileInfo)
+func consume(done <-chan struct{}, width int, psc <-chan string) <-chan *fileInfo { // HLargs
+	fisc := make(chan *fileInfo) // HLchan
 
+	// BGN41 OMIT
 	go func() { // create consumers, close fileInfo channel when complete
-		var wg sync.WaitGroup
-		wg.Add(width)
+		defer close(fisc) // HLclose
 
-		for i := 0; i < width; i++ {
-			go func() { // run consumer in goroutine to bind with wg.Done call
-				c.digest(fisc, psc)
-				wg.Done()
+		var wg sync.WaitGroup // HLwg
+		wg.Add(width)         // HLwg
+
+		// BGN411 OMIT
+		for i := 0; i < width; i++ { // HLwidth
+			go func() { // run in goroutine to bind with wg.Done call
+				digest(done, fisc, psc) // HLdigest
+				wg.Done()               // HLwg
 			}()
-		}
+		} // HLwidth
+		// END411 OMIT
 
-		wg.Wait()
-		close(fisc)
+		wg.Wait() // HLwg
 	}()
+	// END41 OMIT
 
-	return fisc
+	return fisc // HLreturn
 }
 
 // END4 OMIT
 
 // BGN2 OMIT
-func (c *conch) run(width int, paths []string) (<-chan *fileInfo, func() error) {
-	psc, ec := c.produce(paths)   // HLproduce
-	fisc := c.consume(width, psc) // HLconsume
+func fileInfos(done <-chan struct{}, width int, paths []string) (<-chan *fileInfo, func() error) { // HLargs
+	psc, esc := produce(done, paths)  // HLproduce
+	fisc := consume(done, width, psc) // HLconsume
 
+	var last error          // HLerror
 	errFn := func() error { // HLerror
-		select { // HLerror
-		case err := <-ec: // HLerror
-			return err // HLerror
-		default: // HLerror
-			return nil // HLerror
+		if err := <-esc; err != nil { // HLerror
+			last = fmt.Errorf("cannot handle fileInfos: %s", err) // HLerror
+			return last                                           // HLerror
 		} // HLerror
+
+		return last // HLerror
 	} // HLerror
 
-	return fisc, errFn
+	return fisc, errFn // HLreturn
 }
 
 // END2 OMIT

@@ -2,6 +2,7 @@ package main
 
 import (
 	"compress/gzip"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -15,46 +16,46 @@ type fileInfo struct {
 	err  error
 }
 
-func newFileInfo(path string) *fileInfo {
-	// open file at path, decompress while reading
-	// return *fileInfo
+func newFileInfo(path string) *fileInfo { // HLargs
+	// open file at path
+	// decompress data while reading file
+	// return a pointer to an instance of fileInfo
 	// END2 OMIT
-	fo := &fileInfo{path: path}
 
 	f, err := os.Open(path)
 	if err != nil {
-		fo.err = err
-		return fo
+		return &fileInfo{path: path, err: err}
 	}
-	defer func() {
-		_ = f.Close()
-	}()
+	defer f.Close() //nolint
 
 	gzr, err := gzip.NewReader(f)
 	if err != nil {
-		fo.err = err
-		return fo
+		return &fileInfo{path: path, err: err}
 	}
-	defer func() {
-		_ = gzr.Close()
-	}()
+	defer gzr.Close() //nolint
 
 	data, err := ioutil.ReadAll(gzr)
 	if err != nil {
-		fo.err = err
-		return fo
+		return &fileInfo{path: path, err: err}
 	}
 
-	fo.data = string(data)
-
-	return fo
+	return &fileInfo{path: path, data: string(data)}
 }
 
 // BGN1 OMIT
-func gzipFilePaths(dir string) ([]string, error) {
+func gzipFilePaths(dir string) ([]string, error) { // HLargs
+	// read directory listing
+	// iterate over listed files gathering paths of gzipped files
+	// return slice of paths and a potential error
+	// END1 OMIT
+
+	wrapErr := func(err error) error {
+		return fmt.Errorf("cannot get gzip paths: %s", err)
+	}
+
 	fis, err := ioutil.ReadDir(dir)
 	if err != nil {
-		return nil, err
+		return nil, wrapErr(err)
 	}
 
 	for k := len(fis) - 1; k >= 0; k-- {
@@ -70,8 +71,6 @@ func gzipFilePaths(dir string) ([]string, error) {
 
 	return paths, nil
 }
-
-// END1 OMIT
 
 func isGzipFile(fi os.FileInfo) bool {
 	return !fi.IsDir() && strings.HasSuffix(fi.Name(), ".gz")
