@@ -1,7 +1,7 @@
 ###
 Feeding Concurrent Processes
 Excuse me, Plato, are you done with that fork?
-3 Nov 2016
+4 Oct 2018
 Tags: concurrency, channels
 
 
@@ -62,7 +62,7 @@ Kill
 #--
 * Concurrency Handler Project Stages
 
-**- Implement file handling.
+**- Implement gzipped file handling.
 **- Implement concurrency handling.
 **- Test.
 
@@ -82,13 +82,13 @@ Kill
 #--
 * File Handling Components
 
-**- Gzipped File Paths
-**- File Info Type
+**- Gzipped Filepath Gatherer
+**- File Info Type And Construction Function
 
-Paths will be digested by the concurrency handler in construction of "fileInfo" instances.
+Paths will be digested by the concurrency handler to construct "fileInfo" instances.
 
 #--
-* Gzipped File Paths
+* Gzipped Filepath Gatherer
 
 .code conch/files.go /BGN1 OMIT/,/END1 OMIT/ HLargs
 
@@ -118,7 +118,7 @@ The orchestrator manages a producer and consumer along with shared wiring.
 
 The consumer manages one or more digestors.
 
-The orchestrator provides access to digested values and processing errors.
+The orchestrator provides access to digested values and orchestration errors.
 
 #--
 * Project Diagram
@@ -333,6 +333,20 @@ The done channel facilitates cancelation.
 * Digest
 
 .code conch/conch.go /BGN5 OMIT/,/END5 OMIT/ HLargs
+
+.caption "conch.go"
+
+#--
+* Digest
+
+.code conch/conch.go /BGN5 OMIT/,/END5 OMIT/ HLreceive
+
+.caption "conch.go"
+
+#--
+* Digest
+
+.code conch/conch.go /BGN5 OMIT/,/END5 OMIT/ HLselect
 
 .caption "conch.go"
 

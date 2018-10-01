@@ -34,13 +34,13 @@ func produce(done <-chan struct{}, paths []string) (<-chan string, <-chan error)
 
 // BGN5 OMIT
 func digest(done <-chan struct{}, fisc chan<- *fileInfo, psc <-chan string) { // HLargs
-	for p := range psc {
-		select {
-		case fisc <- newFileInfo(p):
-		case <-done:
-			return
-		}
-	}
+	for p := range psc { // HLreceive
+		select { // HLselect
+		case fisc <- newFileInfo(p): // HLselect
+		case <-done: // HLselect
+			return // HLselect
+		} // HLselect
+	} // HLreceive
 }
 
 // END5 OMIT
