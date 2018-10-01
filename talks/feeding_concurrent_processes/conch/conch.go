@@ -79,17 +79,25 @@ func fileInfos(done <-chan struct{}, width int, paths []string) (<-chan *fileInf
 	psc, esc := produce(done, paths)  // HLproduce
 	fisc := consume(done, width, psc) // HLconsume
 
-	var last error          // HLerror
-	errFn := func() error { // HLerror
-		if err := <-esc; err != nil { // HLerror
-			last = fmt.Errorf("cannot handle fileInfos: %s", err) // HLerror
-			return last                                           // HLerror
-		} // HLerror
-
-		return last // HLerror
-	} // HLerror
+	errFn := fileInfosErrorFunc(esc) // HLerror
 
 	return fisc, errFn // HLreturn
 }
 
 // END2 OMIT
+
+// BGN21 OMIT
+func fileInfosErrorFunc(esc <-chan error) func() error { // HLargs
+	var last error // HLstate
+
+	return func() error {
+		if err := <-esc; err != nil { // HLerrorchan
+			last = fmt.Errorf("cannot handle fileInfos: %s", err) // HLstate
+			return last                                           // HLstate
+		} // HLerrorchan
+
+		return last // HLstate
+	}
+}
+
+// END21 OMIT

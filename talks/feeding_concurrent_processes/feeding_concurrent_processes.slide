@@ -1,6 +1,6 @@
 ###
 Feeding Concurrent Processes
-Excuse me, Plato, are you done with that fork?
+Excuse me, Plato, please pass that fork.
 4 Oct 2018
 Tags: concurrency, channels
 
@@ -82,13 +82,13 @@ Kill
 #--
 * File Handling Components
 
-**- Gzipped Filepath Gatherer
+**- Gzip Filepath Gatherer
 **- File Info Type And Construction Function
 
-Paths will be digested by the concurrency handler to construct "fileInfo" instances.
+Paths will be digested by the concurrency handler to create "fileInfo" instances.
 
 #--
-* Gzipped Filepath Gatherer
+* Gzip Filepath Gatherer
 
 .code conch/files.go /BGN1 OMIT/,/END1 OMIT/ HLargs
 
@@ -149,9 +149,30 @@ The done channel facilitates cancelation.
 .caption "conch.go"
 
 #--
-* Orchestrator (Error Check Closure)
+* Orchestrator (error func)
 
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLerror
+
+.caption "conch.go"
+
+#--
+* Orchestrator (error Check Closure)
+
+.code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLargs
+
+.caption "conch.go"
+
+#--
+* Orchestrator (error Check Closure - State)
+
+.code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLstate
+
+.caption "conch.go"
+
+#--
+* Orchestrator (error Check Closure - chan)
+
+.code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLerrorchan
 
 .caption "conch.go"
 
