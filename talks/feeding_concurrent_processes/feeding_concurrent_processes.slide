@@ -436,13 +436,13 @@ The orchestrator provides access to digested values and orchestration errors.
 #--
 * For ...
 
-inspiration:
+learning:
 .link https://blog.golang.org/pipelines
 
 being a great graphics tool:
 .link https://www.draw.io
 
-correcting cancelation in `conch.produce()`:
+correcting cancelation in `produce()`:
 .link https://github.com/jazeee Jaz Singh @ EUG Go
 
 suggesting a better way of handling the closing of channels:
