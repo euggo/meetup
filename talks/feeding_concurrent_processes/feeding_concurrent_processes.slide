@@ -132,52 +132,55 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
-The done channel facilitates cancelation.
-
 #--
-* Orchestrator (Produce)
+* Orchestrator
+{JUMP}
 
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLproduce
 
 .caption "conch.go"
 
 #--
-* Orchestrator (Consume)
+* Orchestrator
+{JUMP}
 
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLconsume
 
 .caption "conch.go"
 
 #--
-* Orchestrator (error func)
+* Orchestrator
+{JUMP}
 
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLerror
 
 .caption "conch.go"
 
 #--
-* Orchestrator (error Check Closure)
+* Orchestrator (error Closure)
 
 .code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLargs
 
 .caption "conch.go"
 
 #--
-* Orchestrator (error Check Closure - State)
+* Orchestrator (error Closure)
+{JUMP}
 
 .code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLstate
 
 .caption "conch.go"
 
 #--
-* Orchestrator (error Check Closure - chan)
+* Orchestrator (error Closure)
+{JUMP}
 
 .code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLerrorchan
 
 .caption "conch.go"
 
 #--
-* Orchestrator (return)
+* Orchestrator
 
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLreturn
 
@@ -191,40 +194,45 @@ The done channel facilitates cancelation.
 #--
 * Main
 
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLargs
 
 .caption "main.go"
 
 #--
-* Main (Paths)
+* Main
+{JUMP}
 
 .code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLpaths
 
 .caption "main.go"
 
 #--
-* Main (Done chan)
+* Main
+{JUMP}
 
 .code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLdonechan
 
 .caption "main.go"
 
 #--
-* Main (Process)
+* Main
+{JUMP}
 
 .code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLprocess
 
 .caption "main.go"
 
 #--
-* Main (Iterate)
+* Main
+{JUMP}
 
 .code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLiterate
 
 .caption "main.go"
 
 #--
-* Main (Check Error)
+* Main
+{JUMP}
 
 .code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLreport
 
@@ -243,35 +251,46 @@ The done channel facilitates cancelation.
 .caption "conch.go"
 
 #--
-* Produce (chan)
+* Produce
+{JUMP}
 
 .code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLchan
 
 .caption "conch.go"
 
 #--
-* Produce (Concurrently)
+* Produce
+{JUMP}
 
-.code conch/conch.go /BGN31 OMIT/,/END31 OMIT/
+.code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLgoroutine
 
 .caption "conch.go"
 
 #--
-* Produce (Concurrently - close)
+* Produce (goroutine)
+
+.code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLgoroutine
+
+.caption "conch.go"
+
+#--
+* Produce (goroutine)
+{JUMP}
 
 .code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLclose
 
 .caption "conch.go"
 
 #--
-* Produce (Concurrently - select)
+* Produce (goroutine)
+{JUMP}
 
 .code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLselect
 
 .caption "conch.go"
 
 #--
-* Produce (return)
+* Produce
 
 .code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLreturn
 
@@ -290,56 +309,77 @@ The done channel facilitates cancelation.
 .caption "conch.go"
 
 #--
-* Consume (chan)
+* Consume
+{JUMP}
 
 .code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLchan
 
 .caption "conch.go"
 
 #--
-* Consume (Concurrently)
+* Consume
+{JUMP}
 
-.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/
+.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLgoroutine
 
 .caption "conch.go"
 
 #--
-* Consume (Concurrently - close)
+* Consume (goroutine)
+
+.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLgoroutine
+
+.caption "conch.go"
+
+#--
+* Consume (goroutine)
+{JUMP}
 
 .code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLclose
 
 .caption "conch.go"
 
 #--
-* Consume (Concurrently - sync.WaitGroup)
+* Consume (goroutine)
+{JUMP}
 
 .code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwg
 
 .caption "conch.go"
 
 #--
-* Consume (Concurrently - Concurrently)
+* Consume (goroutine)
+{JUMP}
 
-.code conch/conch.go /BGN411 OMIT/,/END411 OMIT/
+.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwidth
 
 .caption "conch.go"
 
 #--
-* Consume (Concurrently - Concurrently - width)
+* Consume (goroutine - goroutines)
 
 .code conch/conch.go /BGN411 OMIT/,/END411 OMIT/ HLwidth
 
 .caption "conch.go"
 
 #--
-* Consume (Concurrently - Concurrently - digest)
+* Consume (goroutine - goroutines)
+{JUMP}
+
+.code conch/conch.go /BGN411 OMIT/,/END411 OMIT/ HLgogoroutine
+
+.caption "conch.go"
+
+#--
+* Consume (goroutine - goroutines)
+{JUMP}
 
 .code conch/conch.go /BGN411 OMIT/,/END411 OMIT/ HLdigest
 
 .caption "conch.go"
 
 #--
-* Consume (return)
+* Consume
 
 .code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLreturn
 
@@ -359,6 +399,7 @@ The done channel facilitates cancelation.
 
 #--
 * Digest
+{JUMP}
 
 .code conch/conch.go /BGN5 OMIT/,/END5 OMIT/ HLreceive
 
@@ -366,6 +407,7 @@ The done channel facilitates cancelation.
 
 #--
 * Digest
+{JUMP}
 
 .code conch/conch.go /BGN5 OMIT/,/END5 OMIT/ HLselect
 

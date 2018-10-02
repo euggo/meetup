@@ -12,7 +12,7 @@ func produce(done <-chan struct{}, paths []string) (<-chan string, <-chan error)
 	esc := make(chan error, 1) // HLchan
 
 	// BGN31 OMIT
-	go func() { // feed paths chan, close chan when complete
+	go func() { // feed paths chan, close chan when complete // HLgoroutine
 		defer close(psc) // HLclose
 		defer close(esc) // HLclose
 
@@ -24,11 +24,11 @@ func produce(done <-chan struct{}, paths []string) (<-chan string, <-chan error)
 				return                        // HLselect
 			} // HLselect
 		}
-	}()
+	}() // HLgoroutine
 	// END31 OMIT
 
 	return psc, esc // HLreturn
-}
+} // HLargs
 
 // END3 OMIT
 
@@ -41,7 +41,7 @@ func digest(done <-chan struct{}, fisc chan<- *fileInfo, psc <-chan string) { //
 			return // HLselect
 		} // HLselect
 	} // HLreceive
-}
+} // HLargs
 
 // END5 OMIT
 
@@ -50,7 +50,7 @@ func consume(done <-chan struct{}, width int, psc <-chan string) <-chan *fileInf
 	fisc := make(chan *fileInfo) // HLchan
 
 	// BGN41 OMIT
-	go func() { // create consumers, close fileInfo channel when complete
+	go func() { // create consumers, close fileInfo channel when complete // HLgoroutine
 		defer close(fisc) // HLclose
 
 		var wg sync.WaitGroup // HLwg
@@ -58,19 +58,19 @@ func consume(done <-chan struct{}, width int, psc <-chan string) <-chan *fileInf
 
 		// BGN411 OMIT
 		for i := 0; i < width; i++ { // HLwidth
-			go func() { // run in goroutine to bind with wg.Done call
+			go func() { // run in goroutine to bind with wg.Done call // HLgogoroutine
 				digest(done, fisc, psc) // HLdigest
 				wg.Done()               // HLwg
-			}()
+			}() // HLgogoroutine
 		} // HLwidth
 		// END411 OMIT
 
 		wg.Wait() // HLwg
-	}()
+	}() // HLgoroutine
 	// END41 OMIT
 
 	return fisc // HLreturn
-}
+} // HLargs
 
 // END4 OMIT
 
@@ -82,7 +82,7 @@ func fileInfos(done <-chan struct{}, width int, paths []string) (<-chan *fileInf
 	errFn := fileInfosErrorFunc(esc) // HLerror
 
 	return fisc, errFn // HLreturn
-}
+} // HLargs
 
 // END2 OMIT
 
@@ -98,6 +98,6 @@ func fileInfosErrorFunc(esc <-chan error) func() error { // HLargs
 
 		return last // HLstate
 	}
-}
+} // HLargs
 
 // END21 OMIT

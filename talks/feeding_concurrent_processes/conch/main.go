@@ -6,7 +6,7 @@ import (
 )
 
 // BGN1 OMIT
-func main() {
+func main() { // HLargs
 	paths, err := gzipFilePaths("./testdata") // HLpaths
 	if err != nil {                           // HLpaths
 		logFatalln(err) // HLpaths
@@ -22,7 +22,7 @@ func main() {
 	if err = fisErr(); err != nil { // HLreport
 		logFatalln(err) // HLreport
 	} // HLreport
-}
+} // HLargs
 
 // END1 OMIT
 

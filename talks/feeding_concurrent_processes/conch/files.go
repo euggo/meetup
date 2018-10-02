@@ -40,7 +40,7 @@ func newFileInfo(path string) *fileInfo { // HLargs
 	}
 
 	return &fileInfo{path: path, data: string(data)}
-}
+} // HLargs
 
 // BGN1 OMIT
 func gzipFilePaths(dir string) ([]string, error) { // HLargs
@@ -70,7 +70,7 @@ func gzipFilePaths(dir string) ([]string, error) { // HLargs
 	}
 
 	return paths, nil
-}
+} // HLargs
 
 func isGzipFile(fi os.FileInfo) bool {
 	return !fi.IsDir() && strings.HasSuffix(fi.Name(), ".gz")
