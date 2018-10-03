@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 // BGN1 OMIT
@@ -12,7 +14,7 @@ func main() { // HLargs
 		logFatalln(err) // HLpaths
 	} // HLpaths
 	done := make(chan struct{}) // HLdonechan
-	defer close(done)           // HLdonechan
+	closeOnTerm(done)           // close done channel if SIGTERM is received // HLdonechan
 
 	fis, fisErr := fileInfos(done, 4, paths) // HLprocess
 	for fi := range fis {                    // HLiterate
@@ -29,4 +31,14 @@ func main() { // HLargs
 func logFatalln(v ...interface{}) {
 	fmt.Fprintln(os.Stderr, v...) //nolint
 	os.Exit(1)
+}
+
+func closeOnTerm(done chan struct{}) {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGTERM)
+
+	go func() {
+		<-c
+		close(done)
+	}()
 }

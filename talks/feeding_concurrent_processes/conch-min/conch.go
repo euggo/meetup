@@ -1,33 +1,24 @@
 package main
 
 import (
-	"errors"
-	"fmt"
 	"sync"
 )
 
 // BGN3 OMIT
-func produce(done <-chan struct{}, paths []string) (<-chan string, <-chan error) { // HLargs
-	psc := make(chan string)   // HLchan
-	esc := make(chan error, 1) // HLchan
+func produce(paths []string) <-chan string { // HLargs
+	psc := make(chan string) // HLchan
 
 	// BGN31 OMIT
 	go func() { // feed paths chan, close chan when complete // HLgoroutine
 		defer close(psc) // HLclose
-		defer close(esc) // HLclose
 
 		for _, p := range paths { // HLiterate
-			select { // HLselect
-			case psc <- p: // HLselect
-			case <-done: // HLselect
-				esc <- errors.New("canceled") // HLselect
-				return                        // HLselect
-			} // HLselect
+			psc <- p // HLselect
 		} // HLiterate
 	}() // HLgoroutine
 	// END31 OMIT
 
-	return psc, esc // HLreturn
+	return psc // HLreturn
 } // HLargs
 
 // END3 OMIT
@@ -71,29 +62,11 @@ func consume(width int, psc <-chan string) <-chan *fileInfo { // HLargs
 // END4 OMIT
 
 // BGN2 OMIT
-func fileInfos(done <-chan struct{}, width int, paths []string) (<-chan *fileInfo, func() error) { // HLargs
-	psc, esc := produce(done, paths) // HLproduce
-	fisc := consume(width, psc)      // HLconsume
+func fileInfos(width int, paths []string) <-chan *fileInfo { // HLargs
+	psc := produce(paths)       // HLproduce
+	fisc := consume(width, psc) // HLconsume
 
-	errFn := fileInfosErrorFunc(esc) // HLerror
-
-	return fisc, errFn // HLreturn
+	return fisc // HLreturn
 } // HLargs
 
 // END2 OMIT
-
-// BGN21 OMIT
-func fileInfosErrorFunc(esc <-chan error) func() error { // HLargs
-	var last error // HLstate
-
-	return func() error {
-		if err := <-esc; err != nil { // HLerrorchan
-			last = fmt.Errorf("cannot handle fileInfos: %s", err) // HLstate
-			return last                                           // HLstate
-		} // HLerrorchan
-
-		return last // HLstate
-	}
-} // HLargs
-
-// END21 OMIT

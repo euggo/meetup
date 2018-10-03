@@ -22,11 +22,7 @@ https://github.com/codemodus
 
 Channels are first-class primitives, conduits by which processes can communicate.
 
-"Don't communicate by sharing memory, share memory by communicating."
-
-.link https://www.youtube.com/watch?v=PAAkCSZUG1c&t=2m48s - Rob Pike "Go Proverbs @ Gopherfest 2015"
-
-: Erlang is also based on CSP, but as in the original Hoare papers, the "conduits" are implicit.
+: Erlang is also based on CSP, but as in the original Hoare papers, the "conduits" are implicit and infinitely buffered.
 
 
 
@@ -90,14 +86,14 @@ Paths will be digested by the concurrency handler to create "fileInfo" instances
 #--
 * Gzip Filepath Gatherer
 
-.code conch/files.go /BGN1 OMIT/,/END1 OMIT/ HLargs
+.code conch-min/files.go /BGN1 OMIT/,/END1 OMIT/ HLargs
 
 .caption "files.go"
 
 #--
 * File Info Type And Construction Function
 
-.code conch/files.go /BGN2 OMIT/,/END2 OMIT/ HLargs
+.code conch-min/files.go /BGN2 OMIT/,/END2 OMIT/ HLargs
 
 .caption "files.go"
 
@@ -128,6 +124,277 @@ The orchestrator provides access to digested values and orchestration errors.
 #--
 * Orchestrator
 
+.code conch-min/conch.go /BGN2 OMIT/,/END2 OMIT/ HLargs
+
+.caption "conch.go"
+
+#--
+* Orchestrator
+{JUMP}
+
+.code conch-min/conch.go /BGN2 OMIT/,/END2 OMIT/ HLproduce
+
+.caption "conch.go"
+
+#--
+* Orchestrator
+{JUMP}
+
+.code conch-min/conch.go /BGN2 OMIT/,/END2 OMIT/ HLconsume
+
+.caption "conch.go"
+
+#--
+* Orchestrator
+{JUMP}
+
+.code conch-min/conch.go /BGN2 OMIT/,/END2 OMIT/ HLreturn
+
+.caption "conch.go"
+
+#--
+* Project Diagram
+
+.image svg/conch.svg 520 _
+
+#--
+* Main
+
+.code conch-min/main.go /BGN1 OMIT/,/END1 OMIT/ HLargs
+
+.caption "main.go"
+
+#--
+* Main
+{JUMP}
+
+.code conch-min/main.go /BGN1 OMIT/,/END1 OMIT/ HLpaths
+
+.caption "main.go"
+
+#--
+* Main
+{JUMP}
+
+.code conch-min/main.go /BGN1 OMIT/,/END1 OMIT/ HLprocess
+
+.caption "main.go"
+
+#--
+* Main
+{JUMP}
+
+.code conch-min/main.go /BGN1 OMIT/,/END1 OMIT/ HLiterate
+
+.caption "main.go"
+
+#--
+* Project Diagram
+
+.image svg/conch.svg 520 _
+
+#--
+* Produce
+
+.code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLargs
+
+.caption "conch.go"
+
+#--
+* Produce
+{JUMP}
+
+.code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLchan
+
+.caption "conch.go"
+
+#--
+* Produce
+{JUMP}
+
+.code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLgoroutine
+
+.caption "conch.go"
+
+#--
+* Produce (goroutine)
+
+.code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLgoroutine
+
+.caption "conch.go"
+
+#--
+* Produce (goroutine)
+{JUMP}
+
+.code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLclose
+
+.caption "conch.go"
+
+#--
+* Produce (goroutine)
+{JUMP}
+
+.code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLiterate
+
+.caption "conch.go"
+
+#--
+* Produce (goroutine)
+{JUMP}
+
+.code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLselect
+
+.caption "conch.go"
+
+#--
+* Produce
+
+.code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLreturn
+
+.caption "conch.go"
+
+#--
+* Consume
+
+.code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLargs
+
+.caption "conch.go"
+
+#--
+* Consume
+{JUMP}
+
+.code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLchan
+
+.caption "conch.go"
+
+#--
+* Consume
+{JUMP}
+
+.code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLgoroutine
+
+.caption "conch.go"
+
+#--
+* Consume (goroutine)
+
+.code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLgoroutine
+
+.caption "conch.go"
+
+#--
+* Consume (goroutine)
+{JUMP}
+
+.code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLclose
+
+.caption "conch.go"
+
+#--
+* Consume (goroutine)
+{JUMP}
+
+.code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwg
+
+.caption "conch.go"
+
+#--
+* Consume (goroutine)
+{JUMP}
+
+.code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwidth
+
+.caption "conch.go"
+
+#--
+* Consume (goroutine - goroutines)
+
+.code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLwidth
+
+.caption "conch.go"
+
+#--
+* Consume (goroutine - goroutines)
+{JUMP}
+
+.code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLgogoroutine
+
+.caption "conch.go"
+
+#--
+* Consume (goroutine - goroutines)
+{JUMP}
+
+.code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLdigest
+
+.caption "conch.go"
+
+#--
+* Consume
+
+.code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLreturn
+
+.caption "conch.go"
+
+#--
+* Project Diagram
+
+.image svg/conch.svg 520 _
+
+#--
+* Digest
+
+.code conch-min/conch.go /BGN5 OMIT/,/END5 OMIT/ HLargs
+
+.caption "conch.go"
+
+#--
+* Digest
+{JUMP}
+
+.code conch-min/conch.go /BGN5 OMIT/,/END5 OMIT/ HLreceive
+
+.caption "conch.go"
+
+#--
+* Digest
+{JUMP}
+
+.code conch-min/conch.go /BGN5 OMIT/,/END5 OMIT/ HLprocess
+
+.caption "conch.go"
+
+
+
+###
+* Test
+
+#--
+* This Slide Intentionally Left Blank
+
+.caption * No, it's not actually blank, but you are supposed to demo the application now.
+
+
+
+###
+* Concurrency Handler (With Cancelation)
+
+#--
+* Project Diagram (without cancelation)
+
+.image svg/conch.svg 520 _
+
+#--
+* Project Diagram
+{JUMP}
+
+.image svg/conch_done.svg 520 _
+
+#--
+* Orchestrator
+
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLargs
 
 .caption "conch.go"
@@ -139,109 +406,6 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLproduce
 
 .caption "conch.go"
-
-#--
-* Orchestrator
-{JUMP}
-
-.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLconsume
-
-.caption "conch.go"
-
-#--
-* Orchestrator
-{JUMP}
-
-.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLerror
-
-.caption "conch.go"
-
-#--
-* Orchestrator (error Closure)
-
-.code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLargs
-
-.caption "conch.go"
-
-#--
-* Orchestrator (error Closure)
-{JUMP}
-
-.code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLstate
-
-.caption "conch.go"
-
-#--
-* Orchestrator (error Closure)
-{JUMP}
-
-.code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLerrorchan
-
-.caption "conch.go"
-
-#--
-* Orchestrator
-
-.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLreturn
-
-.caption "conch.go"
-
-#--
-* Diagram Review
-
-.image svg/conch.svg 520 _
-
-#--
-* Main
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLargs
-
-.caption "main.go"
-
-#--
-* Main
-{JUMP}
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLpaths
-
-.caption "main.go"
-
-#--
-* Main
-{JUMP}
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLdonechan
-
-.caption "main.go"
-
-#--
-* Main
-{JUMP}
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLprocess
-
-.caption "main.go"
-
-#--
-* Main
-{JUMP}
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLiterate
-
-.caption "main.go"
-
-#--
-* Main
-{JUMP}
-
-.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLreport
-
-.caption "main.go"
-
-#--
-* Diagram Review
-
-.image svg/conch.svg 520 _
 
 #--
 * Produce
@@ -297,136 +461,77 @@ The orchestrator provides access to digested values and orchestration errors.
 .caption "conch.go"
 
 #--
-* Diagram Review
+* Orchestrator
 
-.image svg/conch.svg 520 _
-
-#--
-* Consume
-
-.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLargs
+.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLerror
 
 .caption "conch.go"
 
 #--
-* Consume
+* Orchestrator (error Closure)
+
+.code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLargs
+
+.caption "conch.go"
+
+#--
+* Orchestrator (error Closure)
 {JUMP}
 
-.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLchan
+.code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLstate
 
 .caption "conch.go"
 
 #--
-* Consume
+* Orchestrator (error Closure)
 {JUMP}
 
-.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLgoroutine
+.code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLerrorchan
 
 .caption "conch.go"
 
 #--
-* Consume (goroutine)
+* Orchestrator
 
-.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLgoroutine
+.code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLreturn
 
 .caption "conch.go"
 
 #--
-* Consume (goroutine)
+* Main
+
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLargs
+
+.caption "main.go"
+
+#--
+* Main
 {JUMP}
 
-.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLclose
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLdonechan
 
-.caption "conch.go"
+.caption "main.go"
 
 #--
-* Consume (goroutine)
+* Main
 {JUMP}
 
-.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwg
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLprocess
 
-.caption "conch.go"
+.caption "main.go"
 
 #--
-* Consume (goroutine)
+* Main
 {JUMP}
 
-.code conch/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwidth
+.code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLreport
 
-.caption "conch.go"
-
-#--
-* Consume (goroutine - goroutines)
-
-.code conch/conch.go /BGN411 OMIT/,/END411 OMIT/ HLwidth
-
-.caption "conch.go"
+.caption "main.go"
 
 #--
-* Consume (goroutine - goroutines)
-{JUMP}
+* Project Diagram
 
-.code conch/conch.go /BGN411 OMIT/,/END411 OMIT/ HLgogoroutine
-
-.caption "conch.go"
-
-#--
-* Consume (goroutine - goroutines)
-{JUMP}
-
-.code conch/conch.go /BGN411 OMIT/,/END411 OMIT/ HLdigest
-
-.caption "conch.go"
-
-#--
-* Consume
-
-.code conch/conch.go /BGN4 OMIT/,/END4 OMIT/ HLreturn
-
-.caption "conch.go"
-
-#--
-* Diagram Review
-
-.image svg/conch.svg 520 _
-
-#--
-* Digest
-
-.code conch/conch.go /BGN5 OMIT/,/END5 OMIT/ HLargs
-
-.caption "conch.go"
-
-#--
-* Digest
-{JUMP}
-
-.code conch/conch.go /BGN5 OMIT/,/END5 OMIT/ HLreceive
-
-.caption "conch.go"
-
-#--
-* Digest
-{JUMP}
-
-.code conch/conch.go /BGN5 OMIT/,/END5 OMIT/ HLselect
-
-.caption "conch.go"
-
-
-
-###
-* Test
-
-#--
-* This Slide Intentionally Left Blank
-
-.caption * No, it's not actually blank, but you are supposed to demo the application now.
-
-#--
-* Final Diagram Review
-
-.image svg/conch.svg 520 _
+.image svg/conch_done.svg 520 _
 
 
 
