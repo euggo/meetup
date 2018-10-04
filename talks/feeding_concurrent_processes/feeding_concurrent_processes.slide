@@ -18,11 +18,51 @@ https://github.com/codemodus
 * CSP - Communicating Sequential Processes
 
 #--
-* An Explicit Implementation
+* What Is "Communicating Sequential Processes" (CSP)?
 
-Channels are first-class primitives, conduits by which processes can communicate.
+CSP describes patterns of data flow management across parallel processes.
 
-: Erlang is also based on CSP, but as in the original Hoare papers, the "conduits" are implicit and infinitely buffered.
+: Useful data flow avoids data races.
+: A data race is the simultaneous access of a memory location by two or more processes where at least one access is a write procedure.
+
+#--
+* Concurrent Processes In Go
+
+The "go" keyword declares a function to be a "goroutine" that will run concurrently. 
+
+ go subroutine()
+
+Go's runtime scheduler will parallelize goroutines whenever possible.
+
+: It is important to understand this distinction: Concurrency pertains to rationalization. Parallelism pertains to actualization.
+: Highly concurrent Go code will still process in a serialized manner if only one computing thread is available.
+
+#--
+* Communications Between Goroutines
+
+Go channels are first-class primitives, conduits by which processes can communicate.
+
+ // create channel
+ c := make(chan int)
+
+ go func() {
+    time.Sleep(3 * time.Second)
+ 
+    // send to channel
+    c <- 42
+ }()
+
+ // receive from channel
+ fmt.Println(<-c)
+ 
+ // Output:
+ // 42
+
+Before 42 is output, there will be a pause matching the sleep duration.
+
+: The call to fmt.Println will block until a value is received from the channel (after the sleep duration).
+: This is to emphasize that the goroutine is non-blocking.
+: Erlang's approach "stems from CSP", but only as related to the pre-channels theories. Erlang's "conduits" are implicit and use an unbounded buffer. This is known as "The Actor Model".
 
 
 
@@ -84,18 +124,20 @@ Kill
 Paths will be digested by the concurrency handler to create "fileInfo" instances.
 
 #--
-* Gzip Filepath Gatherer
+* Gzip Filepath Gatherer Summary
 
 .code conch-min/files.go /BGN1 OMIT/,/END1 OMIT/ HLargs
 
 .caption "files.go"
 
 #--
-* File Info Type And Construction Function
+* File Info Type And Construction Function Summary
 
 .code conch-min/files.go /BGN2 OMIT/,/END2 OMIT/ HLargs
 
 .caption "files.go"
+
+: Go is not truly "object-oriented". Construction functions are called directly and have no special behavior like "constructors".
 
 
 
@@ -114,12 +156,14 @@ The orchestrator manages a producer and consumer along with shared wiring.
 
 The consumer manages one or more digestors.
 
-The orchestrator provides access to digested values and orchestration errors.
+The orchestrator provides access to digested values.
 
 #--
 * Project Diagram
 
 .image svg/conch.svg 520 _
+
+: NEXT: Orchestrator. Then a walk through it's managed processes.
 
 #--
 * Orchestrator
@@ -127,6 +171,9 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch-min/conch.go /BGN2 OMIT/,/END2 OMIT/ HLargs
 
 .caption "conch.go"
+
+: "width" will be passed into the consume function to define how many digestors there will be.
+: "paths" will be passed into the produce function to be sent into a channel that "produce" manages.
 
 #--
 * Orchestrator
@@ -136,6 +183,8 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: "produce" returns the channel of strings that it manages, and it is passed to "consume".
+
 #--
 * Orchestrator
 {JUMP}
@@ -143,6 +192,9 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch-min/conch.go /BGN2 OMIT/,/END2 OMIT/ HLconsume
 
 .caption "conch.go"
+
+: "consume" sets up "digestors" which are fed by the channel of strings created by "produce".
+: "consume" also sets up and returns a channel of *fileInfos which the digestors send processed paths.
 
 #--
 * Orchestrator
@@ -152,10 +204,14 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: The channel of *fileInfos is returned to the caller of the "orchestrator".
+
 #--
 * Project Diagram
 
 .image svg/conch.svg 520 _
+
+: NEXT: Main. We'll take a look at how the orchestrator is called and return value used.
 
 #--
 * Main
@@ -172,6 +228,9 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "main.go"
 
+: A slice of paths is returned by gzipFilePaths.
+: If there's an error, the application will log and bomb.
+
 #--
 * Main
 {JUMP}
@@ -179,6 +238,8 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch-min/main.go /BGN1 OMIT/,/END1 OMIT/ HLprocess
 
 .caption "main.go"
+
+: fileInfos is called with a "width" and slice of paths.
 
 #--
 * Main
@@ -188,10 +249,16 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "main.go"
 
+: The channel of *fileInfos returned by fileInfos is iterated over with each value being printed.
+: The loop will collapse when the channel of *fileInfos is closed.
+: In other words: When ranging over a channel and it becomes certain that no more values will be passed, the loop will end.
+
 #--
 * Project Diagram
 
 .image svg/conch.svg 520 _
+
+: NEXT: Produce. Let's take a look at how the values to be digested are propagated.
 
 #--
 * Produce
@@ -208,6 +275,9 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: First, the returned channel will be made.
+: Please note that it is expected that creators of a channel are expected to clean up that channel.
+
 #--
 * Produce
 {JUMP}
@@ -215,6 +285,8 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLgoroutine
 
 .caption "conch.go"
+
+: We don't want to wait around for the producer to do it's work, so the production logic is placed in a goroutine and return the channel to the caller.
 
 #--
 * Produce (goroutine)
@@ -231,6 +303,9 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: The defer statement sets aside a function to be called when the "current" scope completes.
+: ...
+
 #--
 * Produce (goroutine)
 {JUMP}
@@ -238,6 +313,8 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLiterate
 
 .caption "conch.go"
+
+: ... this means that once we have finished iterating over the paths...
 
 #--
 * Produce (goroutine)
@@ -247,12 +324,17 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: ... and this anonymous goroutine is finished send values, the paths channel will be closed.
+
 #--
 * Produce
 
 .code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLreturn
 
 .caption "conch.go"
+
+: Again, the paths channel is returned to the caller. In this case, it's the "orchestrator".
+: NEXT: Consumer.
 
 #--
 * Consume
@@ -269,6 +351,8 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: As in the producer, first the returned channel will be made. Be sure to clean it up.
+
 #--
 * Consume
 {JUMP}
@@ -276,6 +360,8 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLgoroutine
 
 .caption "conch.go"
+
+: There's no need to wait for the real work here to be done. It can be put into a goroutine and the channel can be returned to the caller immediately.
 
 #--
 * Consume (goroutine)
@@ -292,6 +378,8 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: Again using "defer" to ensure that the *fileInfos channel will be closed once this anonymous goroutine reaches an end.
+
 #--
 * Consume (goroutine)
 {JUMP}
@@ -299,6 +387,11 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwg
 
 .caption "conch.go"
+
+: sync.WaitGroup is used to synchronize multiple processes. In this case, the anonymous goroutine should not end until all digestors have completed their work.
+: The "add" method is called with however many goroutines are going to be created. (And should generally only ever be called once per instance.)
+: The "done" method is sort-of "bound" to each digest function so that it is called once after each digestion is completed.
+: The "wait" method will block until the "done" method is called an equal number of times as the value accumulated by the "add" method.
 
 #--
 * Consume (goroutine)
@@ -308,12 +401,16 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: Looping by width...
+
 #--
 * Consume (goroutine - goroutines)
 
 .code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLwidth
 
 .caption "conch.go"
+
+: ...
 
 #--
 * Consume (goroutine - goroutines)
@@ -323,6 +420,8 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: ... a corresponding amount of goroutines are created...
+
 #--
 * Consume (goroutine - goroutines)
 {JUMP}
@@ -330,6 +429,8 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLdigest
 
 .caption "conch.go"
+
+: ... that "bind" digestor completions with done calls.
 
 #--
 * Consume
@@ -343,12 +444,17 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .image svg/conch.svg 520 _
 
+: The last thing to peak at is the digestor logic.
+: That is where values from the paths channel are processed and passed to the *fileInfos channel.
+
 #--
 * Digest
 
 .code conch-min/conch.go /BGN5 OMIT/,/END5 OMIT/ HLargs
 
 .caption "conch.go"
+
+: The paths channel acts as a source, and the *fileInfos channel acts as a destination.
 
 #--
 * Digest
@@ -358,6 +464,9 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: The paths channel is ranged over (and so the loop will end when the channel is closed).
+: ...
+
 #--
 * Digest
 {JUMP}
@@ -366,7 +475,7 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
-
+: The actual "processing" is occurring in the construction function with the results being sent into the *fileInfos channel.
 
 ###
 * Test
@@ -386,11 +495,16 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .image svg/conch.svg 520 _
 
+: Without cancelation, there is no way to cleanly interrupt this application.
+
 #--
 * Project Diagram
 {JUMP}
 
 .image svg/conch_done.svg 520 _
+
+: Here a "done" channel is being passed to the producer and used to halt production early.
+: The "orchestrator" will be aware of any interruption and transform that signal into a normal error for the caller to deal with.
 
 #--
 * Orchestrator
@@ -398,6 +512,8 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLargs
 
 .caption "conch.go"
+
+: The done channel is a channel of empty structs. Empty structs have no size and are perfect for signalling.
 
 #--
 * Orchestrator
@@ -407,12 +523,16 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: Because the consumer and digestor take care of their own business through usage of the producer's paths channel, only the producer needs to be aware of the done signal.
+
 #--
 * Produce
 
 .code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLargs
 
 .caption "conch.go"
+
+: Now an error channel is needed to communicate when an interruption occurs.
 
 #--
 * Produce
@@ -422,6 +542,8 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: Just as before, we first create the channels...
+
 #--
 * Produce
 {JUMP}
@@ -430,12 +552,17 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: ... and run the majority of logic in a goroutine so that the channels can be returned to the caller immediately.
+: ...
+
 #--
 * Produce (goroutine)
 
 .code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLgoroutine
 
 .caption "conch.go"
+
+: ...
 
 #--
 * Produce (goroutine)
@@ -445,6 +572,9 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: ... Don't forget to clean up.
+: ...
+
 #--
 * Produce (goroutine)
 {JUMP}
@@ -452,6 +582,9 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLselect
 
 .caption "conch.go"
+
+: Instead of simply passing a value into the paths channel, a select statement is used to either send a value into the paths channel or respond to cancelation.
+: Keep in mind that if the goroutine reaches an early end, defer is still called subsequently.
 
 #--
 * Produce
@@ -467,12 +600,16 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: Dealing with the errors channel is a little messy,...
+
 #--
 * Orchestrator (error Closure)
 
 .code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLargs
 
 .caption "conch.go"
+
+: ...but it can be turned into a simple-to-use function using a closure.
 
 #--
 * Orchestrator (error Closure)
@@ -482,6 +619,9 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "conch.go"
 
+: The "last" error will start as a nil error.
+: If an error is received, the message will be expanded with some context and stored to the "last" variable and returned.
+
 #--
 * Orchestrator (error Closure)
 {JUMP}
@@ -489,6 +629,9 @@ The orchestrator provides access to digested values and orchestration errors.
 .code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLerrorchan
 
 .caption "conch.go"
+
+: Note that when the errors channel is closed, it will return a nil error.
+: Storing the "last" error ensures that the error function behaves consistently whether it is called one or many times.
 
 #--
 * Orchestrator
@@ -512,6 +655,8 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "main.go"
 
+: The closeOnTerm function listens for system signals and closes the done channel if SIGTERM is received.
+
 #--
 * Main
 {JUMP}
@@ -528,8 +673,16 @@ The orchestrator provides access to digested values and orchestration errors.
 
 .caption "main.go"
 
+: Again, a cancelation will cause the producer to end early with an error being returned by the related error function.
+
+#--
+* Project Diagram (without cancelation)
+
+.image svg/conch.svg 520 _
+
 #--
 * Project Diagram
+{JUMP}
 
 .image svg/conch_done.svg 520 _
 
