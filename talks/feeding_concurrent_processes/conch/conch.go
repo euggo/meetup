@@ -87,9 +87,9 @@ func fileInfosErrorFunc(esc <-chan error) func() error { // HLargs
 	var last error // HLstate
 
 	return func() error {
-		if err := <-esc; err != nil { // HLerrorchan
+		err := <-esc    // HLerrorchan
+		if err != nil { // HLerrorchan
 			last = fmt.Errorf("cannot handle fileInfos: %s", err) // HLstate
-			return last                                           // HLstate
 		} // HLerrorchan
 
 		return last // HLstate
