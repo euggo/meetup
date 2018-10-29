@@ -1,0 +1,182 @@
+###
+To Err Is Human
+if err != nil { // again? really? }
+1 Nov 2018
+Tags: intro
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+
+
+
+###
+* Planning For Failures
+
+#--
+* Planning
+
+"The wise man bridges the gap by laying out the path by means of which he can get from where he is to where he wants to go." - J. P. Morgan (1837-1913)
+
+#--
+* A Simple Plan
+
+.image svg/plan_short_part.svg 510 _
+
+#--
+* A Simple Plan Manifested
+
+.code code/cmd/simple_plan/main.go /^func main/,/^}/
+
+#--
+* A Simple Plan Output
+
+terminal:
+.code code/cmd/simple_plan/terminal
+
+out.txt:
+.code code/cmd/simple_plan/out.txt
+
+datastore.dat:
+.code code/cmd/simple_plan/datastore.dat
+
+#--
+* A Simple Plan Improved
+
+.code code/cmd/simple_plan_improved/main.go /^func main/,/^}/
+
+#--
+* Planning For Failures
+
+"If you do not expect the unexpected you will not find it, for it is not to be reached by search or trail." - Heraclitus (535-475 BCE)
+
+#--
+* A Complete Plan
+
+.image svg/plan_short_errs.svg 510 _
+
+#--
+* A Complete Plan Manifested
+
+.code code/cmd/complete_plan/main.go /^func main/,/^}/
+
+#--
+* A Complete Plan Output
+
+terminal:
+.code code/cmd/complete_plan/terminal
+
+out.txt:
+.code code/cmd/complete_plan/out.txt
+
+datastore.dat:
+.code code/cmd/complete_plan/datastore.dat
+
+#--
+* A Complete Plan Output (Failure At `NewOutFile`)
+
+terminal:
+
+ open out.txt: permission denied
+
+out.txt:
+.code code/empty/empty
+
+datastore.dat:
+.code code/empty/empty
+
+An empty "out.txt" is expected, but where's the behavior setup via `defer`?
+
+
+
+###
+* The Best-laid Plans Often Go Awry
+
+#--
+* Try As We Might
+
+"There are two methods in software design. One is to make the program so simple, there are obviously no errors. The other is to make it so complicated, there are no obvious errors." - Tony Hoare (1934-)
+
+#--
+* Avoid Brutal Control Flow
+
+Functions setup via `defer` will not be reached when using `panic`, or `os.Exit`.
+
+`log.Fatal` functions print to `os.Stderr` and call `os.Exit(1)`.
+
+.play code/a_brutal_control_flow/main.go /BGN/,/END/
+
+#--
+* Design Graceful Control Flow
+
+Move main logic out one level from the main func, but keep it nearby.
+
+.play code/b_graceful_control_flow/main.go /BGN/,/END/
+
+#--
+* Graceful Flow With Codes
+
+.play code/c_graceful_control_flow/main.go /BGN/,/END/
+
+#--
+* An Improved Plan
+
+.image svg/plan_short_full.svg 510 _
+
+#--
+* An Improved Plan Manifested
+
+.code code/cmd/improved_plan/main.go /^func run/,/^}/
+
+#--
+* An Improved Plan Output
+
+terminal:
+.code code/cmd/improved_plan/terminal
+
+out.txt:
+.code code/cmd/improved_plan/out.txt
+
+datastore.dat:
+.code code/cmd/improved_plan/datastore.dat
+
+#--
+* An Improved Plan Output (Failure At NewDataStore)
+
+terminal:
+.code code/cmd/improved_plan/error_output/terminal
+
+out.txt:
+.code code/empty/empty
+
+datastore.dat:
+.code code/cmd/improved_plan/error_output/datastore.dat
+
+While an error was reached, everything has been accounted for.
+
+
+
+###
+* Errors Are Values
+
+#--
+* Sort-of Try
+
+trip function
+
+#--
+* etc
+
+etc
+
+"Those who fail to plan are planning to fail." - Unknown/Many
+OR
+"Those who fail to plan for failures, are planning failures."
+"Plan To Succeed By Planning For Failure"  ??
+
+"No problem can be solved until it is reduced to some simple form. The changing of a vague difficulty into a specific, concrete form is a very essential element in thinking." - J. P. Morgan (1837-1913)
+
+
