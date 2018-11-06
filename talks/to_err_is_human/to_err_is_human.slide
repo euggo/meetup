@@ -147,7 +147,7 @@ datastore.dat:
 .code code/cmd/complete_plan/datastore.dat
 
 #--
-* A Complete Plan Output (Failure At NewDataStore)
+* A Complete Plan (Output - Failure At NewDataStore)
 
 terminal (last line is from stderr):
 .code code/cmd/complete_plan/error_output/terminal
