@@ -27,12 +27,18 @@ https://github.com/daved
 .image svg/plan_short_part.svg 510 _
 
 #--
-* A Simple Plan Manifested
+* Manifesting A Simple Plan
+
+We're interested in:
+
+- Terminal Output
+- OutFile Contents ("out.txt")
+- DataStore State ("datastore.dat")
 
 .code code/cmd/simple_plan/main.go /^func main/,/^}/
 
 #--
-* A Simple Plan Output
+* A Simple Plan (Output)
 
 terminal:
 .code code/cmd/simple_plan/terminal
@@ -44,7 +50,7 @@ datastore.dat:
 .code code/cmd/simple_plan/datastore.dat
 
 #--
-* A Simple Plan Improved
+* Manifesting An Improved Simple Plan
 
 .code code/cmd/simple_plan_improved/main.go /^func main/,/^}/
 
@@ -56,29 +62,29 @@ datastore.dat:
 "If you do not expect the unexpected you will not find it, for it is not to be reached by search or trail." - Heraclitus (535-475 BCE)
 
 #--
-* A Complete Plan
+* A Contingent Plan
 
 .image svg/plan_short_errs.svg 510 _
 
 #--
-* A Complete Plan Manifested
+* Manifesting A Contingent Plan
 
-.code code/cmd/complete_plan/main.go /^func main/,/^}/
+.code code/cmd/contingent_plan/main.go /^func main/,/^}/
 
 #--
-* A Complete Plan Output
+* A Contingent Plan (Output)
 
 terminal:
-.code code/cmd/complete_plan/terminal
+.code code/cmd/contingent_plan/terminal
 
 out.txt:
-.code code/cmd/complete_plan/out.txt
+.code code/cmd/contingent_plan/out.txt
 
 datastore.dat:
-.code code/cmd/complete_plan/datastore.dat
+.code code/cmd/contingent_plan/datastore.dat
 
 #--
-* A Complete Plan Output (Failure At `NewOutFile`)
+* A Contingent Plan (Output - Failure At `NewOutFile`)
 
 terminal:
 
@@ -91,11 +97,6 @@ datastore.dat:
 .code code/empty/empty
 
 An empty "out.txt" is expected, but where's the behavior setup via `defer`?
-
-
-
-###
-* The Best-laid Plans Often Go Awry
 
 #--
 * Try As We Might
@@ -112,7 +113,7 @@ Functions setup via `defer` will not be reached when using `panic`, or `os.Exit`
 .play code/a_brutal_control_flow/main.go /BGN/,/END/
 
 #--
-* Design Graceful Control Flow
+* Favor Graceful Control Flow
 
 Move main logic out one level from the main func, but keep it nearby.
 
@@ -124,38 +125,38 @@ Move main logic out one level from the main func, but keep it nearby.
 .play code/c_graceful_control_flow/main.go /BGN/,/END/
 
 #--
-* An Improved Plan
+* A Complete Plan
 
 .image svg/plan_short_full.svg 510 _
 
 #--
-* An Improved Plan Manifested
+* Manifesting A Complete Plan
 
-.code code/cmd/improved_plan/main.go /^func run/,/^}/
+.code code/cmd/complete_plan/main.go /^func run/,/^}/
 
 #--
-* An Improved Plan Output
+* A Complete Plan Output
 
 terminal:
-.code code/cmd/improved_plan/terminal
+.code code/cmd/complete_plan/terminal
 
 out.txt:
-.code code/cmd/improved_plan/out.txt
+.code code/cmd/complete_plan/out.txt
 
 datastore.dat:
-.code code/cmd/improved_plan/datastore.dat
+.code code/cmd/complete_plan/datastore.dat
 
 #--
-* An Improved Plan Output (Failure At NewDataStore)
+* A Complete Plan Output (Failure At NewDataStore)
 
-terminal:
-.code code/cmd/improved_plan/error_output/terminal
+terminal (last line is from stderr):
+.code code/cmd/complete_plan/error_output/terminal
 
 out.txt:
 .code code/empty/empty
 
 datastore.dat:
-.code code/cmd/improved_plan/error_output/datastore.dat
+.code code/cmd/complete_plan/error_output/datastore.dat
 
 While an error was reached, everything has been accounted for.
 
