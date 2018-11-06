@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 
 	"github.com/euggo/meetup/talks/to_err_is_human/code/novel"
@@ -18,14 +19,17 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	defer cleanClose(of) // log if of.Close returns error
 
 	n, err := of.Write(ds.Lowercased())
 	fmt.Printf("copied %d bytes\n", n)
 	if err != nil {
 		log.Fatalln(err)
 	}
+}
 
-	if err := of.Close(); err != nil {
-		log.Fatalln(err)
+func cleanClose(f io.Closer) {
+	if err := f.Close(); err != nil {
+		log.Println(err)
 	}
 }

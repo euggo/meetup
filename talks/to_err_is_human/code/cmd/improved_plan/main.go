@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path"
 
@@ -30,15 +31,19 @@ func run() error {
 
 	of, err := novel.NewOutFile("out.txt")
 	if err != nil {
-		fmt.Println("logging datastore:", ds.Lowercased())
+		fmt.Printf("logging datastore:\n%s", ds.Lowercased())
 		return err
 	}
+	defer cleanClose(of) // prints to stderr if returns error
 
 	n, err := of.Write(ds.Lowercased())
 	fmt.Printf("copied %d bytes\n", n)
-	if err != nil {
-		return err
-	}
+	return err
+}
 
-	return of.Close()
+func cleanClose(f io.Closer) {
+	if err := f.Close(); err != nil {
+		cmd := path.Base(os.Args[0])
+		fmt.Fprintf(os.Stderr, "%s: %s\n", cmd, err)
+	}
 }

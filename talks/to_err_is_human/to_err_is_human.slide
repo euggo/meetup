@@ -48,6 +48,8 @@ datastore.dat:
 
 .code code/cmd/simple_plan_improved/main.go /^func main/,/^}/
 
+`defer` manages a stack (LIFO) of functions called once the local scope ends.
+
 #--
 * Planning For Failures
 
@@ -80,7 +82,7 @@ datastore.dat:
 
 terminal:
 
- open out.txt: permission denied
+ 2018/11/08 19:00:00 cannot create OutFile: open out.txt: permission denied
 
 out.txt:
 .code code/empty/empty
