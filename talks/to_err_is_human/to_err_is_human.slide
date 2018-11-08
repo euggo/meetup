@@ -166,20 +166,33 @@ While an error was reached, everything has been accounted for.
 * Errors Are Values
 
 #--
-* Sort-of Try
+* Assurable Control Flow
 
-trip function
+.code code/d_maybex/main.go /BGN/,/END/
+
+Avoid nil-related errors. Compare with Elm:
+
+.code code/d_maybex/src/maybex.elm /BGN/,/END/
 
 #--
-* etc
+* Flexible Control Flow
 
-etc
+.code code/e_typd/main.go /BGN/,/END/
 
+Define behavior based on distinct possiblities. Compare with Python:
+
+.code code/e_typd/typd.py /BGN/,/END/
+
+#--
+* Sensible Control Flow
+
+  some code
+
+#--
+* Else
 "Those who fail to plan are planning to fail." - Unknown/Many
 OR
 "Those who fail to plan for failures, are planning failures."
 "Plan To Succeed By Planning For Failure"  ??
 
 "No problem can be solved until it is reduced to some simple form. The changing of a vague difficulty into a specific, concrete form is a very essential element in thinking." - J. P. Morgan (1837-1913)
-
-

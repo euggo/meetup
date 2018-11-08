@@ -4,4 +4,4 @@ data
 information
 other
 whatever
-someapp: cannot create OutFile: open out.txt: permission denied
+someapp: cannot create DataStore: must only contain letters
