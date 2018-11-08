@@ -1,7 +1,0 @@
-logging datastore:
-something
-data
-information
-other
-whatever
-someapp: cannot create DataStore: must only contain letters

@@ -14,7 +14,94 @@ https://github.com/daved
 
 
 ###
-* Planning For Failures
+* Errors Are Values
+
+#--
+* First, For Our Own Mindfulness
+
+"There are two methods in software design. One is to make the program so simple, there are obviously no errors. The other is to make it so complicated, there are no obvious errors." - Tony Hoare (1934-)
+
+#--
+* The `error` Interface
+
+  type error interface {
+      Error() string
+  }
+
+#--
+* A Simple `error` Implementation
+
+.code code/novel/error.go /BGN1/,/END1/
+
+#--
+* A Simple `error` In Use
+
+.play code/novel/cmd/errexamp/main.go /BGN/,/END/
+
+Any type implementing the `error` interface can be sent to a print function and it's `Error()` method will be used. The same goes for any type implementing the `fmt.Stringer` interface and it's `String()` method.
+
+#--
+* "Sentinel" Errors
+
+.code code/novel/error.go /BGN2/,/END2/
+
+#--
+* Sentinel Errors In Use
+
+.play code/novel/cmd/errcomp/main.go /BGN/,/END/
+
+#--
+* A Complex `error` Implementation
+
+.code code/novel/error.go /BGN3/,/END3/
+
+#--
+* A Complex `error` Helper
+
+.code code/novel/error.go /BGN4/,/END4/
+
+#--
+* A Complex `error` In Use
+
+.play code/novel/cmd/erradv/main.go /BGN/,/END/
+
+
+
+###
+* Error Values Are Valuable
+
+#--
+* Why Not Ignore Errors?
+
+"Those who fail to plan are planning to fail." - Unknown/Many
+
+#--
+* Assurable Control Flow
+
+.code code/d_maybex/main.go /BGN/,/END/
+
+Avoid nil-related errors. Compare with Elm:
+
+.code code/d_maybex/src/maybex.elm /BGN/,/END/
+
+#--
+* Flexible Control Flow
+
+.code code/e_typd/main.go /BGN/,/END/
+
+Define behavior based on distinct possiblities. Compare with Python:
+
+.code code/e_typd/typd.py /BGN/,/END/
+
+#--
+* Sensible Control Flow
+
+  some code
+
+
+
+###
+* Plan For Failures
 
 #--
 * Planning
@@ -57,11 +144,6 @@ datastore.dat:
 `defer` manages a stack (LIFO) of functions called once the local scope ends.
 
 #--
-* Planning For Failures
-
-"If you do not expect the unexpected you will not find it, for it is not to be reached by search or trail." - Heraclitus (535-475 BCE)
-
-#--
 * A Contingent Plan
 
 .image svg/plan_short_errs.svg 510 _
@@ -97,11 +179,6 @@ datastore.dat:
 .code code/empty/empty
 
 An empty "out.txt" is expected, but where's the behavior setup via `defer`?
-
-#--
-* Try As We Might
-
-"There are two methods in software design. One is to make the program so simple, there are obviously no errors. The other is to make it so complicated, there are no obvious errors." - Tony Hoare (1934-)
 
 #--
 * Avoid Brutal Control Flow
@@ -147,52 +224,49 @@ datastore.dat:
 .code code/cmd/complete_plan/datastore.dat
 
 #--
-* A Complete Plan (Output - Failure At NewDataStore)
+* A Complete Plan (Output - Failure At NewOutFile)
 
 terminal (last line is from stderr):
-.code code/cmd/complete_plan/error_output/terminal
+.code code/cmd/complete_plan/error_output_of/terminal
 
 out.txt:
 .code code/empty/empty
 
 datastore.dat:
-.code code/cmd/complete_plan/error_output/datastore.dat
+.code code/cmd/complete_plan/error_output_of/datastore.dat
+
+While an error was reached, everything has been accounted for.
+
+#--
+* A Complete Plan (Output - Failure At NewDataStore)
+
+terminal (last line is from stderr):
+.code code/cmd/complete_plan/error_output_ds/terminal
+
+out.txt:
+.code code/empty/empty
+
+datastore.dat:
+.code code/cmd/complete_plan/error_output_ds/datastore.dat
 
 While an error was reached, everything has been accounted for.
 
 
 
 ###
+* Takeaways
+
+#--
 * Errors Are Values
 
-#--
-* Assurable Control Flow
-
-.code code/d_maybex/main.go /BGN/,/END/
-
-Avoid nil-related errors. Compare with Elm:
-
-.code code/d_maybex/src/maybex.elm /BGN/,/END/
-
-#--
-* Flexible Control Flow
-
-.code code/e_typd/main.go /BGN/,/END/
-
-Define behavior based on distinct possiblities. Compare with Python:
-
-.code code/e_typd/typd.py /BGN/,/END/
-
-#--
-* Sensible Control Flow
-
-  some code
-
-#--
-* Else
-"Those who fail to plan are planning to fail." - Unknown/Many
-OR
-"Those who fail to plan for failures, are planning failures."
-"Plan To Succeed By Planning For Failure"  ??
-
 "No problem can be solved until it is reduced to some simple form. The changing of a vague difficulty into a specific, concrete form is a very essential element in thinking." - J. P. Morgan (1837-1913)
+
+#--
+* Errors Values Are Valuable
+
+Plan to succeed by planning for failures.
+
+#--
+* Plan For Failures
+
+"If you do not expect the unexpected you will not find it, for it is not to be reached by search or trail." - Heraclitus (535-475 BCE)

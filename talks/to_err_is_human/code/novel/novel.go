@@ -33,7 +33,10 @@ func NewDataStore(lines ...string) (*DataStore, error) {
 	for i, line := range lines {
 		for _, r := range line {
 			if !unicode.IsLetter(r) {
-				err = fmt.Errorf("cannot create DataStore: must only contain letters")
+				err = &BadValueError{
+					string(r),
+					"must only contain letters",
+				}
 				break
 			}
 		}
@@ -47,6 +50,10 @@ func NewDataStore(lines ...string) (*DataStore, error) {
 
 	ds := DataStore{
 		ls: ls,
+	}
+
+	if err != nil {
+		err = fmt.Errorf("cannot create DataStore properly: %s", err)
 	}
 
 	return &ds, err

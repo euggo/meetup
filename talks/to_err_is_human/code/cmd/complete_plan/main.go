@@ -34,7 +34,7 @@ func run() error {
 		fmt.Printf("logging datastore:\n%s", ds.Lowercased())
 		return err
 	}
-	defer cleanClose(of) // prints to stderr if returns error
+	defer cleanClose(of) // if of.Close() returns error, print it to stderr
 
 	n, err := of.Write(ds.Lowercased())
 	fmt.Printf("copied %d bytes\n", n)

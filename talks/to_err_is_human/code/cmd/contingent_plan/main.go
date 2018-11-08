@@ -19,7 +19,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	defer cleanClose(of) // log if of.Close returns error
+	defer cleanClose(of) // if of.Close() returns error, log it
 
 	n, err := of.Write(ds.Lowercased())
 	fmt.Printf("copied %d bytes\n", n)
