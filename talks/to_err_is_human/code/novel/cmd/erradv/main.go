@@ -23,7 +23,7 @@ func main() {
 				time.Sleep(time.Second)
 				continue
 			}
-			fmt.Fprint(os.Stderr, oferr)
+			fmt.Fprintln(os.Stderr, oferr)
 			break
 		}
 		// END OMIT

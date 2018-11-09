@@ -8,8 +8,9 @@ import (
 )
 
 func main() {
+	var err error
 	var retry bool
-	err := novel.ErrDisconnected
+	err = novel.ErrDisconnected
 
 	for i := 0; i < 1; i++ {
 		// BGN OMIT

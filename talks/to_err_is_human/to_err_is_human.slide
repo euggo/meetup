@@ -65,6 +65,16 @@ Any type implementing the `error` interface can be sent to a print function and 
 
 .play code/novel/cmd/erradv/main.go /BGN/,/END/
 
+#--
+* Scoping Errors In Uninteresting Cases
+
+.play code/novel/cmd/errscp/main.go /BGN/,/END/
+
+#--
+* Scoping Errors In Interesting Cases
+
+Consider using [[https://github.com/pkg/errors][github.com/pkg/errors]].
+
 
 
 ###
@@ -96,8 +106,11 @@ Define behavior based on distinct possiblities. Compare with Python:
 #--
 * Sensible Control Flow
 
-  some code
+.code code/f_blog/scanner.go /BGN/,/END/
 
+`Scan()` will return false and halt the loop when there is no more data to scan, or if an error was encountered during the last token access.
+
+Error handling takes place outside of the scanning loop. Most forms of error handling repetition can be mitigated in a similar manner.
 
 
 ###
@@ -270,3 +283,21 @@ Plan to succeed by planning for failures.
 * Plan For Failures
 
 "If you do not expect the unexpected you will not find it, for it is not to be reached by search or trail." - Heraclitus (535-475 BCE)
+
+
+
+###
+* One More Thing
+
+#--
+* When is `nil` not `nil`?
+
+Interfaces have two elements, a type and a value. Both elements of an `error` must be `nil` for the error to equal `nil`.
+
+Always return an explicit `nil`.
+
+.code code/g_nil/main.go /BGN1/,/END1/
+
+Never return a typed `nil` even if the value is `nil`.
+
+.code code/g_nil/main.go /BGN2/,/END2/

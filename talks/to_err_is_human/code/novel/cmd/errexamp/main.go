@@ -7,12 +7,13 @@ import (
 )
 
 func main() {
-	// BGN2 OMIT
-	err := &novel.BadValueError{
+	var err error
+	// BGN OMIT
+	err = &novel.BadValueError{
 		"3",
 		"must contain only letters",
 	}
 
 	fmt.Println(err)
-	// END2 OMIT
+	// END OMIT
 }
