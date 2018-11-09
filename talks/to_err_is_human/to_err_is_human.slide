@@ -1,6 +1,6 @@
 ###
 To Err Is Human
-if err != nil { // again? really? }
+if err != nil { /* again? really? */ }
 1 Nov 2018
 Tags: intro
 
