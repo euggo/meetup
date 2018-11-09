@@ -19,7 +19,8 @@ https://github.com/daved
 #--
 * First, For Our Own Mindfulness
 
-"There are two methods in software design. One is to make the program so simple, there are obviously no errors. The other is to make it so complicated, there are no obvious errors." - Tony Hoare (1934-)
+"There are two methods in software design. One is to make the program so simple, there are obviously no errors. The other is to make it so complicated, there are no obvious errors."
+- Tony Hoare (1934-)
 
 #--
 * The `error` Interface
@@ -83,7 +84,8 @@ Consider using [[https://github.com/pkg/errors][github.com/pkg/errors]].
 #--
 * Why Not Ignore Errors?
 
-"Those who fail to plan are planning to fail." - Unknown/Many
+"Those who fail to plan are planning to fail."
+- Unknown/Many
 
 #--
 * Assurable Control Flow
@@ -119,7 +121,8 @@ Error handling takes place outside of the scanning loop. Most forms of error han
 #--
 * Planning
 
-"The wise man bridges the gap by laying out the path by means of which he can get from where he is to where he wants to go." - J. P. Morgan (1837-1913)
+"The wise man bridges the gap by laying out the path by means of which he can get from where he is to where he wants to go."
+- J. P. Morgan (1837-1913)
 
 #--
 * A Simple Plan
@@ -272,17 +275,25 @@ While an error was reached, everything has been accounted for.
 #--
 * Errors Are Values
 
-"No problem can be solved until it is reduced to some simple form. The changing of a vague difficulty into a specific, concrete form is a very essential element in thinking." - J. P. Morgan (1837-1913)
+"No problem can be solved until it is reduced to some simple form. The changing of a vague difficulty into a specific, concrete form is a very essential element in thinking."
+- J. P. Morgan (1837-1913)
 
 #--
 * Errors Values Are Valuable
+
+If
+
+"Those who fail to plan are planning to fail."
+
+Then
 
 Plan to succeed by planning for failures.
 
 #--
 * Plan For Failures
 
-"If you do not expect the unexpected you will not find it, for it is not to be reached by search or trail." - Heraclitus (535-475 BCE)
+"If you do not expect the unexpected you will not find it, for it is not to be reached by search or trail."
+- Heraclitus (535-475 BCE)
 
 
 
