@@ -172,7 +172,9 @@ Valid tests:
 #--
 * Raw Bytes From A String? Let's talk about encodings.
 
-Unicode maps all written characters, marks, etc. to numeric values (> 16 bit space). 
+Unicode maps all written characters, marks, etc. to numeric values.
+There are 17 "planes", each with a 16 bit space (1114112 values total). 
+This is currently a >= 21 bit space (>= 2097152 values).
 
  Character              a
  Name                   LATIN SMALL LETTER A
