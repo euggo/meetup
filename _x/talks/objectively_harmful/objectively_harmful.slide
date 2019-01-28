@@ -1,0 +1,142 @@
+###
+Objectively Harmful
+How inheritance always lays a troublesome path.
+7 Feb 2019
+Tags: intro, type system, inheritance
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+
+
+
+###
+* Directive 1
+
+#--
+* On Manifestation
+
+"Program to an 'interface', not an 'implementation'." - Gang of Four (Design Patterns)
+
+#--
+* What is an Interface?
+
+An interface is a behavior set.
+
+#--
+* What is an Implementation?
+
+An implementation is expressed behavior.
+
+#--
+* Directive 1 Restated
+
+Program to required behavior, not particular expressions.
+
+This provides:
+- Separation of Concerns
+- Encapsulation
+- Polymorphism
+
+
+
+###
+* Directive 2
+
+#--
+* On Architecture
+
+"Favor 'object composition' over 'class inheritance'." - Gang of Four (Design Patterns)
+
+#--
+* What is an Object?
+
+An object is a value and assigned behavior (in simplest form within OOP).
+
+#--
+* What is a Class?
+
+A class includes:
+
+- structure declaration
+- assignment of some or all structure properties
+- declaration and assignment of behavior
+- pre-assigned "magic methods" (most overridable by users)
+- declaration and assignment of taxonomic links
+- declaration of implemented behavior sets (not all languages)
+
+#--
+* What is Composition?
+
+Composition is the sharing of behavior using structure.
+
+#--
+* What is Inheritance?
+
+Inheritance is the sharing of behavior using taxonomic links.
+
+#--
+* Directive 2 Restated
+
+When sharing behavior, favor structure over taxonomy.
+
+
+
+###
+* Class-based
+
+#--
+* Class Example
+
+x
+
+#--
+* Class Failure
+
+x
+
+
+
+###
+* Prototype-based
+
+#--
+* Prototype Example
+
+x
+
+#--
+* Prototype Failure
+
+x
+
+
+
+###
+* Object-based
+
+#--
+* Object Example
+
+x
+
+#--
+* Object Failure
+
+x
+
+
+
+###
+* So What?
+
+#--
+* [[https://en.wikipedia.org/wiki/Orthogonality#Computer_science][Wikipedia - Orthogonality]]
+
+"Orthogonality is a system design property which guarantees that modifying the technical effect produced by a component of a system neither creates nor propagates side effects to other components of the system. Typically this is achieved through the separation of concerns and encapsulation, and it is essential for feasible and compact designs of complex systems."
+
+#"It is important that we know where we come from, because if you do not know where you come from, then you don't know where you are, and if you don't know where you are, you don't know where you're going. And if you don't know where you're going, you're probably going wrong."
+#- Terry Pratchett
