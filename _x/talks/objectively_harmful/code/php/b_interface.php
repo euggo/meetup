@@ -44,5 +44,5 @@ class Wolf implements greeter {
 // BGN3 OMIT
 $a = new Human("Alice");
 $b = new Wolf(3);
-meet("Carlos", $a, $b);
+meet("Dan", $a, $b);
 // END3 OMIT

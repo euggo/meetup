@@ -32,7 +32,7 @@ class Wolf {
 // BGN3 OMIT
 $a = new Human("Alice");
 $b = new Wolf(3);
-$username = "Carlos";
+$username = "Dan";
 echo $a->greeting($username)."\n";
 echo $b->greeting($username)."\n";
 // END3 OMIT

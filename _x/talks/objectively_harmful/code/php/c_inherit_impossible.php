@@ -41,6 +41,8 @@ class Werewolf extends Human, Wolf implements greeter {
 }
 // END1 OMIT
 
+// BGN2 OMIT
 $a = new Human("Alice");
 $b = new Wolf(3);
-meet("Carlos", $a, $b);
+$c = new Werewolf("Carlos", 1);
+meet("Dan", $a, $b, $c);

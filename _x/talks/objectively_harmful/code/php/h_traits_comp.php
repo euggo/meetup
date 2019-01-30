@@ -64,6 +64,6 @@ class Werewolf implements greeter {
 // BGN2 OMIT
 $a = new Human("Alice");
 $b = new Wolf(3);
-$c = new Werewolf("Bob", 1);
-meet("Carlos", $a, $b, $c);
+$c = new Werewolf("Carlos", 1);
+meet("Dan", $a, $b, $c);
 // END2 OMIT

@@ -63,8 +63,8 @@ class Werewolf implements greeter {
 // BGN7 OMIT
 $a = new Human("Alice");
 $b = new Wolf(3);
-$c = new Werewolf("Bob", 1);
-meet("Carlos", $a, $b, $c);
+$c = new Werewolf("Carlos", 1);
+meet("Dan", $a, $b, $c);
 // Trait method greeting has not been applied, because there
 // are collisions with other trait methods on Werewolf
 // END7 OMIT

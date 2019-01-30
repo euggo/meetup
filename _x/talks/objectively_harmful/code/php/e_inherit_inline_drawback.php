@@ -70,7 +70,7 @@ class Werewolf extends Wolf {
 // BGN3 OMIT
 $a = new Human("Alice");
 $b = new Wolf(3);
-$c = new Werewolf("Bob", 1);
-meet("Carlos", $a, $b, $c);
+$c = new Werewolf("Carlos", 1);
+meet("Dan", $a, $b, $c);
 talk($a, $b, $c);
 // END3 OMIT
