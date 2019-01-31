@@ -11,19 +11,19 @@ function meet($name, greeter ...$greeters) {
 }
 
 // BGN1 OMIT
-interface talker {
+interface messager {
 	public function message();
 }
 
-function talk(talker ...$talkers) {
-    foreach ($talkers as $talker) {
-		echo $talker->message()."\n";
+function talk(messager ...$messagers) {
+    foreach ($messagers as $messager) {
+		echo $messager->message()."\n";
 	}
 }
 // END1 OMIT
 
 // BGN2 OMIT
-class Human implements greeter, talker {
+class Human implements greeter, messager {
 	protected $name;
 
     function __construct($name) {
@@ -54,7 +54,6 @@ class Wolf extends Human {
     }
 }
 
-// BGN2 OMIT
 class Werewolf extends Wolf {
     function __construct($name, $freq) {
         parent::__construct($freq);
@@ -65,12 +64,11 @@ class Werewolf extends Wolf {
         return parent::greeting($name) . " " . Human::greeting($name);
     }
 }
-// END2 OMIT
 
-// BGN3 OMIT
+// BGN2 OMIT
 $a = new Human("Alice");
 $b = new Wolf(3);
 $c = new Werewolf("Carlos", 1);
 meet("Dan", $a, $b, $c);
 talk($a, $b, $c);
-// END3 OMIT
+// END2 OMIT

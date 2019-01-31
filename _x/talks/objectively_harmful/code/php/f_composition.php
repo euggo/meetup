@@ -10,17 +10,17 @@ function meet($name, greeter ...$greeters) {
 	}
 }
 
-interface talker {
+interface messager {
 	public function message();
 }
 
-function talk(talker ...$talkers) {
-    foreach ($talkers as $talker) {
-		echo $talker->message()."\n";
+function talk(messager ...$messagers) {
+    foreach ($messagers as $messager) {
+		echo $messager->message()."\n";
 	}
 }
 
-class Human implements greeter, talker {
+class Human implements greeter, messager {
 	protected $name;
 
     function __construct($name) {
@@ -52,7 +52,7 @@ class Wolf implements greeter {
 // END1 OMIT
 
 // BGN2 OMIT
-class Werewolf implements greeter, talker {
+class Werewolf implements greeter, messager {
     protected $human;
     protected $wolf;
 
@@ -76,6 +76,6 @@ $a = new Human("Alice");
 $b = new Wolf(3);
 $c = new Werewolf("Carlos", 1);
 meet("Dan", $a, $b, $c);
-talk($a, $b, $c);
-// Uncaught TypeError: Argument 2 passed to talk() must implement interface talker
+talk($a, $c);
+// Uncaught TypeError: Argument 2 passed to talk() must implement interface messager
 // END3 OMIT
