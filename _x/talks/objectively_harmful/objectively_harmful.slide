@@ -1,6 +1,6 @@
 ###
 Objectively Harmful
-How inheritance always lays a troublesome path.
+How inheritance lays a troublesome path.
 7 Feb 2019
 Tags: intro, type system, inheritance
 
@@ -26,21 +26,30 @@ https://github.com/daved
 
 An interface is a behavior set.
 
+.code ./code/a_interface.go /BGN1/,/END1/
+
 #--
 * What is an Implementation?
 
 An implementation is expressed behavior.
 
+.code ./code/b_implementation.go /BGN1/,/END1/
+
 #--
 * Directive 1 Restated
 
-Program to required behavior, not particular expressions.
+Program to required behavior, not particular concretions.
 
-This provides:
+.code ./code/c_howto_notto.go /BGN1/,/END1/
+
+#--
+* Benefits of Depending on Interfaces *
+
 - Separation of Concerns
 - Encapsulation
 - Polymorphism
 
+.caption *These things are not always needed or most convenient.
 
 
 ###
@@ -54,49 +63,120 @@ This provides:
 #--
 * What is an Object?
 
-An object is a value and assigned behavior (in simplest form within OOP).
+Broadly; An object has state and behavior.*
 
-#--
-* What is a Class?
+.play ./code/d_object.go /BGN1/,/END1/
 
-A class includes:
-
-- structure declaration
-- assignment of some or all structure properties
-- declaration and assignment of behavior
-- pre-assigned "magic methods" (most overridable by users)
-- declaration and assignment of taxonomic links
-- declaration of implemented behavior sets (not all languages)
+.caption *See [[https://en.wikipedia.org/wiki/Object_(computer_science)][this link]] for a more nuanced definition.
 
 #--
 * What is Composition?
 
-Composition is the sharing of behavior using structure.
+Composition is the sharing of behavior using structural organization.
+
+.image ./img/svg/composition.svg 500 _
+
+#--
+* What is a Class?
+
+Not strictly or exhaustively...
+
+- structure declaration (fields)
+- assignment of some or all fields
+- declaration and assignment of behavior (methods)
+- pre-assigned "magic methods" (most are reassignable)
+- declaration of taxonomic relationships
+- declaration of implemented behavior sets
 
 #--
 * What is Inheritance?
 
-Inheritance is the sharing of behavior using taxonomic links.
+Inheritance is the sharing of behavior using taxonomic relationships.
+
+.image ./img/svg/inheritance.svg 500 _
 
 #--
 * Directive 2 Restated
 
-When sharing behavior, favor structure over taxonomy.
+When sharing behavior, favor organization over relationships.
 
+#--
+* A Closer Look at the OOoptions...
 
+.image https://storage.euggo.org/present/img/closer_look.gif 240 _
 
 ###
-* Class-based
+* Class-based Behavior Sharing
 
 #--
 * Class Example
 
-x
+.code ./code/php/a_classes.php /BGN1/,/END1/
 
 #--
-* Class Failure
+* Class Example Output
 
-x
+.code ./code/php/a_classes.php.out
+
+#--
+* Class w/Interface
+
+.code ./code/php/b_interface.php /BGN1/,/END1/
+
+#--
+* Class w/Interface Output
+
+.code ./code/php/b_interface.php.out
+
+#--
+* Class Inheritance (multiple)
+
+.code ./code/php/c_inherit_impossible.php /BGN1/,/END1/
+
+#--
+* Class Inheritance (multiple) Output
+
+.code ./code/php/c_inherit_impossible.php.out
+
+_________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Many languages allow multiple inheritance with varying degrees of rationality.
+
+.image ./img/svg/composition.svg
+
+#--
+* Class Inheritance (inline)
+
+.code ./code/php/d_inherit_inline.php /BGN1/,/END1/
+
+#--
+* Class Inheritance (inline) Output
+
+.code ./code/php/d_inherit_inline.php.out
+
+#--
+* Class Inheritance (inline ramification)
+
+.code ./code/php/e_inherit_inline_drawback.php /BGN1/,/END1/
+
+.code ./code/php/e_inherit_inline_drawback.php /BGN2/,/END2/
+
+#--
+* Class Inheritance (inline ramification) Output
+
+.code ./code/php/e_inherit_inline_drawback.php.out
+
+#--
+* Class Composition
+
+.code ./code/php/f_composition.php /BGN1/,/END1/
+
+.code ./code/php/f_composition.php /BGN2/,/END2/
+
+#--
+* Class Composition Output
+
+.code ./code/php/f_composition.php.out
 
 
 
