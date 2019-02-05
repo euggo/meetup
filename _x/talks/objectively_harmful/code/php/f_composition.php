@@ -1,8 +1,6 @@
 <?php
 
-interface greeter {
-	public function greeting($str);
-}
+interface greeter { public function greeting($str); }
 
 function meet($name, greeter ...$greeters) {
     foreach ($greeters as $greeter) {
@@ -10,9 +8,7 @@ function meet($name, greeter ...$greeters) {
 	}
 }
 
-interface messager {
-	public function message();
-}
+interface messager { public function message(); }
 
 function talk(messager ...$messagers) {
     foreach ($messagers as $messager) {
@@ -20,62 +16,44 @@ function talk(messager ...$messagers) {
 	}
 }
 
-class Human implements greeter, messager {
-	protected $name;
-
-    function __construct($name) {
-        $this->name = $name;
-    }
-
-    public function greeting($name) {
-        return "Hello, $name. I'm $this->name.";
-    }
-
-    public function message() {
-        return "Nice to meet you.";
-    }
-}
-
 // BGN1 OMIT
-class Wolf implements greeter {
-    protected $freq = 1;
+class Human implements greeter, messager { // ... }
+	protected $name; // OMIT
+    function __construct($name) { $this->name = $name; } // OMIT
+    // OMIT
+    public function greeting($name) { return "Hello, $name. I'm $this->name."; } // OMIT
+    // OMIT
+    public function message() { return "Nice to meet you."; } // OMIT
+} // OMIT
 
-    function __construct($freq) {
-        $this->freq = $freq;
-    }
+class Wolf implements greeter { // ... }
+    protected $freq = 1; // OMIT
+    function __construct($freq) { $this->freq = $freq; } // OMIT
+    // OMIT
+    public function greeting($_) { // OMIT
+        $msg = str_repeat("woof ", $this->freq); // OMIT
+        return trim($msg)."!"; // OMIT
+    } // OMIT
+} // OMIT
 
-    public function greeting($_) {
-        $msg = str_repeat("woof ", $this->freq);
-        return trim($msg)."!";
-    }
-}
-// END1 OMIT
-
-// BGN2 OMIT
 class Werewolf implements greeter, messager {
     protected $human;
     protected $wolf;
-
     function __construct($name, $freq) {
         $this->human = new Human($name);
         $this->wolf = new Wolf($freq);
     }
-
     public function greeting($name) {
         return $this->wolf->greeting($name) . " " . $this->human->greeting($name);
     }
-
-    public function message() {
-        return $this->human->message();
-    }
+    public function message() { return $this->human->message(); }
 }
-// END2 OMIT
+// END1 OMIT
 
-// BGN3 OMIT
 $a = new Human("Alice");
 $b = new Wolf(3);
 $c = new Werewolf("Carlos", 1);
+// BGN2 OMIT
 meet("Dan", $a, $b, $c);
 talk($a, $c);
-// Uncaught TypeError: Argument 2 passed to talk() must implement interface messager
-// END3 OMIT
+// END2 OMIT
