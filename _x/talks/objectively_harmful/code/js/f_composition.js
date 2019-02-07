@@ -50,5 +50,4 @@ c = new Werewolf("Carlos", 1);
 // BGN2 OMIT
 meet("Dan", [a, b, c]);
 talk([a, c]);
-console.log("werewolf freq:", c.freq)
 // END2 OMIT

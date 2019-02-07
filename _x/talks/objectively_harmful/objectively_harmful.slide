@@ -22,14 +22,16 @@ https://github.com/daved
 "Program to an 'interface', not an 'implementation'." - Gang of Four (Design Patterns)
 
 #--
-* What is an Interface?
+* What Is An Interface?
 
 An interface is a behavior set.
 
 .code ./code/a_interface.go /BGN1/,/END1/
 
+: methods available on an object
+
 #--
-* What is an Implementation?
+* What Is An Implementation?
 
 An implementation is expressed behavior.
 
@@ -42,8 +44,13 @@ Program to required behavior, not particular concretions.
 
 .code ./code/c_howto_notto.go /BGN1/,/END1/
 
+: depending on concretions:
+: - sets a hard limit on argument type
+: - exposes unnecessary data/behavior
+: - invites spaghetti code
+
 #--
-* Benefits of Depending on Interfaces *
+* Benefits Of Depending On Interfaces *
 
 - Separation of Concerns
 - Encapsulation
@@ -61,7 +68,7 @@ Program to required behavior, not particular concretions.
 "Favor 'object composition' over 'class inheritance'." - Gang of Four (Design Patterns)
 
 #--
-* What is an Object?
+* What Is An Object?
 
 Broadly; An object is an instance of a data structure (state) with behavior.*
 
@@ -69,15 +76,22 @@ Broadly; An object is an instance of a data structure (state) with behavior.*
 
 .caption *See [[https://en.wikipedia.org/wiki/Object_(computer_science)][this link]] for more details.
 
+: some argue that primitives are not objects because they do not have methods,
+: but many primitives have behavior like +, -, ++, ! etc.
+: consider: is an instance of struct without methods an object?
+: sometimes objects are defined even more simply as any instances of data that can be interacted with
+: and, some would argue objects can only exist by using classes,
+: however, that only influences whether a language is object-based AND ALSO object-oriented
+
 #--
-* What is Composition?
+* What Is Composition?
 
 Composition is the sharing of behavior using structural organization.
 
 .image ./img/svg/composition.svg 500 _
 
 #--
-* What is a Class?
+* What Is A Class?
 
 Not strictly or exhaustively...
 
@@ -88,12 +102,19 @@ Not strictly or exhaustively...
 - declaration of taxonomic relationships
 - declaration of implemented behavior sets
 
+: a small spoiler: Go structs only declare structure
+
 #--
-* What is Inheritance?
+* What Is Inheritance?
 
 Inheritance is the sharing of behavior using taxonomic relationships.
 
 .image ./img/svg/inheritance.svg 500 _
+
+: if Go lacks classes, and therefore lacks taxonomic relationships, 
+: and therefore lacks inheritance, is Go object-oriented?
+: -
+: *please note that the gradient of color implies that inherited structure and behavior are not necessarily clearly conveyed.
 
 #--
 * Directive 2 Restated
@@ -101,11 +122,14 @@ Inheritance is the sharing of behavior using taxonomic relationships.
 When sharing behavior, favor organization over relationships.
 
 #--
-* A Closer Look
+* Benefits Of Using Composition
 
-Let's take at closer look the OO-options...
+To understand this, it will help if we understand the pain points inherent to the alternative(s). Let's take at closer look at the OO-options...
 
 .image https://storage.euggo.org/present/img/closer_look.gif 240 _
+
+: next, we'll take a look at the two most common forms of inheritance: class-based and prototype-based
+: we'll also take a look at how Go structures the sharing of behavior.
 
 ###
 * Class-based Behavior Sharing
@@ -115,25 +139,42 @@ Let's take at closer look the OO-options...
 
 .code ./code/php/a_classes.php /BGN1/,/END1/
 
+: first, two classes are created with constructors
+: each class performs the same behavior "greeting"
+: greeting takes a name and returns a string with a formatted greeting
+: the main logic constructs a "human" and a "wolf", then has them meet "Dan"
+
 #--
 * Class-based Classes Output
 
 .code ./code/php/a_classes.php.out
+
+: the output is as expected
 
 #--
 * Class-based w/Interface
 
 .code ./code/php/b_interface.php /BGN1/,/END1/
 
+: here an interface is added along with a function that leverages the interface
+: each class must explicitly implement the interface
+: the main logic is modified to use the newly added function
+
 #--
 * Class-based w/Interface Output
 
 .code ./code/php/b_interface.php.out
 
+: the output, again, is as expected (without change)
+
 #--
 * Class-based Inheritance (multiple)
 
 .code ./code/php/c_inherit_impossible.php /BGN1/,/END1/
+
+: if a new class wishes to extend multiple classes, it is simply not allowed in many languages
+: this is generally because multiple inheritance creates a lot of grief, and is typically resolved through some linearization algorithm or by the order in which types are declared
+: after adding the construction of a new werewolf to the main logic, the code can be tested
 
 #--
 * Class-based Inheritance (multiple) Output
@@ -146,27 +187,49 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 .image ./img/svg/multi_inheritance.svg
 
+: the program fails
+: it's easy to see that sharing behavior this way can get ugly fast
+: *the black area is meant to emphasize higher likelihood of issues
+
 #--
 * Class-based Inheritance (inline)
 
 .code ./code/php/d_inherit_inline.php /BGN1/,/END1/
+
+: returning to a valid approach...
+: the taxonomic relationships are set inline with wolf extending human, and werewolf extending wolf
+: if the constructors of inherited classes are not called, prepare for fireworks
+: the greeting method of werewolf is able to access it's direct parent, but not "granparent"
+: to reach the grandparent, the class name is used
+: finally, the main logic is updated with a new werewolf
 
 #--
 * Class-based Inheritance (inline) Output
 
 .code ./code/php/d_inherit_inline.php.out
 
+: success
+
 #--
-* Class-based Inheritance (inline: fail)
+* Class-based Inheritance (inline: drawback)
 
 .code ./code/php/e_inherit_inline_drawback.php /BGN1/,/END1/
 
 .code ./code/php/e_inherit_inline_drawback.php /BGN2/,/END2/
 
+: here another interface is added along with a function that leverages the interface
+: because inheritance is currently inline, only the top-level class must explicitly implement the interface
+: the main logic is modified to use the newly added function
+
 #--
-* Class-based Inheritance (inline: fail) Output
+* Class-based Inheritance (inline: drawback) Output
 
 .code ./code/php/e_inherit_inline_drawback.php.out
+
+.caption silent behavioral error
+
+: while the code ran without programmatic error, there is a behavioral/semantic error
+: a wolf should not be able to say "nice to meet you"
 
 #--
 * Class-based Composition
@@ -175,10 +238,18 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 .code ./code/php/f_composition.php /BGN2/,/END2/
 
+: here, the extends keyword is dropped and inheritance is abandoned
+: each class declares it's own interface implementations
+: werewolf will use fields to hold full instances of human and wolf
+: any needed behavior is accessed with clarity
+: the main logic is updated with the wolf being removed from the talk function (otherwise it will error programmatically)
+
 #--
 * Class-based Composition Output
 
 .code ./code/php/f_composition.php.out
+
+: the output is now as expected
 
 
 
@@ -190,42 +261,67 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 .code ./code/js/a_prototypes.js
 
+: first, two object constructors are created
+: each object is capable of the same behavior "greeting" (no difference from the class-based examples)
+: the main logic constructs a "human" and a "wolf", then has them meet "Dan"
+
 #--
 * Prototype-based Example Output
 
 .code ./code/js/a_prototypes.js.out
+
+: the output is as expected
 
 #--
 * Prototype-based w/Interface (sort of)
 
 .code ./code/js/b_interface_sorta.js /BGN1/,/END1/
 
+: while there are no interfaces in JS, 
+: a function that requires an object with a single method is added
+: the main logic is modified to use the newly added function
+
 #--
-* Prototype-based w/Interface Output
+* Prototype-based w/Interface (sort of) Output
 
 .code ./code/js/b_interface_sorta.js.out
+
+: the output, again, is as expected (without change)
 
 #--
 * Prototype-based Inheritance (multiple)
 
 .code ./code/js/c_inherit_impossible.js /BGN1/,/END1/
 
+: prototype-based languages work on the object-based concept that objects can have defined "prototype" which is used for any behavior not provided in the child object
+: while this is still highly limited (and can be quite fragile), it is far more structural than classes
+: regardless, multiple inheritance is not permitted and setPrototypeOf silently fails as seen by the werewolf's freq field not being set
+: this also means that defining the intended version of werewolf's greeting would result in a programmatic failure
+: after adding the construction of a new werewolf to the main logic, the code can be tested
+
 #--
 * Prototype-based Inheritance (multiple) Output
 
 .code ./code/js/c_inherit_impossible.js.out
 
-.caption silent failure
+.caption silent behavioral failure (and likely eventual programmatic failure)
 
 #--
 * Prototype-based Inheritance (inline)
 
 .code ./code/js/d_inherit_inline.js /BGN1/,/END1/
 
+: so, inlining again...
+: the taxonomic relationships are set inline with human acting as wolf's prototype, and wolf acting as werewolf's prototype
+: all ancestors are available with prototypal inheritance, but keeping to the type system is cumbersome
+: finally, the main logic is updated with a new werewolf
+
 #--
 * Prototype-based Inheritance (inline) Output
 
 .code ./code/js/d_inherit_inline.js.out
+
+: success
 
 #--
 * Prototype-based Inheritance (inline: ok)
@@ -234,10 +330,17 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 .code ./code/js/e_inherit_ok.js /BGN2/,/END2/
 
+: now, to verify how inheritance behaves in JS, another function that requires an object with a single method is added
+: this inheritance is inline, so only the top-level object must have the new method added
+: the main logic is modified to use the newly added function
+: because prototypal inheritance is more strucural than class inheritance, the basic instance of wolf does not incorrectly inherit any behavior from human, but werewolf does get it "passed-through" it's prototype wolf.
+
 #--
 * Prototype-based Inheritance (inline: ok) Output
 
 .code ./code/js/e_inherit_ok.js.out
+
+: the output is as expected
 
 #--
 * Prototype-based Composition
@@ -246,10 +349,16 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 .code ./code/js/f_composition.js /BGN2/,/END2/
 
+: approaching this now with composition, fields are set with instances of human and wolf
+: "assign" is used to "apply" behavior and structure to werewolf
+: despite being a little magical, accessing behavior is now more free and clear
+
 #--
 * Prototype-based Composition Output
 
 .code ./code/js/f_composition.js.out
+
+: success
 
 
 
@@ -261,40 +370,67 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 .code ./code/go/a_structs.go /BGN1/,/END1/
 
+: two structs are created (no construction functions at this point)
+: each struct provides the same behavior "greeting"
+: the main logic constructs a "human" and a "wolf", then has them meet "Dan"
+
 #--
 * Object-based Example Output
 
 .code ./code/go/a_structs.go.out
+
+: the output is as expected
 
 #--
 * Object-based w/Interface
 
 .code ./code/go/b_interface.go /BGN1/,/END1/
 
+: here an interface is added along with a function that leverages the interface
+: interfaces are implicity satisfied in Go, so nothing more is needed
+: the main logic is modified to use the newly added function
+
 #--
 * Object-based w/Interface Output
 
 .code ./code/go/b_interface.go.out
+
+: the output, again, is as expected (without change)
 
 #--
 * Object-based Composition (incomplete)
 
 .code ./code/go/c_composition_incomplete.go /BGN1/,/END1/
 
+: skipping the non-existent inheritance...
+: a new struct is created which embeds a human and a wolf
+: behavior sharing is immediately structural due to embedded methods and fields being "promoted" to top-level
+: a construction function is added that handles the construction of the human and wolf dependencies
+: after adding the construction of a new werewolf to the main logic, the code can be tested
+
 #--
 * Object-based Composition (incomplete) Output
 
 .code ./code/go/c_composition_incomplete.go.out
+
+: at compile time it is clear that ambiguity must be resolved
 
 #--
 * Object-based Composition (working)
 
 .code ./code/go/d_composition.go /BGN1/,/END1/
 
+: because Go does not declare any taxonomic relationships, ambiguities are forced to the forefront
+: "spooky action at a distance" is avoided for methods
+: be careful with fields and their related scopes
+: the ambiguity is resolved by defining a method directly on the embedding type
+
 #--
 * Object-based Composition (working) Output
 
 .code ./code/go/d_composition.go.out
+
+: looking good
 
 #--
 * Object-based Composition (success)
@@ -305,10 +441,17 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 .code ./code/go/e_composition_good.go /BGN3/,/END3/
 
+: here another interface is added along with a function that leverages the interface
+: only the human type needs to implement the interface
+: the main logic is modified to use the newly added function
+
 #--
 * Object-based Composition (success) Output
 
 .code ./code/go/e_composition_good.go.out
+
+: success confirmed
+: if "bob" the wolf had been sent to talk, it would have been a programmatic compile time error
 
 
 
@@ -316,14 +459,29 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 * So What?
 
 #--
-* Composition and Interfaces are Fundamentally Useful
+* Composition And Interfaces Are Fundamentally Useful
 
-Since 1994 our community has been formally admonished to understand this. Encumbering the use of either composition or inheritance should be considered a severe cost for application development.
+Inheritance (often):
 
 .image https://storage.euggo.org/present/img/wrong_turn_somewhere.jpg 360 _
 
+.caption It's even worse without strong typing!
+
+: Since 1994 our community has been formally admonished to understand this.
+: Encumbrances on either composition or inheritance should be considered a severe cost for the development of complex systems.
+
 #--
-* When Might These Directives Not Apply?
+* If Go Lacks Inheritance Is It Still Object-Oriented?
+
+Absolutely. It epitomizes good OO practice.
+
+.image https://storage.euggo.org/present/img/yes_snoop.gif 300 _
+
+: Go not only favors composition over inheritance, it foregoes inheritance entirely. Inheritance through taxonimic relationships is hostile to the stable construction of complex systems.
+: It could be argued that Go is only object-based and not object-oriented due to it's lack of inheritance, but the inclusion of embedding (and the resulting field/method promotion) emulates inheritance in a structured and useful manner such that it thoroughly models the behavior sharing effectiveness of object-oriented languages while ensuring that best practices are followed.
+
+#--
+* When Might The Two Most Prominent OO Directives Not Apply?
 
 Consider not using interfaces when dealing with:
 
@@ -334,6 +492,11 @@ Consider not using interfaces when dealing with:
 Consider not using composition when dealing with:
 
 - languages that make composition more difficult than workarounds (e.g. traits)
+
+: interfaces have a cost, so optimization can be achieved by avoiding them
+: the verbosity and intellectual cost of interfaces may not be useful enough to define for small programs
+: designing an interface without first understanding the abstraction has it's own costs (slowed refactoring, delayed growth, etc)
+: sometimes languages offer built-in workarounds that are sufficient (and maybe even quite convenient). Use them.
 
 #--
 * Are There Any Pertinent Technical Quotes?
@@ -364,6 +527,26 @@ Sure:
 Yep:
 
 .image ./img/svg/multi_composition.svg
+
+: while composition shines for methods, if fields are treated as one would treat methods, there will be difficulty.
+: however, this is simply resolved by making all field access explicit. personally, I try to never access "promoted" fields.
+: when composing a type's available methods, we are usually concerned with how some interface is being satisfied. fields are not a concern on that "side" of an interface
+
+#--
+* Are Object.assign And Object.setPrototypeOf Available In ES5?
+
+.code ./code/f_es5_polyfill.js
+
+: sort of, and not setPrototypeOf in IE. here are the polyfills
+
+#--
+* What If An Unwanted Method Is Promoted?
+
+.code ./code/g_hide_promoted.go /BGN1/,/END1/
+
+.code ./code/g_hide_promoted.go.out
+
+.caption [[https://play.golang.org/p/brnETxnsC1y][on the golang.org playground]]
 
 #--
 * Are We Finished Here?

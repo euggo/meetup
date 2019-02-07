@@ -1,0 +1,3 @@
+hide_promoted.go:48:6: wolf.message is a field, not a method
+hide_promoted.go:48:6: cannot use b (type *wolf) as type messager in argument to talk:
+	*wolf does not implement messager (missing message method)
