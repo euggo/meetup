@@ -5,6 +5,23 @@ import (
 	"strings"
 )
 
+type human struct {
+	name string
+}
+
+func (h human) greeting(name string) string {
+	return fmt.Sprintf("Hello, %s. I'm %s.", name, h.name)
+}
+
+type wolf struct {
+	freq int
+}
+
+func (w wolf) greeting(string) string {
+	msg := strings.Repeat("woof ", w.freq)
+	return fmt.Sprintf("%s!", strings.TrimSpace(msg))
+}
+
 type greeter interface {
 	greeting(name string) string
 }
@@ -15,46 +32,24 @@ func meet(name string, gs ...greeter) {
 	}
 }
 
-type human struct{ name string }
-
-func newHuman(name string) *human {
-	return &human{name: name}
-}
-
-func (h *human) greeting(name string) string {
-	return fmt.Sprintf("Hello, %s. I'm %s.", name, h.name)
-}
-
-type wolf struct{ freq int }
-
-func newWolf(freq int) *wolf {
-	return &wolf{freq: freq}
-}
-
-func (w *wolf) greeting(string) string {
-	msg := strings.Repeat("woof ", w.freq)
-	return fmt.Sprintf("%s!", strings.TrimSpace(msg))
-}
-
 // BGN1 OMIT
 type werewolf struct {
 	human
 	wolf
 }
 
-func newWerewolf(h *human, w *wolf) *werewolf {
-	return &werewolf{human: *h, wolf: *w}
+func newWerewolf(name string, freq int) *werewolf {
+	return &werewolf{
+		human: human{name},
+		wolf:  wolf{freq},
+	}
+}
+
+func main() {
+	a := human{"Alice"}
+	b := wolf{3}
+	c := newWerewolf("Carlos", 1)
+	meet("Dan", a, b, c)
 }
 
 // END1 OMIT
-
-// BGN2 OMIT
-func main() {
-	a := newHuman("Alice")
-	b := newWolf(3)
-	c := newWerewolf(newHuman("Carlos"), newWolf(1))
-	meet("Dan", a, b, c)
-	// werewolf.greeting is ambiguous
-}
-
-// END2 OMIT

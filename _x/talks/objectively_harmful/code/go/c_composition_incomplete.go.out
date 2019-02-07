@@ -1,0 +1,3 @@
+composition_incomplete.go:52:7: werewolf.greeting is ambiguous
+composition_incomplete.go:52:7: cannot use c (type *werewolf) as type greeter in argument to meet:
+	*werewolf does not implement greeter (missing greeting method)

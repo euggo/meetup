@@ -39,6 +39,7 @@ class Wolf implements greeter { // ... }
 class Werewolf implements greeter, messager {
     protected $human;
     protected $wolf;
+
     function __construct($name, $freq) {
         $this->human = new Human($name);
         $this->wolf = new Wolf($freq);
@@ -46,7 +47,9 @@ class Werewolf implements greeter, messager {
     public function greeting($name) {
         return $this->wolf->greeting($name) . " " . $this->human->greeting($name);
     }
-    public function message() { return $this->human->message(); }
+    public function message() {
+        return $this->human->message();
+    }
 }
 // END1 OMIT
 

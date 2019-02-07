@@ -10,21 +10,20 @@ function talk(messagers) {
     console.log(messagers[i].message())
   }
 }
-// END1 OMIT
 
-// BGN2 OMIT
 function Human(name) {
-  this.name = name;
-
-  this.greeting = function(name) {
-    return "Hello, "+name+". I'm " + this.name + ".";
-  };
-
+  this.name = name; // OMIT
+  // OMIT
+  this.greeting = function(name) { // OMIT
+    return "Hello, "+name+". I'm " + this.name + "."; // OMIT
+  }; // OMIT
+  // ...
+  // OMIT
   this.message = function() {
     return "Nice to meet you.";
   }
 }
-// END2 OMIT
+// END1 OMIT
 
 function Wolf(freq) {
   this.freq = freq;
@@ -35,7 +34,6 @@ function Wolf(freq) {
   };
 }
 
-// BGN1 OMIT
 function Werewolf(name, freq) {
   var human = new Human(name);
   var wolf = new Wolf(freq);
@@ -49,12 +47,11 @@ function Werewolf(name, freq) {
     return parent.greeting(name) + " " + grandp.greeting(name);
   };
 }
-// END1 OMIT
 
-// BGN2 OMIT
 a = new Human("Alice");
 b = new Wolf(3);
 c = new Werewolf("Carlos", 1);
+// BGN2 OMIT
 meet("Dan", [a, b, c]);
 talk([a, c]);
 // END2 OMIT

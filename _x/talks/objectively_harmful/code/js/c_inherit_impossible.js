@@ -28,12 +28,10 @@ function Werewolf(name, freq) {
 
   Object.setPrototypeOf(this, human, wolf);
 }
-// END1 OMIT
 
-// BGN2 OMIT
 a = new Human("Alice");
 b = new Wolf(3);
 c = new Werewolf("Carlos", 1);
 meet("Dan", [a, b, c]);
-console.log(c.freq);
-// END2 OMIT
+console.log("werewolf freq:", c.freq);
+// END1 OMIT

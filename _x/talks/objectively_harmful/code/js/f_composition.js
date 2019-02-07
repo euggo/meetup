@@ -4,12 +4,22 @@ function meet(name, greeters) {
   };
 }
 
+function talk(messagers) {
+  for (var i = 0; i < messagers.length; i++) {
+    console.log(messagers[i].message())
+  }
+}
+
 function Human(name) {
   this.name = name;
 
   this.greeting = function(name) {
     return "Hello, "+name+". I'm " + this.name + ".";
   };
+
+  this.message = function() {
+    return "Nice to meet you.";
+  }
 }
 
 function Wolf(freq) {
@@ -26,8 +36,7 @@ function Werewolf(name, freq) {
   this.human = new Human(name);
   this.wolf = new Wolf(freq);
 
-  Object.assign(this, this.human);
-  Object.assign(this, this.wolf);
+  Object.assign(this, this.human, this.wolf);
 
   this.greeting = function(name) {
     return this.wolf.greeting(name) + " " + this.human.greeting(name);
@@ -35,9 +44,11 @@ function Werewolf(name, freq) {
 }
 // END1 OMIT
 
-// BGN2 OMIT
 a = new Human("Alice");
 b = new Wolf(3);
 c = new Werewolf("Carlos", 1);
+// BGN2 OMIT
 meet("Dan", [a, b, c]);
+talk([a, c]);
+console.log("werewolf freq:", c.freq)
 // END2 OMIT

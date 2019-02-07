@@ -1,6 +1,8 @@
 <?php
 
-interface greeter { public function greeting($str); }
+interface greeter {
+    public function greeting($str);
+}
 
 function meet($name, greeter ...$greeters) {
     foreach ($greeters as $greeter) {
@@ -9,7 +11,9 @@ function meet($name, greeter ...$greeters) {
 }
 
 // BGN1 OMIT
-interface messager { public function message(); }
+interface messager {
+    public function message();
+}
 
 function talk(messager ...$messagers) {
     foreach ($messagers as $messager) {
@@ -26,33 +30,33 @@ class Human implements greeter, messager {
     public function message() { return "Nice to meet you."; }
 }
 
-class Wolf extends Human {
+class Wolf extends Human { // ... }
     protected $freq = 1; // OMIT
     function __construct($freq) { // OMIT
-        parent::__construct(""); $this->freq = $freq; // OMIT
+        $this->freq = $freq; // OMIT
     } // OMIT
-    // ...
+    // OMIT
     public function greeting($_) { // OMIT
         $msg = str_repeat("woof ", $this->freq); // OMIT
         return trim($msg)."!"; // OMIT
     } // OMIT
-}
+} // OMIT
+
+class Werewolf extends Wolf { // ... }
+    function __construct($name, $freq) { // OMIT
+        parent::__construct($freq); Human::__construct($name); // OMIT
+    } // OMIT
+    // OMIT
+    public function greeting($name) { // OMIT
+        return parent::greeting($name) . " " . Human::greeting($name); // OMIT
+    } // OMIT
+} // OMIT
 // END1 OMIT
-
-class Werewolf extends Wolf {
-    function __construct($name, $freq) {
-        parent::__construct($freq); Human::__construct($name);
-    }
-
-    public function greeting($name) {
-        return parent::greeting($name) . " " . Human::greeting($name);
-    }
-}
 
 $a = new Human("Alice");
 $b = new Wolf(3);
 $c = new Werewolf("Carlos", 1);
-meet("Dan", $a, $b, $c);
 // BGN2 OMIT
+meet("Dan", $a, $b, $c);
 talk($a, $b, $c);
 // END2 OMIT

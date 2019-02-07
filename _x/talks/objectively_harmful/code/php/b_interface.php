@@ -1,7 +1,9 @@
 <?php
 
 // BGN1 OMIT
-interface greeter { public function greeting($str); }
+interface greeter {
+    public function greeting($str);
+}
 
 function meet($name, greeter ...$greeters) {
     foreach ($greeters as $greeter) {

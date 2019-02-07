@@ -1,11 +1,3 @@
-// BGN1 OMIT
-function meet(name, greeters) {
-  for (var i = 0; i < greeters.length; i++) {
-    console.log(greeters[i].greeting(name));
-  };
-}
-// END1 OMIT
-
 function Human(name) {
   this.name = name;
 
@@ -23,8 +15,14 @@ function Wolf(freq) {
   };
 }
 
-// BGN2 OMIT
+// BGN1 OMIT
+function meet(name, greeters) {
+  for (var i = 0; i < greeters.length; i++) {
+    console.log(greeters[i].greeting(name));
+  };
+}
+
 a = new Human("Alice");
 b = new Wolf(3);
 meet("Dan", [a, b]);
-// END2 OMIT
+// END1 OMIT

@@ -7,7 +7,7 @@ type human struct {
 	name string
 }
 
-func (h *human) greeting(name string) string {
+func (h human) greeting(name string) string {
 	return fmt.Sprintf("Hello, %s. I'm %s.", name, h.name)
 }
 

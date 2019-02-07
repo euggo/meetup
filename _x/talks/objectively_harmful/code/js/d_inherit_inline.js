@@ -35,11 +35,9 @@ function Werewolf(name, freq) {
     return parent.greeting(name) + " " + grandp.greeting(name);
   };
 }
-// END1 OMIT
 
-// BGN2 OMIT
 a = new Human("Alice");
 b = new Wolf(3);
 c = new Werewolf("Carlos", 1);
 meet("Dan", [a, b, c]);
-// END2 OMIT
+// END1 OMIT

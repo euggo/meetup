@@ -63,11 +63,11 @@ Program to required behavior, not particular concretions.
 #--
 * What is an Object?
 
-Broadly; An object has state and behavior.*
+Broadly; An object is an instance of a data structure (state) with behavior.*
 
-.play ./code/d_object.go /BGN1/,/END1/
+.code ./code/d_object.go /BGN1/,/END1/
 
-.caption *See [[https://en.wikipedia.org/wiki/Object_(computer_science)][this link]] for a more nuanced definition.
+.caption *See [[https://en.wikipedia.org/wiki/Object_(computer_science)][this link]] for more details.
 
 #--
 * What is Composition?
@@ -101,7 +101,9 @@ Inheritance is the sharing of behavior using taxonomic relationships.
 When sharing behavior, favor organization over relationships.
 
 #--
-* A Closer Look at the OOoptions...
+* A Closer Look
+
+Let's take at closer look the OO-options...
 
 .image https://storage.euggo.org/present/img/closer_look.gif 240 _
 
@@ -109,32 +111,32 @@ When sharing behavior, favor organization over relationships.
 * Class-based Behavior Sharing
 
 #--
-* Class Example
+* Class-based Classes
 
 .code ./code/php/a_classes.php /BGN1/,/END1/
 
 #--
-* Class Example Output
+* Class-based Classes Output
 
 .code ./code/php/a_classes.php.out
 
 #--
-* Class w/Interface
+* Class-based w/Interface
 
 .code ./code/php/b_interface.php /BGN1/,/END1/
 
 #--
-* Class w/Interface Output
+* Class-based w/Interface Output
 
 .code ./code/php/b_interface.php.out
 
 #--
-* Class Inheritance (multiple)
+* Class-based Inheritance (multiple)
 
 .code ./code/php/c_inherit_impossible.php /BGN1/,/END1/
 
 #--
-* Class Inheritance (multiple) Output
+* Class-based Inheritance (multiple) Output
 
 .code ./code/php/c_inherit_impossible.php.out
 
@@ -142,71 +144,171 @@ ________________________________________________________________________________
 
 Many languages allow multiple inheritance with varying degrees of rationality.
 
-.image ./img/svg/composition.svg
+.image ./img/svg/multi_inheritance.svg
 
 #--
-* Class Inheritance (inline)
+* Class-based Inheritance (inline)
 
 .code ./code/php/d_inherit_inline.php /BGN1/,/END1/
 
 #--
-* Class Inheritance (inline) Output
+* Class-based Inheritance (inline) Output
 
 .code ./code/php/d_inherit_inline.php.out
 
 #--
-* Class Inheritance (inline ramification)
+* Class-based Inheritance (inline: fail)
 
 .code ./code/php/e_inherit_inline_drawback.php /BGN1/,/END1/
 
 .code ./code/php/e_inherit_inline_drawback.php /BGN2/,/END2/
 
 #--
-* Class Inheritance (inline ramification) Output
+* Class-based Inheritance (inline: fail) Output
 
 .code ./code/php/e_inherit_inline_drawback.php.out
 
 #--
-* Class Composition
+* Class-based Composition
 
 .code ./code/php/f_composition.php /BGN1/,/END1/
 
 .code ./code/php/f_composition.php /BGN2/,/END2/
 
 #--
-* Class Composition Output
+* Class-based Composition Output
 
 .code ./code/php/f_composition.php.out
 
 
 
 ###
-* Prototype-based
+* Prototype-based Behavior Sharing
 
 #--
-* Prototype Example
+* Prototype-based Example
 
-x
+.code ./code/js/a_prototypes.js
 
 #--
-* Prototype Failure
+* Prototype-based Example Output
 
-x
+.code ./code/js/a_prototypes.js.out
+
+#--
+* Prototype-based w/Interface (sort of)
+
+.code ./code/js/b_interface_sorta.js /BGN1/,/END1/
+
+#--
+* Prototype-based w/Interface Output
+
+.code ./code/js/b_interface_sorta.js.out
+
+#--
+* Prototype-based Inheritance (multiple)
+
+.code ./code/js/c_inherit_impossible.js /BGN1/,/END1/
+
+#--
+* Prototype-based Inheritance (multiple) Output
+
+.code ./code/js/c_inherit_impossible.js.out
+
+.caption silent failure
+
+#--
+* Prototype-based Inheritance (inline)
+
+.code ./code/js/d_inherit_inline.js /BGN1/,/END1/
+
+#--
+* Prototype-based Inheritance (inline) Output
+
+.code ./code/js/d_inherit_inline.js.out
+
+#--
+* Prototype-based Inheritance (inline: ok)
+
+.code ./code/js/e_inherit_ok.js /BGN1/,/END1/
+
+.code ./code/js/e_inherit_ok.js /BGN2/,/END2/
+
+#--
+* Prototype-based Inheritance (inline: ok) Output
+
+.code ./code/js/e_inherit_ok.js.out
+
+#--
+* Prototype-based Composition
+
+.code ./code/js/f_composition.js /BGN1/,/END1/
+
+.code ./code/js/f_composition.js /BGN2/,/END2/
+
+#--
+* Prototype-based Composition Output
+
+.code ./code/js/f_composition.js.out
 
 
 
 ###
-* Object-based
+* Object-based Behavior Sharing
 
 #--
-* Object Example
+* Object-based Example
 
-x
+.code ./code/go/a_structs.go /BGN1/,/END1/
 
 #--
-* Object Failure
+* Object-based Example Output
 
-x
+.code ./code/go/a_structs.go.out
+
+#--
+* Object-based w/Interface
+
+.code ./code/go/b_interface.go /BGN1/,/END1/
+
+#--
+* Object-based w/Interface Output
+
+.code ./code/go/b_interface.go.out
+
+#--
+* Object-based Composition (incomplete)
+
+.code ./code/go/c_composition_incomplete.go /BGN1/,/END1/
+
+#--
+* Object-based Composition (incomplete) Output
+
+.code ./code/go/c_composition_incomplete.go.out
+
+#--
+* Object-based Composition (working)
+
+.code ./code/go/d_composition.go /BGN1/,/END1/
+
+#--
+* Object-based Composition (working) Output
+
+.code ./code/go/d_composition.go.out
+
+#--
+* Object-based Composition (success)
+
+.code ./code/go/e_composition_good.go /BGN1/,/END1/
+
+.code ./code/go/e_composition_good.go /BGN2/,/END2/
+
+.code ./code/go/e_composition_good.go /BGN3/,/END3/
+
+#--
+* Object-based Composition (success) Output
+
+.code ./code/go/e_composition_good.go.out
 
 
 
@@ -214,9 +316,52 @@ x
 * So What?
 
 #--
-* [[https://en.wikipedia.org/wiki/Orthogonality#Computer_science][Wikipedia - Orthogonality]]
+* Composition and Interfaces are Fundamentally Useful
+
+Since 1994 our community has been formally admonished to understand this. Encumbering the use of either composition or inheritance should be considered a severe cost for application development.
+
+.image https://storage.euggo.org/present/img/wrong_turn_somewhere.jpg 360 _
+
+#--
+* When Might These Directives Not Apply?
+
+Consider not using interfaces when dealing with:
+
+- optimizations
+- scripts
+- not fully understood complexity/abstractions
+
+Consider not using composition when dealing with:
+
+- languages that make composition more difficult than workarounds (e.g. traits)
+
+#--
+* Are There Any Pertinent Technical Quotes?
 
 "Orthogonality is a system design property which guarantees that modifying the technical effect produced by a component of a system neither creates nor propagates side effects to other components of the system. Typically this is achieved through the separation of concerns and encapsulation, and it is essential for feasible and compact designs of complex systems."
 
-#"It is important that we know where we come from, because if you do not know where you come from, then you don't know where you are, and if you don't know where you are, you don't know where you're going. And if you don't know where you're going, you're probably going wrong."
-#- Terry Pratchett
+.caption [[https://en.wikipedia.org/wiki/Orthogonality#Computer_science][Wikipedia - Orthogonality]]
+
+#--
+* Are There Any Pertinent Philosophical Quotes?
+
+"It is important that we know where we come from, because if you do not know where you come from, then you don't know where you are, and if you don't know where you are, you don't know where you're going. And if you don't know where you're going, you're probably going wrong." - Terry Pratchett
+
+#--
+* Can We See The Multiple Inheritance Graphic Again?
+
+Sure:
+
+.image ./img/svg/multi_inheritance.svg
+
+#--
+* Is There A Graphic For "Multiple Composition"?
+
+Yep:
+
+.image ./img/svg/multi_composition.svg
+
+#--
+* Are We Finished Here?
+
+If you're done asking questions...

@@ -17,10 +17,10 @@ class Human implements greeter {
 
 // BGN1 OMIT
 class Wolf extends Human {
-    protected $freq = 1;
-    function __construct($freq) {
-        $this->freq = $freq; parent::__construct("");
-    }
+    protected $freq = 1; // OMIT
+    function __construct($freq) { // OMIT
+        $this->freq = $freq; // OMIT
+    } // OMIT
     // ...
     public function greeting($_) { // OMIT
         $msg = str_repeat("woof ", $this->freq); // OMIT
