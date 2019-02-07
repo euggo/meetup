@@ -342,10 +342,14 @@ Consider not using composition when dealing with:
 
 .caption [[https://en.wikipedia.org/wiki/Orthogonality#Computer_science][Wikipedia - Orthogonality]]
 
+.image https://storage.euggo.org/present/img/its_science.gif 300 _
+
 #--
 * Are There Any Pertinent Philosophical Quotes?
 
 "It is important that we know where we come from, because if you do not know where you come from, then you don't know where you are, and if you don't know where you are, you don't know where you're going. And if you don't know where you're going, you're probably going wrong." - Terry Pratchett
+
+.image https://storage.euggo.org/present/img/confused_travolta.gif
 
 #--
 * Can We See The Multiple Inheritance Graphic Again?
@@ -365,3 +369,5 @@ Yep:
 * Are We Finished Here?
 
 If you're done asking questions...
+
+.image https://storage.euggo.org/present/img/malfunction_false.gif
