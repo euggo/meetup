@@ -141,7 +141,7 @@ To understand this, it will help if we understand the pain points inherent to th
 
 : first, two classes are created with constructors
 : each class performs the same behavior "greeting"
-: greeting takes a name and returns a string with a formatted greeting
+: "greeting" takes a name and returns a "string" with a formatted greeting
 : the main logic constructs a "human" and a "wolf", then has them meet "Dan"
 
 #--
@@ -174,7 +174,7 @@ To understand this, it will help if we understand the pain points inherent to th
 
 : if a new class wishes to extend multiple classes, it is simply not allowed in many languages
 : this is generally because multiple inheritance creates a lot of grief, and is typically resolved through some linearization algorithm or by the order in which types are declared
-: after adding the construction of a new werewolf to the main logic, the code can be tested
+: after adding the construction of a new "werewolf" to the main logic, the code can be tested
 
 #--
 * Class-based Inheritance (multiple) Output
@@ -197,11 +197,11 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 .code ./code/php/d_inherit_inline.php /BGN1/,/END1/
 
 : returning to a valid approach...
-: the taxonomic relationships are set inline with wolf extending human, and werewolf extending wolf
+: the taxonomic relationships are set inline with "wolf" extending "human", and "werewolf" extending "wolf"
 : if the constructors of inherited classes are not called, prepare for fireworks
-: the greeting method of werewolf is able to access it's direct parent, but not "granparent"
+: the "greeting" method of "werewolf" is able to access it's direct "parent", but not "granparent"
 : to reach the grandparent, the class name is used
-: finally, the main logic is updated with a new werewolf
+: finally, the main logic is updated with a new "werewolf"
 
 #--
 * Class-based Inheritance (inline) Output
@@ -238,11 +238,11 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 .code ./code/php/f_composition.php /BGN2/,/END2/
 
-: here, the extends keyword is dropped and inheritance is abandoned
+: here, the "extends" keyword is dropped and inheritance is abandoned
 : each class declares it's own interface implementations
-: werewolf will use fields to hold full instances of human and wolf
-: any needed behavior is accessed with clarity
-: the main logic is updated with the wolf being removed from the talk function (otherwise it will error programmatically)
+: "werewolf" will use fields to hold full instances of "human" and "wolf"
+: with a bit of work, any needed behavior is accessed with clarity
+: the main logic is updated with the "wolf" being removed from the talk function (otherwise it will error programmatically)
 
 #--
 * Class-based Composition Output
@@ -295,9 +295,9 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 : prototype-based languages work on the object-based concept that objects can have defined "prototype" which is used for any behavior not provided in the child object
 : while this is still highly limited (and can be quite fragile), it is far more structural than classes
-: regardless, multiple inheritance is not permitted and setPrototypeOf silently fails as seen by the werewolf's freq field not being set
-: this also means that defining the intended version of werewolf's greeting would result in a programmatic failure
-: after adding the construction of a new werewolf to the main logic, the code can be tested
+: regardless, multiple inheritance is not permitted and "setPrototypeOf" silently fails as seen by the "werewolf"'s "freq" field not being set
+: this also means that defining the intended version of "werewolf"'s "greeting" would result in a programmatic failure
+: after adding the construction of a new "werewolf" to the main logic, the code can be tested
 
 #--
 * Prototype-based Inheritance (multiple) Output
@@ -312,9 +312,9 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 .code ./code/js/d_inherit_inline.js /BGN1/,/END1/
 
 : so, inlining again...
-: the taxonomic relationships are set inline with human acting as wolf's prototype, and wolf acting as werewolf's prototype
+: the taxonomic relationships are set inline with "human" acting as "wolf"'s prototype, and "wolf" acting as "werewolf"'s prototype
 : all ancestors are available with prototypal inheritance, but keeping to the type system is cumbersome
-: finally, the main logic is updated with a new werewolf
+: finally, the main logic is updated with a new "werewolf"
 
 #--
 * Prototype-based Inheritance (inline) Output
@@ -333,7 +333,7 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 : now, to verify how inheritance behaves in JS, another function that requires an object with a single method is added
 : this inheritance is inline, so only the top-level object must have the new method added
 : the main logic is modified to use the newly added function
-: because prototypal inheritance is more strucural than class inheritance, the basic instance of wolf does not incorrectly inherit any behavior from human, but werewolf does get it "passed-through" it's prototype wolf.
+: because prototypal inheritance is more strucural than class inheritance, the basic instance of "wolf" does not incorrectly inherit any behavior from "human", but "werewolf" does get it "passed-through" it's prototype "wolf".
 
 #--
 * Prototype-based Inheritance (inline: ok) Output
@@ -343,22 +343,59 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 : the output is as expected
 
 #--
+* Prototype-based Composition (almost)
+
+.code ./code/js/f_composition_almost.js /BGN1/,/END1/
+
+.code ./code/js/f_composition_almost.js /BGN2/,/END2/
+
+: approaching this now with composition, fields are set with instances of "human" and "wolf"
+: "assign" is used to "apply" behavior and structure to "werewolf"
+: despite being a little magical, accessing behavior is now more free and clear (almost)
+
+#--
+* Prototype-based Composition (almost) Output
+
+.code ./code/js/f_composition_almost.js.out
+
+: success, almost
+
+#--
+* Prototype-based Composition (drawback)
+
+.code ./code/js/g_composition_drawback.js /BGN1/,/END1/
+
+: composing only a "human"; the "human" is assigned to the "werewolf" which now has the "greeting" function from the "human" --- the "werewolf" also is given a "wrappedGreeting" function
+: in the main logic, the "werewolf" is created, then the "human" "name" is updated, then the assigned and wrapped functions are called. the "werewolf" "name" is updated, then the assigned and wrapped functions are called
+: what names should be expected? using composition, the "human" "greeting" function should only access "human" fields --- so, the output should show "charlie, charlie, charlie, charlie".
+
+#--
+* Prototype-based Composition (drawback) Output
+
+.code ./code/js/g_composition_drawback.js.out
+
+: the "greeting" function assigned from "human" to "werewolf" accesses the "werewolf" "name" field ignoring the "human" "name" field
+: however, the wrapped "greeting" function accesses the "human" "name" field
+: this inconsistency can be somewhat convenient to abuse, but it is leaky
+
+#--
 * Prototype-based Composition
 
-.code ./code/js/f_composition.js /BGN1/,/END1/
+.code ./code/js/h_composition.js /BGN1/,/END1/
 
-.code ./code/js/f_composition.js /BGN2/,/END2/
+.code ./code/js/h_composition.js /BGN2/,/END2/
 
-: approaching this now with composition, fields are set with instances of human and wolf
-: "assign" is used to "apply" behavior and structure to werewolf
-: despite being a little magical, accessing behavior is now more free and clear
+: the only notable change here is that the function "bind" is used to ensure that the "human" "greeting" function is always bound to it's own scope
 
 #--
 * Prototype-based Composition Output
 
-.code ./code/js/f_composition.js.out
+.code ./code/js/h_composition.js.out
 
 : success
+: now the "human" "greeting" function always uses the "human" "name" field
+: this means that it cannot access or affect "werewolf"-level fields
+: while this may seem like an undue limitation, it is correct behavior for composed types - that is... this code is no longer leaky
 
 
 
@@ -403,10 +440,10 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 .code ./code/go/c_composition_incomplete.go /BGN1/,/END1/
 
 : skipping the non-existent inheritance...
-: a new struct is created which embeds a human and a wolf
-: behavior sharing is immediately structural due to embedded methods and fields being "promoted" to top-level
-: a construction function is added that handles the construction of the human and wolf dependencies
-: after adding the construction of a new werewolf to the main logic, the code can be tested
+: a new struct is created which embeds a "human" and a "wolf"
+: behavior sharing is immediately structurally facilitated due to embedded methods and fields being "promoted" to top-level
+: a construction function is added that handles the construction of the "human" and "wolf" dependencies
+: after adding the construction of a new "werewolf" to the main logic, the code can be tested
 
 #--
 * Object-based Composition (incomplete) Output
@@ -420,7 +457,7 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 
 .code ./code/go/d_composition.go /BGN1/,/END1/
 
-: because Go does not declare any taxonomic relationships, ambiguities are forced to the forefront
+: because Go does not declare any taxonomic relationships (nor any relationship rules), ambiguities are forced to the forefront
 : "spooky action at a distance" is avoided for methods
 : be careful with fields and their related scopes
 : the ambiguity is resolved by defining a method directly on the embedding type
@@ -442,7 +479,7 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 .code ./code/go/e_composition_good.go /BGN3/,/END3/
 
 : here another interface is added along with a function that leverages the interface
-: only the human type needs to implement the interface
+: only the "human" type needs to implement the interface
 : the main logic is modified to use the newly added function
 
 #--
@@ -451,7 +488,7 @@ Many languages allow multiple inheritance with varying degrees of rationality.
 .code ./code/go/e_composition_good.go.out
 
 : success confirmed
-: if "bob" the wolf had been sent to talk, it would have been a programmatic compile time error
+: if "bob" the "wolf" had been sent to talk, it would have been a programmatic compile time error
 
 
 
