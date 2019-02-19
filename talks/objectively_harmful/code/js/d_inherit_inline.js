@@ -1,4 +1,4 @@
-function meet(name, greeters) {
+function meet(name, ...greeters) {
   for (var i = 0; i < greeters.length; i++) {
     console.log(greeters[i].greeting(name));
   };
@@ -39,5 +39,5 @@ function Werewolf(name, freq) {
 a = new Human("Alice");
 b = new Wolf(3);
 c = new Werewolf("Carlos", 1);
-meet("Dan", [a, b, c]);
+meet("Dan", a, b, c);
 // END1 OMIT

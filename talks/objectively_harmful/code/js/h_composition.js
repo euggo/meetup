@@ -1,10 +1,10 @@
-function meet(name, greeters) {
+function meet(name, ...greeters) {
   for (var i = 0; i < greeters.length; i++) {
     console.log(greeters[i].greeting(name));
   };
 }
 
-function wrappedMeet(name, greeters) {
+function wrappedMeet(name, ...greeters) {
   for (var i = 0; i < greeters.length; i++) {
     console.log(greeters[i].wrappedGreeting(name));
   };
@@ -35,11 +35,11 @@ c = new Werewolf("Carlos");
 
 console.log("update 'human' name to 'Charlie' - call assigned, then wrapped");
 c.human.name = "Charlie";
-meet("Erin", [c]);
-wrappedMeet("Frank", [c]);
+meet("Erin", c);
+wrappedMeet("Frank", c);
 
 console.log("update 'werewolf' name to 'Charles' - call assigned, then wrapped");
 c.name = "Charles";
-meet("Grace", [c]);
-wrappedMeet("Heidi", [c]);
+meet("Grace", c);
+wrappedMeet("Heidi", c);
 // END2 OMIT

@@ -16,7 +16,7 @@ function Wolf(freq) {
 }
 
 // BGN1 OMIT
-function meet(name, greeters) {
+function meet(name, ...greeters) {
   for (var i = 0; i < greeters.length; i++) {
     console.log(greeters[i].greeting(name));
   };
@@ -24,5 +24,5 @@ function meet(name, greeters) {
 
 a = new Human("Alice");
 b = new Wolf(3);
-meet("Dan", [a, b]);
+meet("Dan", a, b);
 // END1 OMIT
