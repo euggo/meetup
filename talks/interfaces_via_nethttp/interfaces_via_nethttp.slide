@@ -1,0 +1,146 @@
+###
+Interfaces Via net/http
+Here A Duck, There A Duck, Everywhere A Duck Duck
+18 Apr 2019
+Tags: intro, net, http, interface, servehttp, 
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+
+
+
+###
+* Interface
+
+#--
+* The http.Handler Interface
+
+What Is An Interface? An interface is a behavior set.
+
+  // from net/http
+  type Handler interface {
+      ServeHTTP(ResponseWriter, *Request)
+  }
+
+: Any type that has a `ServeHTTP` method which requires the argument types `http.ResponseWriter`, and `*http.Request`, is an `http.Handler`. This makes it easy to create custom behavior on top of the HTTP library.
+
+#--
+* http.Handler Usage
+
+: A common and simple example of how an interface is relied on is the http package's top-level function "ListenAndServe".
+
+  // from net/http
+  func ListenAndServe(addr string, handler Handler) error
+: The first argument of `http.ListenAndServe` is the address and port that the TCP listener should use to negotiate HTTP requests from. The second argument is the http.Handler implementation that is to be used.
+
+#--
+* An Example Handler Type
+
+: Creating a custom `http.Handler` implementation... A struct is defined and set as a receiver of a method that matches the `http.Handler` interface. Later, fields will be added to the struct to demonstrate how dependencies are arranged. Think of the custom struct as a sort of "scope" or "context". 
+
+#CODE-TITLE "Handler Type Example"
+.play ./code/a_handler_type/main.go /BGN1/,/END1/
+
+#SKIP-NEXT
+.link http://localhost:11142
+
+: In the main func, an instance of a new struct is created, and a pointer to that struct is used as the second argument in a call to `http.ListenAndServe`. The address is set with only the port number which implies that the address should be that of the localhost.
+: 
+: Output (HTTP Request):
+#CODE-TITLE
+: ```
+: This is a test.
+: ```
+
+#--
+* A Handler Type With Dependency
+
+: By adding a field to the struct, it is simple to manage dependencies.
+
+#CODE-TITLE "Handler Type w/Dependency"
+.play ./code/b_handler_type_dep/main.go /BGN1/,/END1/
+
+#SKIP-NEXT
+.link http://localhost:11142
+
+: Output (HTTP Request):
+#CODE-TITLE
+: ```
+: This is another test.
+: ```
+
+#--
+* An Example HandlerFunc
+
+: `http.HandlerFunc` is a "typed function". This makes it possible to easily convert any function with the same arguments (and return values, if any) to be converted to an `http.Handler`.
+
+  // from net/http
+  type HandlerFunc func(ResponseWriter, *Request)
+  
+  func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
+      f(w, r)
+  }
+
+: The http.HandlerFunc method `ServeHTTP` method simply calls the wrapped function.
+
+In action:
+
+#CODE-TITLE "HandlerFunc Example"
+.play ./code/c_handlerfunc/main.go /BGN1/,/END1/
+
+: `handleRequest` is converted to an `http.HandlerFunc` which is defined as having the method "ServeHTTP". When the converted function is passed into `http.ListenAndServe`, "ListenAndServe" will call the "ServeHTTP" method on it which calls the underlying/wrapped handleRequest method. This may seem a little roundabout, but the indirection makes it easy to use both compatible types as well as compatible functions wherever an `http.Handler` is needed.
+
+#SKIP-NEXT
+.link http://localhost:11142
+
+: Output (HTTP Request):
+#CODE-TITLE
+: ```
+: This is an example.
+: ```
+
+#--
+* A HandlerFunc With Dependency
+
+: Managing scoped dependencies with `http.HandlerFunc` functions requires closures.
+
+#CODE-TITLE "HandlerFunc w/Dependency"
+.play ./code/d_handlerfunc_dep/main.go /BGN1/,/END1/
+
+#SKIP-NEXT
+.link http://localhost:11142
+
+: Output (HTTP Request):
+#CODE-TITLE
+: ```
+: This is another example.
+: ```
+
+
+
+###
+* Interfaces
+
+#--
+* Nested Interfaces
+
+: Building on top of the reusability of relying on a common interface, it is easy to create nested "chains" of http.Handler implementations.
+
+.play ./code/e_nestedhandler/main.go /BGN1/,/END1/
+
+: A new function is added that receives and returns an `http.Handler`. At the appropriate point in control flow, the "next" `http.Handler` is called. Powerful chains of nested handlers can be constructed in this manner with individual nested handler functions being highly reusable across projects.
+
+#SKIP-NEXT
+.link http://localhost:11142
+
+: Output (HTTP Request):
+#CODE-TITLE
+: ```
+: This is
+: nested
+: handlers.
+: ```
