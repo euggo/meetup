@@ -12,17 +12,17 @@ func requestHandler(msg string) http.Handler {
 	})
 }
 
-func addFirstLine(next http.Handler) http.Handler {
+func addGreetings(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "This is")
+		fmt.Fprintln(w, "Hello.")
 		next.ServeHTTP(w, r)
-		fmt.Fprintln(w, "handlers.")
+		fmt.Fprintln(w, "Goodbye.")
 	})
 }
 
 func main() {
-	h := requestHandler("nested")
-	http.ListenAndServe(":11142", addFirstLine(h))
+	h := requestHandler("This is a nested example.")
+	http.ListenAndServe(":11142", addGreetings(h))
 }
 
 // END1 OMIT
