@@ -176,8 +176,7 @@ The orchestrator provides access to digested values.
 : "paths" will be passed into the produce function to be sent into a channel that "produce" manages.
 
 #--
-* Orchestrator
-{JUMP}
+* Orchestrator | .jump
 
 .code conch-min/conch.go /BGN2 OMIT/,/END2 OMIT/ HLproduce
 
@@ -186,8 +185,7 @@ The orchestrator provides access to digested values.
 : "produce" returns the channel of strings that it manages, and it is passed to "consume".
 
 #--
-* Orchestrator
-{JUMP}
+* Orchestrator | .jump
 
 .code conch-min/conch.go /BGN2 OMIT/,/END2 OMIT/ HLconsume
 
@@ -197,8 +195,7 @@ The orchestrator provides access to digested values.
 : "consume" also sets up and returns a channel of *fileInfos which the digestors send processed paths.
 
 #--
-* Orchestrator
-{JUMP}
+* Orchestrator | .jump
 
 .code conch-min/conch.go /BGN2 OMIT/,/END2 OMIT/ HLreturn
 
@@ -221,8 +218,7 @@ The orchestrator provides access to digested values.
 .caption "main.go"
 
 #--
-* Main
-{JUMP}
+* Main | .jump
 
 .code conch-min/main.go /BGN1 OMIT/,/END1 OMIT/ HLpaths
 
@@ -232,8 +228,7 @@ The orchestrator provides access to digested values.
 : If there's an error, the application will log and bomb.
 
 #--
-* Main
-{JUMP}
+* Main | .jump
 
 .code conch-min/main.go /BGN1 OMIT/,/END1 OMIT/ HLprocess
 
@@ -242,8 +237,7 @@ The orchestrator provides access to digested values.
 : fileInfos is called with a "width" and slice of paths.
 
 #--
-* Main
-{JUMP}
+* Main | .jump
 
 .code conch-min/main.go /BGN1 OMIT/,/END1 OMIT/ HLiterate
 
@@ -268,8 +262,7 @@ The orchestrator provides access to digested values.
 .caption "conch.go"
 
 #--
-* Produce
-{JUMP}
+* Produce | .jump
 
 .code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLchan
 
@@ -279,8 +272,7 @@ The orchestrator provides access to digested values.
 : Please note that it is expected that creators of a channel are expected to clean up that channel.
 
 #--
-* Produce
-{JUMP}
+* Produce | .jump
 
 .code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLgoroutine
 
@@ -296,8 +288,7 @@ The orchestrator provides access to digested values.
 .caption "conch.go"
 
 #--
-* Produce (goroutine)
-{JUMP}
+* Produce (goroutine) | .jump
 
 .code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLclose
 
@@ -307,8 +298,7 @@ The orchestrator provides access to digested values.
 : ...
 
 #--
-* Produce (goroutine)
-{JUMP}
+* Produce (goroutine) | .jump
 
 .code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLiterate
 
@@ -317,8 +307,7 @@ The orchestrator provides access to digested values.
 : ... this means that once we have finished iterating over the paths...
 
 #--
-* Produce (goroutine)
-{JUMP}
+* Produce (goroutine) | .jump
 
 .code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLselect
 
@@ -344,8 +333,7 @@ The orchestrator provides access to digested values.
 .caption "conch.go"
 
 #--
-* Consume
-{JUMP}
+* Consume | .jump
 
 .code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLchan
 
@@ -354,8 +342,7 @@ The orchestrator provides access to digested values.
 : As in the producer, first the returned channel will be made. Be sure to clean it up.
 
 #--
-* Consume
-{JUMP}
+* Consume | .jump
 
 .code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLgoroutine
 
@@ -371,8 +358,7 @@ The orchestrator provides access to digested values.
 .caption "conch.go"
 
 #--
-* Consume (goroutine)
-{JUMP}
+* Consume (goroutine) | .jump
 
 .code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLclose
 
@@ -381,8 +367,7 @@ The orchestrator provides access to digested values.
 : Again using "defer" to ensure that the *fileInfos channel will be closed once this anonymous goroutine reaches an end.
 
 #--
-* Consume (goroutine)
-{JUMP}
+* Consume (goroutine) | .jump
 
 .code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwg
 
@@ -394,8 +379,7 @@ The orchestrator provides access to digested values.
 : The "wait" method will block until the "done" method is called an equal number of times as the value accumulated by the "add" method.
 
 #--
-* Consume (goroutine)
-{JUMP}
+* Consume (goroutine) | .jump
 
 .code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwidth
 
@@ -413,8 +397,7 @@ The orchestrator provides access to digested values.
 : ...
 
 #--
-* Consume (goroutine - goroutines)
-{JUMP}
+* Consume (goroutine - goroutines) | .jump
 
 .code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLgogoroutine
 
@@ -423,8 +406,7 @@ The orchestrator provides access to digested values.
 : ... a corresponding amount of goroutines are created...
 
 #--
-* Consume (goroutine - goroutines)
-{JUMP}
+* Consume (goroutine - goroutines) | .jump
 
 .code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLdigest
 
@@ -457,8 +439,7 @@ The orchestrator provides access to digested values.
 : The paths channel acts as a source, and the *fileInfos channel acts as a destination.
 
 #--
-* Digest
-{JUMP}
+* Digest | .jump
 
 .code conch-min/conch.go /BGN5 OMIT/,/END5 OMIT/ HLreceive
 
@@ -468,8 +449,7 @@ The orchestrator provides access to digested values.
 : ...
 
 #--
-* Digest
-{JUMP}
+* Digest | .jump
 
 .code conch-min/conch.go /BGN5 OMIT/,/END5 OMIT/ HLprocess
 
@@ -503,8 +483,7 @@ The orchestrator provides access to digested values.
 : Without cancelation, there is no way to cleanly interrupt this application.
 
 #--
-* Project Diagram
-{JUMP}
+* Project Diagram | .jump
 
 .image svg/conch_done.svg 520 _
 
@@ -521,8 +500,7 @@ The orchestrator provides access to digested values.
 : The done channel is a channel of empty structs. Empty structs have no size and are perfect for signalling.
 
 #--
-* Orchestrator
-{JUMP}
+* Orchestrator | .jump
 
 .code conch/conch.go /BGN2 OMIT/,/END2 OMIT/ HLproduce
 
@@ -540,8 +518,7 @@ The orchestrator provides access to digested values.
 : Now an error channel is needed to communicate when an interruption occurs.
 
 #--
-* Produce
-{JUMP}
+* Produce | .jump
 
 .code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLchan
 
@@ -550,8 +527,7 @@ The orchestrator provides access to digested values.
 : Just as before, we first create the channels...
 
 #--
-* Produce
-{JUMP}
+* Produce | .jump
 
 .code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLgoroutine
 
@@ -570,8 +546,7 @@ The orchestrator provides access to digested values.
 : ...
 
 #--
-* Produce (goroutine)
-{JUMP}
+* Produce (goroutine) | .jump
 
 .code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLclose
 
@@ -581,8 +556,7 @@ The orchestrator provides access to digested values.
 : ...
 
 #--
-* Produce (goroutine)
-{JUMP}
+* Produce (goroutine) | .jump
 
 .code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLselect
 
@@ -617,8 +591,7 @@ The orchestrator provides access to digested values.
 : ...but it can be turned into a simple-to-use function using a closure.
 
 #--
-* Orchestrator (error Closure)
-{JUMP}
+* Orchestrator (error Closure) | .jump
 
 .code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLstate
 
@@ -628,8 +601,7 @@ The orchestrator provides access to digested values.
 : If an error is received, the message will be expanded with some context and stored to the "last" variable and returned.
 
 #--
-* Orchestrator (error Closure)
-{JUMP}
+* Orchestrator (error Closure) | .jump
 
 .code conch/conch.go /BGN21 OMIT/,/END21 OMIT/ HLerrorchan
 
@@ -653,8 +625,7 @@ The orchestrator provides access to digested values.
 .caption "main.go"
 
 #--
-* Main
-{JUMP}
+* Main | .jump
 
 .code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLdonechan
 
@@ -663,16 +634,14 @@ The orchestrator provides access to digested values.
 : The closeOnTerm function listens for system signals and closes the done channel if SIGTERM is received.
 
 #--
-* Main
-{JUMP}
+* Main | .jump
 
 .code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLprocess
 
 .caption "main.go"
 
 #--
-* Main
-{JUMP}
+* Main | .jump
 
 .code conch/main.go /BGN1 OMIT/,/END1 OMIT/ HLreport
 
@@ -686,8 +655,7 @@ The orchestrator provides access to digested values.
 .image svg/conch.svg 520 _
 
 #--
-* Project Diagram
-{JUMP}
+* Project Diagram | .jump
 
 .image svg/conch_done.svg 520 _
 
