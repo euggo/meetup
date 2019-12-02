@@ -1,0 +1,155 @@
+###
+Testable Code
+A Discipline of Matching Mechanisms to Needs
+5 Dec 2019
+Tags: testing, function, decomposition, unit, surface, functional, behavioral, integration, construction, end-to-end, integrated
+
+
+
+###
+Daved
+disjuncter@gmail.com
+https://github.com/daved
+@daveddev
+
+
+
+###
+* Mechanisms In Programming
+
+#--
+* Primitive And Structured Mechanisms
+
+.image https://storage.euggo.org/present/img/testable/mechanisms.jpg 280 _
+
+- Simplex
+- Complex
+- Multicomplex
+- Hypercomplex
+
+#--
+* What Is A Simplex?
+
+Simple behavior.
+
+Analog:
+
+- Components (resistor, transistor, etc.)
+
+.image https://storage.euggo.org/present/img/testable/components.jpg 380 _
+
+#--
+* Simplex (Example)
+
+A function.
+
+  func filterOdd(in []int) (out []int)
+
+Common Test Names: Unit
+
+#--
+* What Is A Complex?
+
+Complex behavior.
+
+Analog:
+
+- Discrete Circuits (logic gate, signal amplifier, etc.)
+- Monolithic Integrated Circuits (microchip, microcontroller)
+
+.image https://storage.euggo.org/present/img/testable/integrated_circuit_detail.jpg 220 _
+
+#--
+* Complex (Example)
+
+A type with methods (simple dependencies).
+
+  type Compute struct {
+      rCache map[string]string
+      pCache map[string]string
+      expiry time.Duration
+  }
+  
+  func NewCompute(expiry time.Duration) (*Compute, error)
+  
+  func (c *Compute) Rough(in string) (out string, err error)
+  func (c *Compute) Precise(in string) (out string, err error)
+
+Common Test Names: Functional, Behavioral
+
+#--
+* What Is A Multicomplex?
+
+Combined complex behavior.
+
+Analog:
+
+- Single-board Computers (SoC)
+- Backplanes (bus/expansion)
+- Expandable Computers (motherboard)
+
+.image https://storage.euggo.org/present/img/testable/boards.jpg 280 _
+
+#--
+* Multicomplex (Example)
+
+A type with methods (complex dependencies).
+
+  type Service struct {
+      cPrv ComputeProvider
+      dPrv DatabaseProvider
+  }
+  
+  func NewService(cPrv ComputeProvider, dPrv DatabaseProvider) (*Service, error)
+  
+  func (s *Service) HandleUsername(user string) error
+  func (s *Service) HandleToken(token string) error
+
+Common Test Names: Integration
+
+#--
+* What Is A Hypercomplex?
+
+Applied combined complex behavior.
+
+Analog:
+
+- Blenders
+- Speakers
+- Amplifiers
+- Cell Phones
+- Desktop Computers
+
+#--
+* Hypercomplex (Example)
+
+Completed Program/Application
+
+  $ go build
+  $ ./mysvc renew XYZ123
+
+Common Test Names: End-To-End
+
+
+###
+* Needs In Programming
+
+#--
+* Needs Decomposed
+
+Structure:
+
+- Formalization #data/control description
+- Contextualization #data/control lifetime management
+
+Behavior:
+
+- Construction #new/make func - concrete return
+- Selection #new funcs - variable return
+- Orchestration #order funcs - channel return
+- Articulation #func funcs - function return
+- Computation #calc funcs
+- Junction #mux funcs
+- Reception #receive funcs
+- Delegation #send funcs
+- Direction #handler funcs
