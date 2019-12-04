@@ -1,6 +1,6 @@
 ###
 Testable Code
-A Discipline of Matching Mechanisms to Needs
+The Discipline of Decomposition
 5 Dec 2019
 Tags: testing, function, decomposition, unit, surface, functional, behavioral, integration, construction, end-to-end, integrated
 
@@ -15,10 +15,10 @@ https://github.com/daved
 
 
 ###
-* Mechanisms In Programming
+* Isolates In Programming
 
 #--
-* Primitive And Structured Mechanisms
+* A List Of Programming Mechanism Types
 
 .image https://storage.euggo.org/present/img/testable/mechanisms.jpg 280 _
 
@@ -28,31 +28,66 @@ https://github.com/daved
 - Hypercomplex
 
 #--
-* What Is A Simplex?
+* What Is A Hypercomplex?
 
-Simple behavior.
+Applied combined complex behavior.
 
-Analog:
+Analogs:
 
-- Components (resistor, transistor, etc.)
+- Blenders
+- Monitors
+- Amplifiers
+- Cell Phones
+- Desktop Computers
 
-.image https://storage.euggo.org/present/img/testable/components.jpg 380 _
+.image https://storage.euggo.org/present/img/testable/ibm_ps2_computers.jpg 180 _
 
 #--
-* Simplex (Example)
+* Hypercomplex
 
-A function.
+Example: Completed Program/Application
 
-  func filterOdd(in []int) (out []int)
+  $ go build
+  $ ./mysvc renew XYZ123
 
-Common Test Names: Unit
+Test Type: End-To-End
+
+#--
+* What Is A Multicomplex?
+
+Combined complex behavior.
+
+Analogs:
+
+- Single-board Computers (SoC)
+- Backplanes (bus/expansion)
+- Expandable Computers (motherboard)
+
+.image https://storage.euggo.org/present/img/testable/boards.jpg 280 _
+
+#--
+* Multicomplex
+
+Example: A type with methods (complex dependencies)
+
+  type Service struct {
+      cPrv ComputeProvider
+      dPrv DatabaseProvider
+  }
+  
+  func NewService(cPrv ComputeProvider, dPrv DatabaseProvider) (*Service, error)
+  
+  func (s *Service) HandleUsername(user string) error
+  func (s *Service) HandleToken(token string) error
+
+Test Type: Integration
 
 #--
 * What Is A Complex?
 
 Complex behavior.
 
-Analog:
+Analogs:
 
 - Discrete Circuits (logic gate, signal amplifier, etc.)
 - Monolithic Integrated Circuits (microchip, microcontroller)
@@ -60,9 +95,9 @@ Analog:
 .image https://storage.euggo.org/present/img/testable/integrated_circuit_detail.jpg 220 _
 
 #--
-* Complex (Example)
+* Complex
 
-A type with methods (simple dependencies).
+Example: A type with methods (simple dependencies)
 
   type Compute struct {
       rCache map[string]string
@@ -75,76 +110,100 @@ A type with methods (simple dependencies).
   func (c *Compute) Rough(in string) (out string, err error)
   func (c *Compute) Precise(in string) (out string, err error)
 
-Common Test Names: Functional, Behavioral
+Test Type: Functional, Behavioral
 
 #--
-* What Is A Multicomplex?
+* What Is A Simplex?
 
-Combined complex behavior.
+Simple behavior.
 
-Analog:
+Analogs:
 
-- Single-board Computers (SoC)
-- Backplanes (bus/expansion)
-- Expandable Computers (motherboard)
+- Components (resistor, transistor, etc.)
 
-.image https://storage.euggo.org/present/img/testable/boards.jpg 280 _
+.image https://storage.euggo.org/present/img/testable/components.jpg 380 _
 
 #--
-* Multicomplex (Example)
+* Simplex (Example)
 
-A type with methods (complex dependencies).
+A function.
 
-  type Service struct {
-      cPrv ComputeProvider
-      dPrv DatabaseProvider
-  }
-  
-  func NewService(cPrv ComputeProvider, dPrv DatabaseProvider) (*Service, error)
-  
-  func (s *Service) HandleUsername(user string) error
-  func (s *Service) HandleToken(token string) error
+  func filterOdd(in []int) (out []int)
 
-Common Test Names: Integration
+Test Type: Unit
 
-#--
-* What Is A Hypercomplex?
-
-Applied combined complex behavior.
-
-Analog:
-
-- Blenders
-- Speakers
-- Amplifiers
-- Cell Phones
-- Desktop Computers
-
-#--
-* Hypercomplex (Example)
-
-Completed Program/Application
-
-  $ go build
-  $ ./mysvc renew XYZ123
-
-Common Test Names: End-To-End
 
 
 ###
-* Needs In Programming
+* Isolating Through Decomposition
 
 #--
-* Needs Decomposed
+* Problem To Hypercomplex
 
-Structure:
+From idea to product:
+
+- Business Requirements
+- Organizational Barriers
+- Technical Barriers
+
+#--
+* Hypercomplex To Multicomplex
+
+From product to systems of systems:
+
+- Organizational Barriers
+- Technical Barriers
+- Maintenance Requirements
+
+#--
+* Multicomplex To Complex
+
+From systems of systems to systems:
+
+- Technical Barriers
+- Maintenance Requirements
+- Solution Resolution
+
+#--
+* Complex To Simplex
+
+From systems to components:
+
+- Technical Barriers
+- Maintenance Requirements
+- Solution Resolution
+
+
+
+###
+* Expediting Decomposition
+
+#--
+* When To Not Be Concerned
+
+- Writing simple scripts
+- Consciously omitting tests
+- Prototyping/experimenting
+
+#--
+* When To Be Concerned
+
+- Writing complex applications
+- Ensuring correctness
+- Ensuring robustness
+
+#--
+* Structure/Surface Concerns
 
 - Formalization #data/control description
 - Contextualization #data/control lifetime management
 
-Behavior:
+#--
+* Behavior/Substance Concerns
 
-- Construction #new/make func - concrete return
+- Construction #new/make funcs - concrete return
+- Mutation #unmarshal/setter funcs - self-mutating
+- Exposition #marshal/getter funcs - self-reporting
 - Selection #new funcs - variable return
 - Orchestration #order funcs - channel return
 - Articulation #func funcs - function return
@@ -153,3 +212,23 @@ Behavior:
 - Reception #receive funcs
 - Delegation #send funcs
 - Direction #handler funcs
+
+#--
+* Broader Concerns To Reassess Often
+
+- What is this?
+- Can it do less?
+- Can it know less?
+- Can the execution context be smaller?
+- Is it readable?
+- Is fully correct?
+
+
+
+###
+* X
+
+#--
+* Multimeter and electronics example
+
+test
