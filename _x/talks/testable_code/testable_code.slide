@@ -110,7 +110,7 @@ Example: A type with methods (simple dependencies)
   func (c *Compute) Rough(in string) (out string, err error)
   func (c *Compute) Precise(in string) (out string, err error)
 
-Test Type: Functional, Behavioral
+Test Type: Functional, Behavioral, "Surface"?
 
 #--
 * What Is A Simplex?
@@ -135,100 +135,148 @@ Test Type: Unit
 
 
 ###
-* Isolating Through Decomposition
+* Decomposing Isolates
 
 #--
 * Problem To Hypercomplex
 
-From idea to product:
+.html html/problem_to_hypercomplex.html
+
+Concerns when moving from idea to product:
 
 - Business Requirements
 - Organizational Barriers
 - Technical Barriers
 
+- Deployment/Delivery
+- Maintenance
+- Openness
+
 #--
 * Hypercomplex To Multicomplex
 
-From product to systems of systems:
+.html html/hypercomplex_to_multicomplex.html
+
+Concerns when moving from product to systems of systems:
 
 - Organizational Barriers
 - Technical Barriers
 - Maintenance Requirements
 
+- Maintenance
+- Openness
+
 #--
 * Multicomplex To Complex
 
-From systems of systems to systems:
+.html html/multicomplex_to_complex.html
+
+Concerns when moving from systems of systems to systems:
 
 - Technical Barriers
 - Maintenance Requirements
-- Solution Resolution
+
+- Maintenance
+- Openness
 
 #--
 * Complex To Simplex
 
-From systems to components:
+.html html/complex_to_simplex.html
+
+Concerns when moving from systems to components:
 
 - Technical Barriers
 - Maintenance Requirements
-- Solution Resolution
+
+- Maintenance
+- Openness
 
 
 
 ###
-* Expediting Decomposition
+* Decomposition Of Coded Solutions
 
 #--
-* When To Not Be Concerned
+* When Not To Decompose
 
 - Writing simple scripts
 - Consciously omitting tests
 - Prototyping/experimenting
 
 #--
-* When To Be Concerned
+* When To Decompose
 
 - Writing complex applications
 - Ensuring correctness
 - Ensuring robustness
 
 #--
-* Structure/Surface Concerns
+* How To Decompose
 
-- Formalization #data/control description
-- Contextualization #data/control lifetime management
+- Clarify purpose
+- Control scope
 
-#--
-* Behavior/Substance Concerns
-
-- Construction #new/make funcs - concrete return
-- Mutation #unmarshal/setter funcs - self-mutating
-- Exposition #marshal/getter funcs - self-reporting
-- Selection #new funcs - variable return
-- Orchestration #order funcs - channel return
-- Articulation #func funcs - function return
-- Computation #calc funcs
-- Junction #mux funcs
-- Reception #receive funcs
-- Delegation #send funcs
-- Direction #handler funcs
+.caption "Everything should be as simple as it can be, but not simpler. - Einstein, probably"
 
 #--
-* Broader Concerns To Reassess Often
+* Clarifying Behavior/Substance (Purpose)
+
+- Construction | new/make funcs, concrete return
+- Selection | new funcs, variable return
+- Orchestration | order funcs, channel return
+- Articulation | func funcs, function return
+- Mutation | unmarshal/setter funcs, self-mutating
+- Exposition | marshal/getter funcs, self-reporting
+- Computation | calc funcs, pure
+- Junction | mux funcs, flow
+- Direction | handler funcs, flow
+- Reception | receive funcs, i/o
+- Delegation | send funcs, i/o
+
+#--
+* Controlling Structure/Surface (Scope)
+
+- Formalization | data/access description
+- Contextualization | data/access lifetime management
+
+#--
+* Design Guidelines Before Integration Testing Multicomplexes
+
+(i.e. APIs with complex dependencies)
+
+- Prioritize "form" and "context"
+- Dependencies should be easily mocked
+- Mocks should be able to be as simple as possible while exercising purpose
+
+.image https://storage.euggo.org/present/img/testable/boards.jpg 280 _
+
+#--
+* Design Guidelines Before Surface Testing Complexes
+
+(i.e. APIs with simple dependencies)
+
+- Prioritize "form" and "context"
+- Empathize with callers - i.e. Focus methods on usability
+- Methods should call underlying functions to narrow scope
+
+.image https://storage.euggo.org/present/img/testable/integrated_circuit_detail.jpg 220 _
+
+#--
+* Design Guidelines Before Unit Testing Simplexes
+
+(i.e. Simple functions)
+
+- Prioritize pure function design
+- Keep the Unix Philosophy (do one thing and do it well)
+- Disregard caller convenience in favor of testability (that's what exported APIs are for)
+
+.image https://storage.euggo.org/present/img/testable/components.jpg 380 _
+
+#--
+* More Broadly; Reassess Often
 
 - What is this?
 - Can it do less?
 - Can it know less?
-- Can the execution context be smaller?
-- Is it readable?
-- Is fully correct?
-
-
-
-###
-* X
-
-#--
-* Multimeter and electronics example
-
-test
+- Can the execution context (scope) be smaller?
