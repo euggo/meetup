@@ -71,11 +71,11 @@ Analogs:
 Example: A type with methods (complex dependencies)
 
   type Service struct {
-      cPrv ComputeProvider
+      c    *Compute
       dPrv DatabaseProvider
   }
   
-  func NewService(cPrv ComputeProvider, dPrv DatabaseProvider) (*Service, error)
+  func NewService(c *Compute, dPrv DatabaseProvider) (*Service, error)
   
   func (s *Service) HandleUsername(user string) error
   func (s *Service) HandleToken(token string) error
@@ -237,8 +237,8 @@ Concerns when moving from systems to components:
 #--
 * Controlling Structure/Surface (Scope)
 
-- Formalization | data/access description
-- Contextualization | data/access lifetime management
+- Formalization | data/behavior description
+- Contextualization | execution context/lifetime management
 
 #--
 * Design Guidelines Before Integration Testing Multicomplexes
@@ -246,8 +246,10 @@ Concerns when moving from systems to components:
 (i.e. APIs with complex dependencies)
 
 - Prioritize "form" and "context"
-- Dependencies should be easily mocked
+- Dependencies should be easily mocked (interfaces) or initialized
+- Empathize with callers - i.e. Focus methods on usability
 - Mocks should be able to be as simple as possible while exercising purpose
+- Methods should call underlying functions (narrow scope and expose moving parts)
 
 .image https://storage.euggo.org/present/img/testable/boards.jpg 280 _
 
@@ -258,7 +260,8 @@ Concerns when moving from systems to components:
 
 - Prioritize "form" and "context"
 - Empathize with callers - i.e. Focus methods on usability
-- Methods should call underlying functions to narrow scope
+- Dependencies should be easily initialized
+- Methods should call underlying functions (narrow scope and expose moving parts)
 
 .image https://storage.euggo.org/present/img/testable/integrated_circuit_detail.jpg 220 _
 
@@ -267,8 +270,8 @@ Concerns when moving from systems to components:
 
 (i.e. Simple functions)
 
-- Prioritize pure function design
-- Keep the Unix Philosophy (do one thing and do it well)
+- Prioritize pure function design (narrow scope)
+- Keep the Unix Philosophy: Do one thing and do it well
 - Disregard caller convenience in favor of testability (that's what exported APIs are for)
 
 .image https://storage.euggo.org/present/img/testable/components.jpg 380 _
