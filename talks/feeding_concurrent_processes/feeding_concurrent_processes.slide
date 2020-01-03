@@ -1,7 +1,7 @@
 ###
 Feeding Concurrent Processes
 Excuse me, Plato, please pass that fork.
-4 Oct 2018
+2 Jan 2020
 Tags: concurrency, channels
 
 
@@ -26,42 +26,79 @@ CSP describes patterns of data flow management across parallel processes.
 : A data race is the simultaneous access of a memory location by two or more processes where at least one access is a write procedure.
 
 #--
+* Processes In Go
+
+Subroutines block until their execution resolves.
+
+ slowPrint := func(s string) {
+         time.Sleep(time.Millisecond * 600)
+         fmt.Println(s)
+ }
+
+ slowPrint("a")
+ slowPrint("b")
+ slowPrint("c")
+
+ time.Sleep(time.Millisecond * 42)
+
+Will always print:
+
+ a
+ b
+ c
+
+Will always last 1842ms (600*3)+42
+
+#--
 * Concurrent Processes In Go
 
 The "go" keyword declares a function to be a "goroutine" that will run concurrently. 
 
- go subroutine()
+ slowPrint := func(s string) {
+         time.Sleep(time.Millisecond * 600)
+         fmt.Println(s)
+ }
 
-Go's runtime scheduler will parallelize goroutines whenever possible.
+ go slowPrint("a")
+ go slowPrint("b")
+ slowPrint("c")
 
-: It is important to understand this distinction: Concurrency pertains to rationalization. Parallelism pertains to actualization.
+ time.Sleep(time.Millisecond * 42)
+
+Will sometimes print:
+
+ b
+ c
+ a
+
+Will always last 642ms 600+42
+
+: Go's runtime scheduler will parallelize goroutines whenever possible.
+: The order of execution of goroutines is not guaranteed without manual synchronizaton
 : Highly concurrent Go code will still process in a serialized manner if only one computing thread is available.
+: It is important to understand this distinction: Concurrency pertains to rationalization. Parallelism pertains to actualization.
 
 #--
 * Communications Between Goroutines
 
 Go channels are first-class primitives, conduits by which processes can communicate.
 
- // create channel
- c := make(chan int)
-
+ c := make(chan int)  // create channel
+ 
  go func() {
-    time.Sleep(3 * time.Second)
- 
-    // send to channel
-    c <- 42
+    sleepMS(600)
+    c <- 42           // send to channel
  }()
-
- // receive from channel
- fmt.Println(<-c)
  
- // Output:
- // 42
+ fmt.Println(<-c)     // receive from channel
+ 
+Will always print:
 
-Before 42 is output, there will be a pause matching the sleep duration.
+ 42
+
+Will always last 600ms
 
 : The call to fmt.Println will block until a value is received from the channel (after the sleep duration).
-: This is to emphasize that the goroutine is non-blocking.
 : Erlang's approach "stems from CSP", but only as related to the pre-channels theories. Erlang's "conduits" are implicit and use an unbounded buffer. This is known as "The Actor Model".
 
 
@@ -118,26 +155,30 @@ Kill
 #--
 * File Handling Components
 
-**- Gzip Filepath Gatherer
-**- File Info Type And Construction Function
+**- Gzip file filepath collector
+**- fileInfo type and construction function
 
-Paths will be digested by the concurrency handler to create "fileInfo" instances.
+Collected paths will be "digested" to create "fileInfo" instances.
 
 #--
-* Gzip Filepath Gatherer Summary
+* Gzip File Filepath Collector Summary
 
 .code conch-min/files.go /BGN1 OMIT/,/END1 OMIT/ HLargs
 
 .caption "files.go"
 
+We want to get a set of filepaths based on the provided directory.
+
 #--
-* File Info Type And Construction Function Summary
+* fileInfo Type And Construction Function Summary
 
 .code conch-min/files.go /BGN2 OMIT/,/END2 OMIT/ HLargs
 
 .caption "files.go"
 
-: Go is not truly "object-oriented". Construction functions are called directly and have no special behavior like "constructors".
+We want to get a pointer to a fileInfo instance based on the provided filepath.
+
+: Go is not class-based. Construction functions are called directly and have no special behavior like class constructors.
 
 
 
@@ -147,16 +188,14 @@ Paths will be digested by the concurrency handler to create "fileInfo" instances
 #--
 * Concurrency Handling Components
 
-**- Orchestrator
+**- Orchestrator ("conch")
 **- Producer
 **- Consumer
-**- Digestor
+**- Digestor(s)
 
-The orchestrator manages a producer and consumer along with shared wiring.
-
-The consumer manages one or more digestors.
-
-The orchestrator provides access to digested values.
+: The orchestrator manages the producer and consumer along with shared wiring...
+: ...and the consumer manages one or more digestors.
+: The orchestrator output is digested values.
 
 #--
 * Project Diagram
@@ -173,7 +212,7 @@ The orchestrator provides access to digested values.
 .caption "conch.go"
 
 : "width" will be passed into the consume function to define how many digestors there will be.
-: "paths" will be passed into the produce function to be sent into a channel that "produce" manages.
+: "paths" will be passed into the produce function and distributed by a channel that "produce" manages.
 
 #--
 * Orchestrator | .jump
@@ -234,7 +273,7 @@ The orchestrator provides access to digested values.
 
 .caption "main.go"
 
-: fileInfos is called with a "width" and slice of paths.
+: fileInfos is called with a "width" and a slice of paths.
 
 #--
 * Main | .jump
@@ -252,7 +291,7 @@ The orchestrator provides access to digested values.
 
 .image svg/conch.svg 520 _
 
-: NEXT: Produce. Let's take a look at how the values to be digested are propagated.
+: NEXT: Produce. Let's take a look at how the values to be digested are distributed.
 
 #--
 * Produce
@@ -272,7 +311,7 @@ The orchestrator provides access to digested values.
 : Please note that it is expected that creators of a channel are expected to clean up that channel.
 
 #--
-* Produce | .jump
+* Produce (goroutine) | .jump
 
 .code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLgoroutine
 
@@ -281,16 +320,9 @@ The orchestrator provides access to digested values.
 : We don't want to wait around for the producer to do it's work, so the production logic is placed in a goroutine and return the channel to the caller.
 
 #--
-* Produce (goroutine)
-
-.code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLgoroutine
-
-.caption "conch.go"
-
-#--
 * Produce (goroutine) | .jump
 
-.code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLclose
+.code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLclose
 
 .caption "conch.go"
 
@@ -300,7 +332,7 @@ The orchestrator provides access to digested values.
 #--
 * Produce (goroutine) | .jump
 
-.code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLiterate
+.code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLiterate
 
 .caption "conch.go"
 
@@ -309,20 +341,20 @@ The orchestrator provides access to digested values.
 #--
 * Produce (goroutine) | .jump
 
-.code conch-min/conch.go /BGN31 OMIT/,/END31 OMIT/ HLselect
+.code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLselect
 
 .caption "conch.go"
 
 : ... and this anonymous goroutine is finished send values, the paths channel will be closed.
 
 #--
-* Produce
+* Produce | .jump
 
 .code conch-min/conch.go /BGN3 OMIT/,/END3 OMIT/ HLreturn
 
 .caption "conch.go"
 
-: Again, the paths channel is returned to the caller. In this case, it's the "orchestrator".
+: Again, the paths channel was returned to the caller with the production logic being run "concurrently". Remember that the caller is the "orchestrator" and it will next pass the "paths chan" to the "consumer".
 : NEXT: Consumer.
 
 #--
@@ -339,10 +371,10 @@ The orchestrator provides access to digested values.
 
 .caption "conch.go"
 
-: As in the producer, first the returned channel will be made. Be sure to clean it up.
+: As in the producer, first the returned channel will be made. We'll be sure to clean it up.
 
 #--
-* Consume | .jump
+* Consume (goroutine) | .jump
 
 .code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLgoroutine
 
@@ -351,16 +383,9 @@ The orchestrator provides access to digested values.
 : There's no need to wait for the real work here to be done. It can be put into a goroutine and the channel can be returned to the caller immediately.
 
 #--
-* Consume (goroutine)
-
-.code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLgoroutine
-
-.caption "conch.go"
-
-#--
 * Consume (goroutine) | .jump
 
-.code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLclose
+.code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLclose
 
 .caption "conch.go"
 
@@ -369,37 +394,28 @@ The orchestrator provides access to digested values.
 #--
 * Consume (goroutine) | .jump
 
-.code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwg
+.code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLwg
 
 .caption "conch.go"
 
 : sync.WaitGroup is used to synchronize multiple processes. In this case, the anonymous goroutine should not end until all digestors have completed their work.
 : The "add" method is called with however many goroutines are going to be created. (And should generally only ever be called once per instance.)
-: The "done" method is sort-of "bound" to each digest function so that it is called once after each digestion is completed.
+: The "done" method is "bound" to each digest function scope so that it is called once after each digestion is completed.
 : The "wait" method will block until the "done" method is called an equal number of times as the value accumulated by the "add" method.
-
-#--
-* Consume (goroutine) | .jump
-
-.code conch-min/conch.go /BGN41 OMIT/,/END41 OMIT/ HLwidth
-
-.caption "conch.go"
-
-: Looping by width...
-
-#--
-* Consume (goroutine - goroutines)
-
-.code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLwidth
-
-.caption "conch.go"
-
-: ...
 
 #--
 * Consume (goroutine - goroutines) | .jump
 
-.code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLgogoroutine
+.code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLwidth
+
+.caption "conch.go"
+
+: To control the "amount" of concurrency...
+
+#--
+* Consume (goroutine - goroutines) | .jump
+
+.code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLgogoroutine
 
 .caption "conch.go"
 
@@ -408,14 +424,14 @@ The orchestrator provides access to digested values.
 #--
 * Consume (goroutine - goroutines) | .jump
 
-.code conch-min/conch.go /BGN411 OMIT/,/END411 OMIT/ HLdigest
+.code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLdigest
 
 .caption "conch.go"
 
-: ... that "bind" digestor completions with done calls.
+: ... (again) being sure to "bind" digestor completions with done calls.
 
 #--
-* Consume
+* Consume | .jump
 
 .code conch-min/conch.go /BGN4 OMIT/,/END4 OMIT/ HLreturn
 
@@ -445,7 +461,7 @@ The orchestrator provides access to digested values.
 
 .caption "conch.go"
 
-: The paths channel is ranged over (and so the loop will end when the channel is closed).
+: The paths channel is ranged over (and so the loop will end when the "paths chan" is closed).
 : ...
 
 #--
@@ -468,7 +484,7 @@ The orchestrator provides access to digested values.
 #--
 * 
 
-.iframe http://localhost:4286/ 620 980
+.iframe https://present.euggo.localhost/termsrv 620 980
 
 
 
@@ -483,7 +499,7 @@ The orchestrator provides access to digested values.
 : Without cancelation, there is no way to cleanly interrupt this application.
 
 #--
-* Project Diagram | .jump
+* Project Diagram (with cancelation) | .jump
 
 .image svg/conch_done.svg 520 _
 
@@ -527,7 +543,7 @@ The orchestrator provides access to digested values.
 : Just as before, we first create the channels...
 
 #--
-* Produce | .jump
+* Produce (goroutine) | .jump
 
 .code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLgoroutine
 
@@ -537,18 +553,9 @@ The orchestrator provides access to digested values.
 : ...
 
 #--
-* Produce (goroutine)
-
-.code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLgoroutine
-
-.caption "conch.go"
-
-: ...
-
-#--
 * Produce (goroutine) | .jump
 
-.code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLclose
+.code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLclose
 
 .caption "conch.go"
 
@@ -558,7 +565,7 @@ The orchestrator provides access to digested values.
 #--
 * Produce (goroutine) | .jump
 
-.code conch/conch.go /BGN31 OMIT/,/END31 OMIT/ HLselect
+.code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLselect
 
 .caption "conch.go"
 
@@ -566,7 +573,7 @@ The orchestrator provides access to digested values.
 : Keep in mind that if the goroutine reaches an early end, defer is still called subsequently.
 
 #--
-* Produce
+* Produce | .jump
 
 .code conch/conch.go /BGN3 OMIT/,/END3 OMIT/ HLreturn
 
